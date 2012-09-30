@@ -17,6 +17,11 @@ PROJECT(KanjiTools)
 
 FIND_PACKAGE(Qt4 REQUIRED)
 
+find_library(mysqlstatic mysqlcppconn-static
+    PATHS ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver)
+    
+    MESSAGE(${mysqlstatic})
+
 #Then all sources involved in the build process are assigned to two variables. 
 #The SET command assigns the variable listed first with the values that follow. 
 #The names, helloworld_SOURCES and helloworld_HEADERS, is by convention. 
@@ -63,10 +68,9 @@ ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/cppconn/)
 
 add_dependencies(KanjiTools mysql_connector)
 
+set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver)
 
-
-TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} 
-${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver/libmysqlcppconn-static.a)
+TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} ${mysqlstatic} mysqlclient)
 
 
 
