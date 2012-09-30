@@ -1,6 +1,20 @@
 cmake_minimum_required(VERSION 2.8)
-PROJECT(KanjiTools)
 include(ExternalProject)
+set(mysql_connector_RELEASE 1.1.1)
+ExternalProject_Add(mysql_connector
+  mysql_connector-${mysql_connector_RELEASE}
+    URL http://mysql.cdpa.nsysu.edu.tw/Downloads/Connector-C++/mysql-connector-c++-${mysql_connector_RELEASE}.tar.gz
+    DOWNLOAD_DIR ${CMAKE_CURRENT_BINARY_DIR}/download/mysql-${mysql_connector_RELEASE}
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mysql/mysql-${mysql_connector_RELEASE}
+    BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}
+    UPDATE_COMMAND ""
+    PATCH_COMMAND ""
+    INSTALL_COMMAND ""
+)
+
+PROJECT(KanjiTools)
+
+
 FIND_PACKAGE(Qt4 REQUIRED)
 
 #Then all sources involved in the build process are assigned to two variables. 
@@ -45,20 +59,12 @@ ADD_EXECUTABLE(KanjiTools ${KanjiTools_SOURCES}
     
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-set(mysql_connector_RELEASE 1.1.1)
-ExternalProject_Add(mysql_connector
-  mysql_connector-${mysql_connector_RELEASE}
-    URL http://mysql.cdpa.nsysu.edu.tw/Downloads/Connector-C++/mysql-connector-c++-${mysql_connector_RELEASE}.tar.gz
-    DOWNLOAD_DIR ${CMAKE_CURRENT_BINARY_DIR}/download/mysql-${lua_RELEASE}
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mysql/mysql-${lua_RELEASE}
-    BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/build/mysql-${lua_RELEASE}
-    UPDATE_COMMAND ""
-    PATCH_COMMAND ""
-    INSTALL_COMMAND ""
-)
+add_dependencies(KanjiTools mysql_connector)
 
 
-TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES})
+
+TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} 
+${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver/libmysqlcppconn-static.a)
 
 
 
