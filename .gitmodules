@@ -1,3 +1,0 @@
-[submodule "src/3rdparty/MySQL_Connector"]
-	path = src/3rdparty/MySQL_Connector
-	url = git://pkgs.fedoraproject.org/mysql-connector-c++.git
