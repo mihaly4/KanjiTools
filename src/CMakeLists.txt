@@ -57,7 +57,9 @@ ADD_EXECUTABLE(KanjiTools ${KanjiTools_SOURCES}
     ${KanjiTools_FORMS_HEADERS})
     #${KanjiTools_RESOURCES_RCC})
     
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}  
+${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mysql/mysql-${mysql_connector_RELEASE}
+${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/cppconn/)
 
 add_dependencies(KanjiTools mysql_connector)
 

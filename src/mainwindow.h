@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "core.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +19,7 @@ public:
     
 private:
     Ui::MainWindow *ui;
+    Core * m_pCore;
 };
 
 #endif // MAINWINDOW_H
