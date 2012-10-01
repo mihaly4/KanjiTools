@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 include(ExternalProject)
 set(mysql_connector_RELEASE 1.1.1)
 ExternalProject_Add(mysql_connector
-  mysql_connector-${mysql_connector_RELEASE}
+  #mysql_connector-${mysql_connector_RELEASE}
     URL http://mysql.cdpa.nsysu.edu.tw/Downloads/Connector-C++/mysql-connector-c++-${mysql_connector_RELEASE}.tar.gz
     DOWNLOAD_DIR ${CMAKE_CURRENT_BINARY_DIR}/download/mysql-${mysql_connector_RELEASE}
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mysql/mysql-${mysql_connector_RELEASE}
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mysql-${mysql_connector_RELEASE}
     BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}
     UPDATE_COMMAND ""
     PATCH_COMMAND ""
@@ -17,10 +17,6 @@ PROJECT(KanjiTools)
 
 FIND_PACKAGE(Qt4 REQUIRED)
 
-find_library(mysqlstatic mysqlcppconn-static
-    PATHS ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver)
-    
-    MESSAGE(${mysqlstatic})
 
 #Then all sources involved in the build process are assigned to two variables. 
 #The SET command assigns the variable listed first with the values that follow. 
@@ -70,7 +66,9 @@ add_dependencies(KanjiTools mysql_connector)
 
 set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver)
 
-TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} ${mysqlstatic} mysqlclient)
+TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} 
+${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver/libmysqlcppconn-static.a
+mysqlclient)
 
 
 
