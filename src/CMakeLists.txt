@@ -23,9 +23,9 @@ FIND_PACKAGE(Qt4 REQUIRED)
 #The names, helloworld_SOURCES and helloworld_HEADERS, is by convention. 
 #You can name them either way you like.
 
-SET(KanjiTools_SOURCES main.cpp mainwindow.cpp db_connection.cpp)
-SET(KanjiTools_HEADERS mainwindow.h)
-SET(KanjiTools_FORMS mainwindow.ui)
+SET(KanjiTools_SOURCES main.cpp mainwindow.cpp db_connection.cpp logindialog.cpp)
+SET(KanjiTools_HEADERS mainwindow.h logindialog.h)
+SET(KanjiTools_FORMS mainwindow.ui logindialog.ui)
 #SET(KanjiTools_RESOURCES images.qrc)
 
 #Notice that the headers only include the headers that needs to be processed by moc. 
@@ -59,7 +59,7 @@ ADD_EXECUTABLE(KanjiTools ${KanjiTools_SOURCES}
     #${KanjiTools_RESOURCES_RCC})
     
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}  
-${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mysql/mysql-${mysql_connector_RELEASE}
+${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mysql-${mysql_connector_RELEASE}
 ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/cppconn/)
 
 add_dependencies(KanjiTools mysql_connector)
