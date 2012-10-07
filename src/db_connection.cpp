@@ -1,4 +1,4 @@
- 
+
 #include "db_connection.h"
 
 #include <cppconn/driver.h>
@@ -10,6 +10,8 @@
 #include <fstream>
 #include <thread>
 #include <queue>
+#include <time.h>
+
 //void thread_func(DB_Connection * c);
 DB_Connection::DB_Connection()
 {
@@ -54,11 +56,11 @@ void DB_Connection::thread_func(DB_Connection * c)
 
     while(true)
     {
-        if(!c->queue->empty())
+        while(!c->queue->empty())
         {
             query_t q = c->queue->front();
             c->queue->pop();
-            std::cout << q.statement <<"\n";
+
             try
             {
                 sql::Statement *stmt= c->con->createStatement();
@@ -66,11 +68,12 @@ void DB_Connection::thread_func(DB_Connection * c)
                 if(q.f)
                     q.f(q.obj,res);
                 delete stmt;
-                if(!q.f && res)
+                if(!q.f && res && stmt)
                     delete res;
             }
             catch(sql::SQLException & ex)
             {
+                std::cout << q.statement <<"\n";
                 std::cout<<"problems:\n"<<ex.what();
             }
         }
@@ -101,17 +104,17 @@ bool DB_Connection::LoadSettings()
 	    if(kv.find("username")!=std::string::npos)
 	    {
 		username = GetValue(kv);
-		std::cout <<"username is |"<<username<<"|\n";
+        //std::cout <<"username is |"<<username<<"|\n";
 	    }
 	    else if(kv.find("password")!=std::string::npos)
 	    {
 		password = GetValue(kv);
-		std::cout << "password is |"<<password<<"|\n";
+        //std::cout << "password is |"<<password<<"|\n";
 	    }
 	    else if(kv.find("hostname")!=std::string::npos)
 	    {
 		hostname = GetValue(kv);
-		std::cout << "hostaname is |"<<hostname<<"|\n";
+        //std::cout << "hostaname is |"<<hostname<<"|\n";
 	    }
 	}
 	sets.close();
