@@ -23,9 +23,9 @@ FIND_PACKAGE(Qt4 REQUIRED)
 #The names, helloworld_SOURCES and helloworld_HEADERS, is by convention. 
 #You can name them either way you like.
 
-SET(KanjiTools_SOURCES main.cpp mainwindow.cpp db_connection.cpp logindialog.cpp kanjitoolswindow.cpp)
-SET(KanjiTools_HEADERS mainwindow.h logindialog.h kanjitoolswindow.h)
-SET(KanjiTools_FORMS mainwindow.ui logindialog.ui kanjitoolswindow.ui)
+SET(KanjiTools_SOURCES main.cpp db_connection.cpp logindialog.cpp kanjitoolswindow.cpp kanjidialog.cpp core.cpp)
+SET(KanjiTools_HEADERS logindialog.h kanjitoolswindow.h kanjidialog.h core.h)
+SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui)
 #SET(KanjiTools_RESOURCES images.qrc)
 
 #Notice that the headers only include the headers that needs to be processed by moc. 

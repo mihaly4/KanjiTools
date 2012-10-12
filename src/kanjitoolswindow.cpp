@@ -4,6 +4,7 @@
 #include "core.h"
 #include <QDebug>
 #include <cppconn/resultset.h>
+#include "kanjidialog.h"
 
 KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -78,6 +79,8 @@ void KanjiToolsWindow::on_pushButton_clicked()
     m_pCore->AddQuery("INSERT INTO kanjitools.cadet_in_course (`Person_ID`,`course_name`) VALUES(3,\"4201mv\");");
     m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"kanji group no 1\",1);");
     m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"kanji group no 2\",1);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"test no 1\",2);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"test no 2\",2);");
 
 
 }
@@ -313,4 +316,23 @@ void KanjiToolsWindow::on_pushButton_15_clicked()
                           QString::number(m_lTestsIds[ui->comboBox_4->currentIndex()]).toStdString()+");");
         ReloadMaterials();
     }
+}
+
+void KanjiToolsWindow::on_pushButton_16_clicked()
+{
+    KanjiDialog kd;
+    kd.SetCore(m_pCore);
+    kd.show();
+    kd.exec();
+}
+
+void KanjiToolsWindow::on_pushButton_18_clicked()
+{
+    if(ui->listWidget_2->selectedItems().count()==0)
+        return;
+    KanjiDialog kd;
+    kd.SetCore(m_pCore);
+    kd.SetKanji(ui->listWidget_2->selectedItems()[0]->text());
+    kd.show();
+    kd.exec();
 }
