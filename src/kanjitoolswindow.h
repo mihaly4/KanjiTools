@@ -75,6 +75,12 @@ private slots:
 
     void on_pushButton_46_clicked();
 
+    void on_pushButton_45_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_4_clicked();
+
 private:
     Ui::KanjiToolsWindow *ui;
     Core * m_pCore;

@@ -20,6 +20,7 @@ public:
   void AddKanji(std::string kanji,std::string on,std::string kun,std::string meaning,std::string examples);
   void LoadMaterial(int mat_id);
   kanji_t NextKanji();
+  kanji_t PreviousKanji();
 
 
 

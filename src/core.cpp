@@ -1,11 +1,13 @@
 #include "core.h"
 #include "db_connection.h"
 #include "kanji_module.h"
+#include "user_account_module.h"
 Core::Core()
 {
     m_iAccountType = ACCOUNT_TYPE_ERROR;
     m_pCon = new DB_Connection();
     m_pKanjiModule = new KanjiModule(this);
+    m_pUserAccountModule = new UserAccountModule(this);
 }
 
 int Core::Authenticate(std::string name,std::string pass)
@@ -40,4 +42,19 @@ void Core::LoadMaterial(int mat_id)
 kanji_t Core::NextKanji()
 {
     return m_pKanjiModule->NextKanji();
+}
+
+kanji_t Core::PreviousKanji()
+{
+    return m_pKanjiModule->PreviousKanji();
+}
+
+void Core::AddUser(user_t u)
+{
+    m_pUserAccountModule->AddUser(u);
+}
+
+void Core::UpdateUser(user_t u)
+{
+    m_pUserAccountModule->UpdateUser(u);
 }

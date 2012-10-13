@@ -3,6 +3,8 @@
 #include <sstream>
 #include <cppconn/resultset.h>
 
+#define min(a,b)((a)<(b)?(a):(b))
+#define max(a,b)((a)>(b)?(a):(b))
 
 KanjiModule::KanjiModule(Core * core)
 {
@@ -45,6 +47,12 @@ void KanjiModule::kanji_loaded(void *obj, void *a)
 
 kanji_t KanjiModule::NextKanji()
 {
-    cur_idx++;
+    cur_idx = min(cur_idx+1,kanji_list.size()-1);
+    return kanji_list[cur_idx];
+}
+
+kanji_t KanjiModule::PreviousKanji()
+{
+    cur_idx = max(0,cur_idx-1);
     return kanji_list[cur_idx];
 }

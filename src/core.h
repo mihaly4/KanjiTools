@@ -7,14 +7,9 @@
 
 class DB_Connection;
 class KanjiModule;
+class UserAccountModule;
 
-enum
-{
-    ACCOUNT_TYPE_ERROR=0,
-    ACCOUNT_TYPE_ADMIN=1,
-    ACCOUNT_TYPE_TEACHER,
-    ACCOUNT_TYPE_STUDENT
-};
+
 
 
 class Core
@@ -30,10 +25,14 @@ public:
     void AddKanji(std::string kanji,std::string on,std::string kun,std::string meaning,std::string examples);
     void LoadMaterial(int mat_id);
     kanji_t NextKanji();
+    kanji_t PreviousKanji();
+    void AddUser(user_t u);
+    void UpdateUser(user_t u);
 
 private:
     int m_iAccountType;
     DB_Connection * m_pCon;
     KanjiModule * m_pKanjiModule;
+    UserAccountModule * m_pUserAccountModule;
 };
 #endif

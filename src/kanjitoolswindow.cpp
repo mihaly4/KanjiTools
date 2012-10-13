@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <cppconn/resultset.h>
 #include "kanjidialog.h"
+#include "userdialog.h"
 
 KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -62,7 +63,7 @@ void KanjiToolsWindow::on_pushButton_clicked()
 {
     m_pCore->AddQuery("drop schema `kanjitools`;");
     m_pCore->AddQuery("CREATE SCHEMA `kanjitools` DEFAULT CHARACTER SET ujis COLLATE ujis_japanese_ci ;");
-    m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`person` (     `Person_ID` INT NOT NULL AUTO_INCREMENT ,    `Name` TINYTEXT NOT NULL ,    `Surename` TINYTEXT NOT NULL , `account_type` INT,   PRIMARY KEY (`Person_ID`) );");
+    m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`person` (     `Person_ID` INT NOT NULL AUTO_INCREMENT , `Login` TINYTEXT NOT NULL ,`Password` TINYTEXT NOT NULL ,  `Name` TINYTEXT NOT NULL ,    `Surename` TINYTEXT NOT NULL , `account_type` INT,   PRIMARY KEY (`Person_ID`) );");
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`course` ( `Name` TINYTEXT NOT NULL , `Tutor_ID` INT,   PRIMARY KEY (`Name`(10)) );");
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`cadet_in_course` ( `Person_ID` INT NOT NULL , `course_name` TINYTEXT NOT NULL,  PRIMARY KEY (`Person_ID`,`course_name`(10)) );");
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`material` ( `Material_ID` INT NOT NULL AUTO_INCREMENT , `title` TINYTEXT NOT NULL, `mat_type` INT,  PRIMARY KEY (`Material_ID`) );");
@@ -70,10 +71,10 @@ void KanjiToolsWindow::on_pushButton_clicked()
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`kanji` ( `kanji` CHAR NOT NULL , `on_youmi` TINYTEXT,`kun_youmi` TINYTEXT, `translations` TEXT,`examples` TINYTEXT,PRIMARY KEY (`kanji`) );");
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`kanjiinmaterial` ( `kanji` CHAR NOT NULL , `Material_ID` INT NOT NULL,PRIMARY KEY (`kanji`,`Material_ID`) );");
 
-    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Name`,`Surename`,`account_type`) VALUES(\"教師\",\"ehe\",1);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Name`,`Surename`,`account_type`) VALUES(\"Carina\",\"Tsvetkova\",2);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Name`,`Surename`,`account_type`) VALUES(\"Sergej\",\"Andreyev\",2);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Name`,`Surename`,`account_type`) VALUES(\"Sergej\",\"Comov\",1);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"kyoushi\",\"1234\",\"教師\",\"ehe\",2);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"divinitas\",\"1234\",\"Carina\",\"Tsvetkova\",3);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"andeyeff\",\"1234\",\"Sergej\",\"Andreyev\",3);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"mihaly4\",\"1234\",\"Sergej\",\"Comov\",1);");
     m_pCore->AddQuery("INSERT INTO kanjitools.course (`Name`) VALUES(\"4202mv\");");
     m_pCore->AddQuery("INSERT INTO kanjitools.course (`Name`) VALUES(\"4201mv\");");
     m_pCore->AddQuery("INSERT INTO kanjitools.cadet_in_course (`Person_ID`,`course_name`) VALUES(2,\"4201mv\");");
@@ -83,7 +84,21 @@ void KanjiToolsWindow::on_pushButton_clicked()
     m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"test no 1\",2);");
     m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"test no 2\",2);");
     m_pCore->AddQuery("INSERT INTO kanjitools.kanji ( `kanji`,`on_youmi`,`kun_youmi`,`translations`,`examples`) VALUES(\"教\",\"su\",\"gaku\",\"learning\",\"教師 - kyoushi - teacher\");");
+    m_pCore->AddQuery("INSERT INTO kanjitools.kanji ( `kanji`,`on_youmi`,`kun_youmi`,`translations`,`examples`) VALUES(\"女\",\"JO\",\"NYO, NYŌ\",\"[onna]	женщина; ~no женский\",\"女性	[josei]	\
+                      1.	женщина\
+                      2.	женский пол\
+                      女の人	[onnanohito]	женщина\
+                      女の子	[onnanoko]	девочка\");");
+    m_pCore->AddQuery("INSERT INTO kanjitools.kanji ( `kanji`,`on_youmi`,`kun_youmi`,`translations`,`examples`) VALUES(\"男\",\"DAN\",\"NAN\",\"男	[otoko]	\
+                      1.	 мужчина; парень; ~no мужской\
+                      2.	  перен. мужская честь\",\"男性	[dansei]	\
+                                                   1.	мужчина\
+                                                   2.	мужской пол\
+                                                   男の人	[otokonohito]	мужчина\
+                                                   男の子	[otokonoko]	мальчик\");");
     m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"教\",1);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"女\",1);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"男\",1);");
     m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"教\",3);");
 
 
@@ -113,7 +128,7 @@ void KanjiToolsWindow::users_loaded_slot(void * a)
         //std::cout << res->getString("_message") << std::endl;
         QListWidgetItem * it = new QListWidgetItem();
         it->setData(1,res->getString(1).c_str());
-        it->setText((res->getString(2)+" "+res->getString(3)).c_str());
+        it->setText((res->getString(4)+" "+res->getString(5)).c_str());
         ui->listWidget->addItem(it);
     }
     delete res;
@@ -146,7 +161,7 @@ void KanjiToolsWindow::cadets_loaded_slot(void * a)
     while (res->next())
     {
         m_lCadetsIds.push_back(res->getInt(1));
-        ui->comboBox_3->addItem((res->getString(2)+" "+res->getString(3)).c_str());
+        ui->comboBox_3->addItem((res->getString(4)+" "+res->getString(5)).c_str());
     }
     delete res;
 }
@@ -223,7 +238,7 @@ void KanjiToolsWindow::ReloadCourses()
 }
 void KanjiToolsWindow::ReloadCadets(QString course)
 {
-    m_pCore->AddQuery("SELECT * FROM kanjitools.person WHERE account_type = 2;",cadets_loaded,this);
+    m_pCore->AddQuery("SELECT * FROM kanjitools.person WHERE account_type = 3;",cadets_loaded,this);
 }
 void KanjiToolsWindow::ReloadMaterials()
 {
@@ -415,4 +430,44 @@ void KanjiToolsWindow::on_pushButton_46_clicked()
     ui->label_11->setText(k.kun_youmi.c_str());
     ui->label_12->setText(k.meaning.c_str());
     ui->label_13->setText(k.examples.c_str());
+}
+
+void KanjiToolsWindow::on_pushButton_45_clicked()
+{
+    kanji_t k = m_pCore->PreviousKanji();
+    ui->label_9->setText(k.kanji.c_str());
+    ui->label_10->setText(k.on_youmi.c_str());
+    ui->label_11->setText(k.kun_youmi.c_str());
+    ui->label_12->setText(k.meaning.c_str());
+    ui->label_13->setText(k.examples.c_str());
+}
+
+void KanjiToolsWindow::on_pushButton_2_clicked()
+{
+    UserDialog ud;
+    ud.show();
+    ud.exec();
+    if(ud.result() == QDialog::Accepted)
+    {
+        m_pCore->AddUser(ud.GetUser());
+        ReloadUsers();
+    }
+
+}
+
+void KanjiToolsWindow::on_pushButton_4_clicked()
+{
+    if(ui->listWidget->selectedItems().count()==0)
+        return;
+    UserDialog ud;
+    ud.show();
+    ud.SetCore(m_pCore);
+    ud.SetUser(ui->listWidget->selectedItems()[0]->data(1).toString().toStdString());
+    ud.exec();
+    if(ud.result() == QDialog::Accepted)
+    {
+        m_pCore->UpdateUser(ud.GetUser());
+        ReloadUsers();
+    }
+
 }
