@@ -23,8 +23,8 @@ FIND_PACKAGE(Qt4 REQUIRED)
 #The names, helloworld_SOURCES and helloworld_HEADERS, is by convention. 
 #You can name them either way you like.
 
-SET(KanjiTools_SOURCES main.cpp db_connection.cpp logindialog.cpp kanjitoolswindow.cpp kanjidialog.cpp core.cpp)
-SET(KanjiTools_HEADERS logindialog.h kanjitoolswindow.h kanjidialog.h core.h)
+SET(KanjiTools_SOURCES main.cpp db_connection.cpp logindialog.cpp kanjitoolswindow.cpp kanjidialog.cpp core.cpp kanji_module.cpp)
+SET(KanjiTools_HEADERS logindialog.h kanjitoolswindow.h kanjidialog.h core.h kanji_module.h common.h)
 SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui)
 #SET(KanjiTools_RESOURCES images.qrc)
 

@@ -18,14 +18,20 @@ public:
     ~KanjiDialog();
     void SetKanji(QString kanji);
     void SetCore(Core * core);
+signals:
+    void LoadKanji(void * res);
     
 private slots:
     void on_buttonBox_accepted();
+
+    void LoadKanjiSlot(void * a);
 
 private:
     Ui::KanjiDialog *ui;
     QString kanji;
     Core * m_pCore;
+
+    static void kanji_loaded(void * obj, void * res);
 };
 
 #endif // KANJIDIALOG_H

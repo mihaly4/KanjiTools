@@ -3,8 +3,10 @@
 
 
 #include <string>
+#include "common.h"
 
 class DB_Connection;
+class KanjiModule;
 
 enum
 {
@@ -26,9 +28,12 @@ public:
     }
     void AddQuery(std::string q, void (*f)(void * obj,void * arg) = NULL,void * obj = NULL);
     void AddKanji(std::string kanji,std::string on,std::string kun,std::string meaning,std::string examples);
+    void LoadMaterial(int mat_id);
+    kanji_t NextKanji();
 
 private:
     int m_iAccountType;
     DB_Connection * m_pCon;
+    KanjiModule * m_pKanjiModule;
 };
 #endif

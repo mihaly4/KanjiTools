@@ -63,6 +63,18 @@ private slots:
 
     void on_pushButton_18_clicked();
 
+    void on_pushButton_19_clicked();
+
+    void on_pushButton_20_clicked();
+
+    void on_pushButton_21_clicked();
+
+    void on_pushButton_22_clicked();
+
+    void on_comboBox_9_activated(const QString &arg1);
+
+    void on_pushButton_46_clicked();
+
 private:
     Ui::KanjiToolsWindow *ui;
     Core * m_pCore;

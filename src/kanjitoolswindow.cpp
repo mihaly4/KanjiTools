@@ -67,7 +67,8 @@ void KanjiToolsWindow::on_pushButton_clicked()
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`cadet_in_course` ( `Person_ID` INT NOT NULL , `course_name` TINYTEXT NOT NULL,  PRIMARY KEY (`Person_ID`,`course_name`(10)) );");
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`material` ( `Material_ID` INT NOT NULL AUTO_INCREMENT , `title` TINYTEXT NOT NULL, `mat_type` INT,  PRIMARY KEY (`Material_ID`) );");
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`accessibility` ( `Person_ID` INT NOT NULL , `Material_ID` INT NOT NULL, PRIMARY KEY (`Person_ID`,`Material_ID`) );");
-
+    m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`kanji` ( `kanji` CHAR NOT NULL , `on_youmi` TINYTEXT,`kun_youmi` TINYTEXT, `translations` TEXT,`examples` TINYTEXT,PRIMARY KEY (`kanji`) );");
+    m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`kanjiinmaterial` ( `kanji` CHAR NOT NULL , `Material_ID` INT NOT NULL,PRIMARY KEY (`kanji`,`Material_ID`) );");
 
     m_pCore->AddQuery("INSERT INTO kanjitools.person (`Name`,`Surename`,`account_type`) VALUES(\"教師\",\"ehe\",1);");
     m_pCore->AddQuery("INSERT INTO kanjitools.person (`Name`,`Surename`,`account_type`) VALUES(\"Carina\",\"Tsvetkova\",2);");
@@ -81,6 +82,11 @@ void KanjiToolsWindow::on_pushButton_clicked()
     m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"kanji group no 2\",1);");
     m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"test no 1\",2);");
     m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"test no 2\",2);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.kanji ( `kanji`,`on_youmi`,`kun_youmi`,`translations`,`examples`) VALUES(\"教\",\"su\",\"gaku\",\"learning\",\"教師 - kyoushi - teacher\");");
+    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"教\",1);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"教\",3);");
+
+
 
 
 }
@@ -148,6 +154,7 @@ void KanjiToolsWindow::materials_loaded_slot(void * a)
 {
     ui->comboBox_2->clear();
     ui->comboBox_4->clear();
+    ui->comboBox_9->clear();
     m_lTestsIds.clear();
     m_lGroupsIds.clear();
     sql::ResultSet *res=(sql::ResultSet *)a;
@@ -157,6 +164,7 @@ void KanjiToolsWindow::materials_loaded_slot(void * a)
         {
             m_lGroupsIds.push_back(res->getInt(1));
             ui->comboBox_2->addItem(res->getString(2).c_str());
+            ui->comboBox_9->addItem(res->getString(2).c_str());
         }
         else
         {
@@ -164,6 +172,7 @@ void KanjiToolsWindow::materials_loaded_slot(void * a)
             ui->comboBox_4->addItem(res->getString(2).c_str());
         }
     }
+    ui->comboBox_9->setCurrentIndex(-1);
     delete res;
 }
 void KanjiToolsWindow::kanji_loaded_slot(void * a)
@@ -172,7 +181,7 @@ void KanjiToolsWindow::kanji_loaded_slot(void * a)
     sql::ResultSet *res=(sql::ResultSet *)a;
     while (res->next())
     {
-        ui->listWidget_2->addItem(res->getString(2).c_str());
+        ui->listWidget_2->addItem(res->getString(1).c_str());
     }
     delete res;
 }
@@ -188,7 +197,11 @@ void KanjiToolsWindow::on_tabWidget_currentChanged(QWidget *arg1)
         ReloadCourses();
         ReloadCadets();
         ReloadMaterials();
-        /// todo: reload kanji
+        ReloadKanji();
+    }
+    if(arg1 == ui->tab_7)//review
+    {
+        ReloadMaterials();
     }
 }
 
@@ -324,6 +337,7 @@ void KanjiToolsWindow::on_pushButton_16_clicked()
     kd.SetCore(m_pCore);
     kd.show();
     kd.exec();
+    ReloadKanji();
 }
 
 void KanjiToolsWindow::on_pushButton_18_clicked()
@@ -335,4 +349,70 @@ void KanjiToolsWindow::on_pushButton_18_clicked()
     kd.SetKanji(ui->listWidget_2->selectedItems()[0]->text());
     kd.show();
     kd.exec();
+    if(kd.result() == QDialog::Accepted)ReloadKanji();
+}
+
+void KanjiToolsWindow::on_pushButton_19_clicked()
+{
+    if(ui->listWidget_2->selectedItems().count()==0 || ui->comboBox_2->currentIndex()<0)
+        return;
+    for(int i=0;i<ui->listWidget_2->selectedItems().count();i++)
+    {
+        m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\""+
+                          ui->listWidget_2->selectedItems()[i]->text().toStdString()+"\","+
+                          QString::number(m_lGroupsIds[ui->comboBox_2->currentIndex()]).toStdString()+");");
+    }
+}
+
+void KanjiToolsWindow::on_pushButton_20_clicked()
+{
+    if(ui->listWidget_2->selectedItems().count()==0 || ui->comboBox_4->currentIndex()<0)
+        return;
+    for(int i=0;i<ui->listWidget_2->selectedItems().count();i++)
+    {
+        m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\""+
+                          ui->listWidget_2->selectedItems()[i]->text().toStdString()+"\","+
+                          QString::number(m_lTestsIds[ui->comboBox_4->currentIndex()]).toStdString()+");");
+    }
+}
+
+void KanjiToolsWindow::on_pushButton_21_clicked()
+{
+    if(ui->listWidget_2->selectedItems().count()==0 || ui->comboBox_4->currentIndex()<0)
+        return;
+    for(int i=0;i<ui->listWidget_2->selectedItems().count();i++)
+    {
+        m_pCore->AddQuery("DELETE FROM kanjitools.kanjiinmaterial WHERE `kanji` = \""+
+                          ui->listWidget_2->selectedItems()[i]->text().toStdString()+"\" AND `Material_ID` = "+
+                          QString::number(m_lTestsIds[ui->comboBox_4->currentIndex()]).toStdString()+";");
+    }
+}
+
+void KanjiToolsWindow::on_pushButton_22_clicked()
+{
+    if(ui->listWidget_2->selectedItems().count()==0 || ui->comboBox_2->currentIndex()<0)
+        return;
+    for(int i=0;i<ui->listWidget_2->selectedItems().count();i++)
+    {
+        m_pCore->AddQuery("DELETE FROM kanjitools.kanjiinmaterial WHERE `kanji` = \""+
+                          ui->listWidget_2->selectedItems()[i]->text().toStdString()+"\" AND `Material_ID` = "+
+                          QString::number(m_lGroupsIds[ui->comboBox_2->currentIndex()]).toStdString()+";");
+    }
+}
+
+void KanjiToolsWindow::on_comboBox_9_activated(const QString &arg1)
+{
+    if(ui->comboBox_9->currentIndex()<0)
+        return;
+    m_pCore->LoadMaterial(m_lGroupsIds[ui->comboBox_9->currentIndex()]);
+}
+
+void KanjiToolsWindow::on_pushButton_46_clicked()
+{
+    kanji_t k = m_pCore->NextKanji();
+    ui->label_9->setText(k.kanji.c_str());
+    ui->label_10->setText(k.on_youmi.c_str());
+    ui->label_11->setText(k.kun_youmi.c_str());
+    ui->label_12->setText(k.meaning.c_str());
+    ui->label_13->setText(k.examples.c_str());
 }

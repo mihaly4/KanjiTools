@@ -1,5 +1,4 @@
 #include <QApplication>
-#include "mainwindow.h"
 #include "kanjitoolswindow.h"
 #include <QTextCodec>
 
