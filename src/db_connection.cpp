@@ -132,4 +132,22 @@ void DB_Connection::AddQuery(query_t q)
     queue->push(q);
 }
 
+void * DB_Connection::ExecQuery(std::string q)
+{
+    sql::ResultSet *res;
+    try
+    {
+        sql::Statement *stmt= con->createStatement();
+        res= stmt->executeQuery(q.c_str());
+        delete stmt;
+
+    }
+    catch(sql::SQLException & ex)
+    {
+        std::cout << q <<"\n";
+        std::cout<<"problems:\n"<<ex.what();
+    }
+    return res;
+}
+
 

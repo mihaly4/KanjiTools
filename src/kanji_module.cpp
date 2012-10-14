@@ -18,19 +18,21 @@ void KanjiModule::AddKanji(std::string kanji,std::string on,std::string kun,std:
     m_pCore->AddQuery(q);
 }
 
-void KanjiModule::LoadMaterial(int mat_id)
+void KanjiModule::LoadMaterial(int mat_id, void (*f)(void * obj), void *obj)
 {
     std::stringstream ss;
       ss << mat_id;
 
     std::string q = "SELECT * FROM kanjitools.kanji JOIN kanjitools.kanjiinmaterial ON ( kanjitools.kanji.kanji=kanjitools.kanjiinmaterial.kanji) WHERE `Material_ID` = "+ss.str()+";";
-
+    m_pObj = obj;
+    m_pF = f;
     m_pCore->AddQuery(q,kanji_loaded,this);
 }
 void KanjiModule::kanji_loaded(void *obj, void *a)
 {
 
     KanjiModule * mod = (KanjiModule*)obj;
+
     mod->cur_idx = -1;
     mod->kanji_list.clear();
     sql::ResultSet *res=(sql::ResultSet *)a;
@@ -43,6 +45,9 @@ void KanjiModule::kanji_loaded(void *obj, void *a)
                             res->getString(5).asStdString());
         mod->kanji_list.push_back(k);
     }
+    delete res;
+    if(mod->m_pF && mod->m_pObj)
+        mod->m_pF(mod->m_pObj);
 }
 
 kanji_t KanjiModule::NextKanji()

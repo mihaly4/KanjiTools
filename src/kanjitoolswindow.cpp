@@ -14,24 +14,16 @@ KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_pCore = new Core();
-    LoginDialog ldg;
-    int res = -1;
-    do
-    {
-        ldg.exec();
-        res = m_pCore->Authenticate(ldg.GetLoginName().toStdString(),ldg.GetPassword().toStdString());
-    }while(res==-1 && ldg.result() != QDialog::Rejected);
-    if(res == -1)
-        close();
-    //else
-    {
-        HideUnusedTabs(m_pCore->GetLevel());
-    }
+
     connect(this,SIGNAL(users_loaded_signal(void*)),this,SLOT(users_loaded_slot(void*)));
     connect(this,SIGNAL(courses_loaded_signal(void*)),this,SLOT(courses_loaded_slot(void*)));
     connect(this,SIGNAL(cadets_loaded_signal(void*)),this,SLOT(cadets_loaded_slot(void*)));
     connect(this,SIGNAL(materials_loaded_signal(void*)),this,SLOT(materials_loaded_slot(void*)));
     connect(this,SIGNAL(kanji_loaded_signal(void*)),this,SLOT(kanji_loaded_slot(void*)));
+    connect(this,SIGNAL(authentication_signal(void*)),this,SLOT(authentication_slot(void*)));
+    connect(this,SIGNAL(ShowLoginDialogSignal()),this,SLOT(ShowLoginDialog()));
+    connect(this,SIGNAL(test_loaded_signal()),this,SLOT(test_loaded_slot()));
+    ShowLoginDialog();
 }
 
 KanjiToolsWindow::~KanjiToolsWindow()
@@ -40,21 +32,22 @@ KanjiToolsWindow::~KanjiToolsWindow()
     delete m_pCore;
 }
 
-void KanjiToolsWindow::HideUnusedTabs(int level)
+void KanjiToolsWindow::HideUnusedTabs()
 {
-    switch(level)
+    qDebug() <<"account type is "<<m_pCore->GetUser().account_type;
+    switch(m_pCore->GetUser().account_type)
     {
     case ACCOUNT_TYPE_ERROR:
         ui->tabWidget->removeTab(1);
         ui->tabWidget->removeTab(0);
         break;
     case ACCOUNT_TYPE_TEACHER:
-        //ui->tabWidget->removeTab(1);
-        //ui->tabWidget->removeTab(0);
+        ui->tabWidget->removeTab(3);
         break;
     case ACCOUNT_TYPE_STUDENT:
-        //ui->tabWidget->removeTab(1);
-        //ui->tabWidget->removeTab(0);
+        ui->tabWidget->removeTab(2);// teacher
+        ui->tabWidget->removeTab(1);//users
+        ui->tabWidget->removeTab(0);//admin
         break;
     }
 }
@@ -170,6 +163,7 @@ void KanjiToolsWindow::materials_loaded_slot(void * a)
     ui->comboBox_2->clear();
     ui->comboBox_4->clear();
     ui->comboBox_9->clear();
+    ui->comboBox_5->clear();
     m_lTestsIds.clear();
     m_lGroupsIds.clear();
     sql::ResultSet *res=(sql::ResultSet *)a;
@@ -185,6 +179,7 @@ void KanjiToolsWindow::materials_loaded_slot(void * a)
         {
             m_lTestsIds.push_back(res->getInt(1));
             ui->comboBox_4->addItem(res->getString(2).c_str());
+            ui->comboBox_5->addItem(res->getString(2).c_str());
         }
     }
     ui->comboBox_9->setCurrentIndex(-1);
@@ -215,6 +210,10 @@ void KanjiToolsWindow::on_tabWidget_currentChanged(QWidget *arg1)
         ReloadKanji();
     }
     if(arg1 == ui->tab_7)//review
+    {
+        ReloadMaterials();
+    }
+    if(arg1 == ui->tab_4)//on-test
     {
         ReloadMaterials();
     }
@@ -470,4 +469,78 @@ void KanjiToolsWindow::on_pushButton_4_clicked()
         ReloadUsers();
     }
 
+}
+
+void KanjiToolsWindow::authentication(void *obj, void *arg)
+{
+    emit ((KanjiToolsWindow*)obj)->authentication_signal(arg);
+}
+
+void KanjiToolsWindow::authentication_slot(void *a)
+{
+    user_t u;
+    if(a==NULL)
+    {
+        u.account_type = ACCOUNT_TYPE_ADMIN;
+        u.name = "Admin";
+        u.surename = "Adminovich";
+    }
+    else
+    {
+        sql::ResultSet *res=(sql::ResultSet *)a;
+        while (res->next())
+        {
+            u.id = res->getString(1).asStdString();
+            u.login = res->getString(2).asStdString();
+            u.password = res->getString(3).asStdString();
+            u.name = res->getString(4).asStdString();
+            u.surename = res->getString(5).asStdString();
+            u.account_type = res->getString(6).asStdString()[0]-'0';
+        }
+        if(res->rowsCount()==0)
+        {
+            u.name="bad boy";
+            emit ShowLoginDialogSignal();
+            delete res;
+            return;
+        }
+        delete res;
+    }
+
+
+    m_pCore->SetUser(u);
+    HideUnusedTabs();
+    setWindowTitle(QString::fromStdString(u.name+" "+u.surename));
+    show();
+}
+
+void KanjiToolsWindow::ShowLoginDialog()
+{
+    LoginDialog ldg;
+    ldg.exec();
+    m_pCore->Authenticate(ldg.GetLoginName().toStdString(),ldg.GetPassword().toStdString(),authentication,this);
+}
+
+void KanjiToolsWindow::on_pushButton_27_clicked()
+{
+    if(ui->comboBox_5->currentIndex()<0)
+        return;
+    m_pCore->CreateTest("on-youmi-1",m_lGroupsIds[ui->comboBox_9->currentIndex()],test_loaded,this);
+
+}
+
+void KanjiToolsWindow::test_loaded(void *obj)
+{
+    emit ((KanjiToolsWindow*)obj)->test_loaded_signal();
+}
+
+void KanjiToolsWindow::test_loaded_slot()
+{
+    NextCase();
+}
+
+
+void KanjiToolsWindow::NextCase()
+{
+    case_t c = m_pCore->NextCase();
 }

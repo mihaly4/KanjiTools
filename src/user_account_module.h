@@ -11,4 +11,5 @@ public:
   }
   void AddUser(user_t u);
   void UpdateUser(user_t u);
+  void Authenticate(std::string name, std::string pass, void(*f)(void *, void *), void *obj);
 };

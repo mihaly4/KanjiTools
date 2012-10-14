@@ -23,6 +23,9 @@ signals:
     void cadets_loaded_signal(void * a);
     void materials_loaded_signal(void * a);
     void kanji_loaded_signal(void * a);
+    void authentication_signal(void * a);
+    void ShowLoginDialogSignal();
+    void test_loaded_signal();
     
 private slots:
     void on_pushButton_clicked();
@@ -34,6 +37,10 @@ private slots:
     void cadets_loaded_slot(void * a);
     void materials_loaded_slot(void * a);
     void kanji_loaded_slot(void * a);
+    void authentication_slot(void * a);
+    void test_loaded_slot();
+
+    void ShowLoginDialog();
 
     void on_pushButton_3_clicked();
 
@@ -81,6 +88,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_pushButton_27_clicked();
+
 private:
     Ui::KanjiToolsWindow *ui;
     Core * m_pCore;
@@ -88,19 +97,25 @@ private:
     QList<int> m_lGroupsIds;
     QList<int> m_lTestsIds;
 
-    void HideUnusedTabs(int level);
+    void HideUnusedTabs();
 
     static void users_loaded(void * obj, void * arg);
     static void courses_loaded(void * obj, void * arg);
     static void cadets_loaded(void * obj, void * arg);
     static void materials_loaded(void * obj, void * arg);
     static void kanji_loaded(void * obj, void * arg);
+    static void authentication(void * obj,void * arg);
+    static void test_loaded(void * obj);
 
     void ReloadUsers();
     void ReloadCourses();
     void ReloadCadets(QString course ="");
     void ReloadMaterials();
     void ReloadKanji();
+
+    void NextCase();
+
+
 
 };
 

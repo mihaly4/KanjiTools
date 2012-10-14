@@ -26,6 +26,7 @@ class DB_Connection
 public:
     DB_Connection();
     void AddQuery(query_t q);
+    void * ExecQuery(std::string q);
 private:    
     std::string username;
     std::string password;

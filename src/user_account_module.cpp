@@ -1,6 +1,7 @@
 #include "user_account_module.h"
 #include <sstream>
 #include "core.h"
+#include <cppconn/resultset.h>
 
 void UserAccountModule::AddUser(user_t u)
 {
@@ -27,4 +28,10 @@ void UserAccountModule::UpdateUser(user_t u)
             ss.str()  +" WHERE `Person_ID` = "+
             u.id+";";
     m_pCore->AddQuery(q);
+}
+
+void UserAccountModule::Authenticate(std::string name, std::string pass, void (*f)(void * obj,void *arg),void * obj)
+{
+    std::string q = "SELECT * FROM kanjitools.person WHERE `Login` = \""+name+"\" AND `password` = \""+pass+"\";";
+    m_pCore->AddQuery(q,f,obj);
 }

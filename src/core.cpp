@@ -2,22 +2,27 @@
 #include "db_connection.h"
 #include "kanji_module.h"
 #include "user_account_module.h"
+#include <iostream>
+#include "onyoumitest1.h"
+
 Core::Core()
 {
-    m_iAccountType = ACCOUNT_TYPE_ERROR;
     m_pCon = new DB_Connection();
     m_pKanjiModule = new KanjiModule(this);
     m_pUserAccountModule = new UserAccountModule(this);
+    m_pTest = NULL;
 }
 
-int Core::Authenticate(std::string name,std::string pass)
+void Core::Authenticate(std::string name,std::string pass,void (*f)(void* obj,void*arg),void * obj)
 {
     if(name=="master" && pass=="master")
     {
-	m_iAccountType = ACCOUNT_TYPE_ADMIN;
-	return 0;
+        f(obj,NULL);
     }
-    return -1;
+    else
+    {
+        m_pUserAccountModule->Authenticate(name,pass,f,obj);
+    }
 }
 
 void Core::AddQuery(std::string q, void (*f)(void * obj,void * arg),void * obj)
@@ -34,9 +39,9 @@ void Core::AddKanji(std::string kanji,std::string on,std::string kun,std::string
     m_pKanjiModule->AddKanji(kanji,on,kun,meaning,examples);
 }
 
-void Core::LoadMaterial(int mat_id)
+void Core::LoadMaterial(int mat_id,void (*f)(void * obj),void *obj)
 {
-    m_pKanjiModule->LoadMaterial(mat_id);
+    m_pKanjiModule->LoadMaterial(mat_id,f,obj);
 }
 
 kanji_t Core::NextKanji()
@@ -57,4 +62,29 @@ void Core::AddUser(user_t u)
 void Core::UpdateUser(user_t u)
 {
     m_pUserAccountModule->UpdateUser(u);
+}
+
+void * Core::ExecQuery(std::string q)
+{
+    return m_pCon->ExecQuery(q);
+}
+
+void Core::SetUser(user_t u)
+{
+    m_User = u;
+}
+
+void Core::CreateTest(std::string test,int mat_id, void (*f)(void*obj),void * obj)
+{
+    if(test=="on-youmi-1")
+    {
+        m_pTest = new OnYoumiTest1();
+        m_pTest->SetKanjiModule(m_pKanjiModule);
+    }
+    LoadMaterial(mat_id,f,obj);
+}
+
+case_t Core::NextCase()
+{
+    return m_pTest->NextCase();
 }
