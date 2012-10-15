@@ -23,6 +23,8 @@ public:
   void LoadMaterial(int mat_id, void (*f)(void * obj),void * obj);
   kanji_t NextKanji();
   kanji_t PreviousKanji();
+  int KanjiCount(){return kanji_list.size();}
+  kanji_t GetKanji(int idx);
 
 
 

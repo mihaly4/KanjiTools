@@ -29,6 +29,9 @@ public:
     user_t GetUser(){return m_User;}
     void CreateTest(std::string test, int mat_id, void (*f)(void *), void *obj);
     case_t NextCase();
+    void Answer(int variant);
+    int GetTestVarFontSize();
+    int GetTestQueFontSize();
 
 private:
     DB_Connection * m_pCon;

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QList>
+#include "common.h"
 class Core;
 
 namespace Ui {
@@ -26,6 +27,7 @@ signals:
     void authentication_signal(void * a);
     void ShowLoginDialogSignal();
     void test_loaded_signal();
+    void test_results_loaded_signal(void * a);
     
 private slots:
     void on_pushButton_clicked();
@@ -39,6 +41,7 @@ private slots:
     void kanji_loaded_slot(void * a);
     void authentication_slot(void * a);
     void test_loaded_slot();
+    void test_results_loaded_slot(void *a);
 
     void ShowLoginDialog();
 
@@ -90,12 +93,23 @@ private slots:
 
     void on_pushButton_27_clicked();
 
+    void on_pushButton_23_clicked();
+
+    void on_pushButton_24_clicked();
+
+    void on_pushButton_25_clicked();
+
+    void on_pushButton_26_clicked();
+
+    void on_comboBox_5_activated(int index);
+
 private:
     Ui::KanjiToolsWindow *ui;
     Core * m_pCore;
     QList<int> m_lCadetsIds;
     QList<int> m_lGroupsIds;
     QList<int> m_lTestsIds;
+    QList<test_result_t> m_lResults;
 
     void HideUnusedTabs();
 
@@ -106,12 +120,14 @@ private:
     static void kanji_loaded(void * obj, void * arg);
     static void authentication(void * obj,void * arg);
     static void test_loaded(void * obj);
+    static void test_results_loaded(void * obj, void * arg);
 
     void ReloadUsers();
     void ReloadCourses();
     void ReloadCadets(QString course ="");
     void ReloadMaterials();
     void ReloadKanji();
+    void ReloadTestResults();
 
     void NextCase();
 

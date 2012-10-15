@@ -26,6 +26,7 @@ void KanjiModule::LoadMaterial(int mat_id, void (*f)(void * obj), void *obj)
     std::string q = "SELECT * FROM kanjitools.kanji JOIN kanjitools.kanjiinmaterial ON ( kanjitools.kanji.kanji=kanjitools.kanjiinmaterial.kanji) WHERE `Material_ID` = "+ss.str()+";";
     m_pObj = obj;
     m_pF = f;
+    //std::cout << "Loading material\n" <<q <<"\n";
     m_pCore->AddQuery(q,kanji_loaded,this);
 }
 void KanjiModule::kanji_loaded(void *obj, void *a)
@@ -45,6 +46,11 @@ void KanjiModule::kanji_loaded(void *obj, void *a)
                             res->getString(5).asStdString());
         mod->kanji_list.push_back(k);
     }
+    /*if(mod->kanji_list.size()==0)   /// We should't get here under normal contitions
+    {
+        delete res;
+        return;
+    }*/
     delete res;
     if(mod->m_pF && mod->m_pObj)
         mod->m_pF(mod->m_pObj);
@@ -60,4 +66,10 @@ kanji_t KanjiModule::PreviousKanji()
 {
     cur_idx = max(0,cur_idx-1);
     return kanji_list[cur_idx];
+}
+
+kanji_t KanjiModule::GetKanji(int idx)
+{
+    //std::cout<<"index = "<<idx <<" of "<<KanjiCount()<<" "<<kanji_list[idx].on_youmi<< "\n";
+    return kanji_list[idx];
 }

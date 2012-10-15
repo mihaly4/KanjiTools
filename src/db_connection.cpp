@@ -15,6 +15,7 @@
 //void thread_func(DB_Connection * c);
 DB_Connection::DB_Connection()
 {
+    m_bConnected = true;
     if(LoadSettings())
     {
         queue = new std::queue<query_t>();
@@ -44,6 +45,8 @@ void DB_Connection::thread_func(DB_Connection * c)
           std::cout << "\t... MySQL says it again: ";
           /* Access column fata by numeric offset, 1 is the first column */
           std::cout << res->getString(1) << std::endl;
+          c->m_bConnected = true;
+          std::cout << "Was connection successfull?\n";
         }
         delete res;
         delete stmt;
@@ -56,7 +59,7 @@ void DB_Connection::thread_func(DB_Connection * c)
 
     while(true)
     {
-        while(!c->queue->empty())
+        while(!c->queue->empty() && c->m_bConnected)
         {
             query_t q = c->queue->front();
             c->queue->pop();

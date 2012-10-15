@@ -4,6 +4,7 @@
 #include "user_account_module.h"
 #include <iostream>
 #include "onyoumitest1.h"
+#include "onyoumitest2.h"
 
 Core::Core()
 {
@@ -79,12 +80,33 @@ void Core::CreateTest(std::string test,int mat_id, void (*f)(void*obj),void * ob
     if(test=="on-youmi-1")
     {
         m_pTest = new OnYoumiTest1();
-        m_pTest->SetKanjiModule(m_pKanjiModule);
     }
+    else if(test=="on-youmi-2")
+    {
+        m_pTest = new OnYoumiTest2();
+    }
+    m_pTest->Init(this,mat_id);
+    m_pTest->SetKanjiModule(m_pKanjiModule);
+
     LoadMaterial(mat_id,f,obj);
 }
 
 case_t Core::NextCase()
 {
     return m_pTest->NextCase();
+}
+
+void Core::Answer(int variant)
+{
+    m_pTest->Answer(variant);
+}
+
+int Core::GetTestVarFontSize()
+{
+    return m_pTest->GetTestVarFontSize();
+}
+
+int Core::GetTestQueFontSize()
+{
+    return m_pTest->GetTestQueFontSize();
 }

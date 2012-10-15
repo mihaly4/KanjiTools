@@ -40,5 +40,6 @@ private:
     static void thread_func(DB_Connection * c);
     std::thread * thread;
     std::queue<query_t> * queue;
+    bool m_bConnected;
 };
 #endif

@@ -33,11 +33,13 @@ kanji_module.cpp
 userdialog.cpp
 user_account_module.cpp
 basetest.cpp
-onyoumitest1.cpp)
+onyoumitest1.cpp
+onyoumitest2.cpp)
 SET(KanjiTools_HEADERS logindialog.h kanjitoolswindow.h kanjidialog.h core.h kanji_module.h common.h userdialog.h
 user_account_module.h
 basetest.h
-onyoumitest1.h)
+onyoumitest1.h
+onyoumitest2.h)
 SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui userdialog.ui)
 #SET(KanjiTools_RESOURCES images.qrc)
 
@@ -85,6 +87,6 @@ TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES}
 ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver/libmysqlcppconn-static.a
 mysqlclient)
 
-
+set(CMAKE_BUILD_TYPE Debug)
 
 
