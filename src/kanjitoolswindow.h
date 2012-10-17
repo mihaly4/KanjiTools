@@ -5,7 +5,7 @@
 #include <QList>
 #include "common.h"
 class Core;
-
+class LoginDialog;
 namespace Ui {
 class KanjiToolsWindow;
 }
@@ -110,6 +110,7 @@ private:
     QList<int> m_lGroupsIds;
     QList<int> m_lTestsIds;
     QList<test_result_t> m_lResults;
+    LoginDialog *           m_pLoginDialog;
 
     void HideUnusedTabs();
 

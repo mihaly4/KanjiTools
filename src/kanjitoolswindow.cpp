@@ -24,7 +24,12 @@ KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     connect(this,SIGNAL(ShowLoginDialogSignal()),this,SLOT(ShowLoginDialog()));
     connect(this,SIGNAL(test_loaded_signal()),this,SLOT(test_loaded_slot()));
     connect(this,SIGNAL(test_results_loaded_signal(void*)),this,SLOT(test_results_loaded_slot(void*)));
-    ShowLoginDialog();
+    m_pLoginDialog = new LoginDialog(this);
+    m_pLoginDialog->setModal(true);
+    ui->tabWidget->hide();
+    //m_pLoginDialog->setAttribute(Qt::WA_QuitOnClose);
+
+    emit ShowLoginDialog();
 }
 
 KanjiToolsWindow::~KanjiToolsWindow()
@@ -519,14 +524,21 @@ void KanjiToolsWindow::authentication_slot(void *a)
     m_pCore->SetUser(u);
     HideUnusedTabs();
     setWindowTitle(QString::fromStdString(u.name+" "+u.surename));
-    show();
+    ui->tabWidget->show();
 }
 
 void KanjiToolsWindow::ShowLoginDialog()
 {
-    LoginDialog ldg;
-    ldg.exec();
-    m_pCore->Authenticate(ldg.GetLoginName().toStdString(),ldg.GetPassword().toStdString(),authentication,this);
+    //LoginDialog ldg;
+    m_pLoginDialog->exec();
+    if(m_pLoginDialog->result() == QDialog::Rejected)
+    {
+        close();
+        exit(0);
+        return;
+    }
+    m_pCore->Authenticate(m_pLoginDialog->GetLoginName().toStdString(),
+                          m_pLoginDialog->GetPassword().toStdString(),authentication,this);
 }
 
 void KanjiToolsWindow::on_pushButton_27_clicked()
