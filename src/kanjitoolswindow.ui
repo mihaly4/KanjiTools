@@ -371,6 +371,7 @@
       </property>
       <property name="font">
        <font>
+        <family>Meiryo</family>
         <pointsize>72</pointsize>
        </font>
       </property>
@@ -613,6 +614,7 @@
            </property>
            <property name="font">
             <font>
+             <family>Meiryo</family>
              <pointsize>72</pointsize>
             </font>
            </property>
@@ -640,6 +642,7 @@
            </property>
            <property name="font">
             <font>
+             <family>Meiryo</family>
              <pointsize>72</pointsize>
             </font>
            </property>
@@ -664,6 +667,7 @@
            </property>
            <property name="font">
             <font>
+             <family>Meiryo</family>
              <pointsize>72</pointsize>
             </font>
            </property>
@@ -688,6 +692,7 @@
            </property>
            <property name="font">
             <font>
+             <family>Meiryo</family>
              <pointsize>72</pointsize>
             </font>
            </property>
@@ -711,6 +716,11 @@
            <width>16777215</width>
            <height>150</height>
           </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Meiryo</family>
+          </font>
          </property>
          <property name="frameShape">
           <enum>QFrame::Panel</enum>
