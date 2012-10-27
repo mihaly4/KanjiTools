@@ -6,6 +6,7 @@
 #ifdef WIN32
 #include <windows.h>
 #endif
+#include "common.h"
 
 namespace sql
 {
@@ -38,6 +39,7 @@ public:
     DB_Connection();
     void AddQuery(query_t q);
     void * ExecQuery(std::string q);
+    db_settings_t GetDBSettings();
 private:    
     std::string username;
     std::string password;
@@ -52,5 +54,6 @@ private:
     THREAD_OBJ thread;
     std::queue<query_t> * queue;
     bool m_bConnected;
+
 };
 #endif

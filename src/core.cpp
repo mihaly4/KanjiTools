@@ -120,3 +120,8 @@ int Core::GetTestQueFontSize()
 {
     return m_pTest->GetTestQueFontSize();
 }
+
+db_settings_t Core::GetDBSettings()
+{
+    return m_pCon->GetDBSettings();
+}

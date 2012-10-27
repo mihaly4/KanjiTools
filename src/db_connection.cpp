@@ -115,6 +115,16 @@ THREAD_TYPE DB_Connection::thread_func(void * arg)
     }
 }
 
+db_settings_t DB_Connection::GetDBSettings()
+{
+    db_settings_t sets;
+    sets.host = hostname;
+    sets.user = username;
+    sets.password = password;
+    sets.dbname = "This field is unused";
+    return sets;
+}
+
 
 std::string DB_Connection::GetValue(std::string KeyValue)
 {

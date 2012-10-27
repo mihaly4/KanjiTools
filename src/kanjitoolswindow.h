@@ -129,6 +129,7 @@ private:
     void ReloadMaterials();
     void ReloadKanji();
     void ReloadTestResults();
+    void ReloadSettings();
 
     void NextCase();
 

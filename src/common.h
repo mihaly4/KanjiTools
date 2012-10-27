@@ -42,4 +42,9 @@ struct test_result_t
     std::string id,test_type,test_id,person_id;
 };
 
+struct db_settings_t
+{
+    std::string host,user,password,dbname;
+};
+
 #endif

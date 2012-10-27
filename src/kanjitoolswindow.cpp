@@ -211,6 +211,10 @@ void KanjiToolsWindow::kanji_loaded_slot(void * a)
 
 void KanjiToolsWindow::on_tabWidget_currentChanged(QWidget *arg1)
 {
+    if(arg1 == ui->tab) // settings
+    {
+        ReloadSettings();
+    }
     if(arg1 == ui->tab_3)//users
     {
         ReloadUsers();
@@ -526,6 +530,7 @@ void KanjiToolsWindow::authentication_slot(void *a)
     HideUnusedTabs();
     setWindowTitle(QString::fromStdString(u.name+" "+u.surename));
     ui->tabWidget->show();
+    on_tabWidget_currentChanged(ui->tabWidget->currentWidget());
 }
 
 void KanjiToolsWindow::ShowLoginDialog()
@@ -639,6 +644,15 @@ void KanjiToolsWindow::ReloadTestResults()
 {
     m_pCore->AddQuery("SELECT * FROM kanjitools.testresults WHERE `Person_ID` = "+m_pCore->GetUser().id+";",
                       test_results_loaded,this);
+}
+
+void KanjiToolsWindow::ReloadSettings()
+{
+    db_settings_t sets = m_pCore->GetDBSettings();
+    ui->lineEdit->setText(QString::fromStdString(sets.host));
+    ui->lineEdit_2->setText(QString::fromStdString(sets.user));
+    ui->lineEdit_3->setText(QString::fromStdString(sets.password));
+    ui->lineEdit_4->setText(QString::fromStdString(sets.dbname));
 }
 
 void KanjiToolsWindow::test_results_loaded(void *obj, void *arg)

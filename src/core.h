@@ -32,6 +32,7 @@ public:
     void Answer(int variant);
     int GetTestVarFontSize();
     int GetTestQueFontSize();
+    db_settings_t GetDBSettings();
 
 private:
     DB_Connection * m_pCon;
@@ -39,5 +40,6 @@ private:
     UserAccountModule * m_pUserAccountModule;
     user_t m_User;
     BaseTest * m_pTest;
+
 };
 #endif
