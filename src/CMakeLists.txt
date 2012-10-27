@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8)
-include(ExternalProject)
 
 
 PROJECT(KanjiTools)
@@ -14,9 +13,9 @@ FIND_PACKAGE(Qt4 REQUIRED)
 #You can name them either way you like.
 
 SET(KanjiTools_SOURCES main.cpp
- db_connection.cpp
- logindialog.cpp
- kanjitoolswindow.cpp
+db_connection.cpp
+logindialog.cpp
+kanjitoolswindow.cpp
 kanjidialog.cpp
 core.cpp
 kanji_module.cpp
@@ -68,28 +67,15 @@ ADD_EXECUTABLE(KanjiTools ${KanjiTools_SOURCES}
     ${KanjiTools_FORMS_HEADERS})
     #${KanjiTools_RESOURCES_RCC})
     
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}  
-${mysql_include_dir}
-${mysql_include_dir}/cppconn/
-${boost_include_dir})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-
-
-set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver ${mysql_lib_dir})
-
-if(UNIX)
+IF(UNIX)
 SET(CMAKE_CXX_FLAGS "-std=gnu++0x")
-endif()
+ENDIF()
 
 
-TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} 
-${mysql_lib}
-)
+TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES})
 
-#TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES}
-#${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver/libmysqlcppconn-static.a
-#mysqlclient)
-
-set(CMAKE_BUILD_TYPE Debug)
+SET(CMAKE_BUILD_TYPE Debug)
 
 
