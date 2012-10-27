@@ -84,18 +84,26 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>80</y>
+     <x>60</x>
+     <y>30</y>
      <width>121</width>
-     <height>16</height>
+     <height>121</height>
     </rect>
    </property>
    <property name="text">
-    <string>Image here</string>
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="resources.qrc">:/KanJA1.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

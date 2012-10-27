@@ -35,7 +35,7 @@ onyoumitest2.h
 kunyoumitest1.h
 kunyoumitest2.h)
 SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui userdialog.ui)
-#SET(KanjiTools_RESOURCES images.qrc)
+SET(KanjiTools_RESOURCES resources.qrc)
 
 #Notice that the headers only include the headers that needs to be processed by moc. 
 #All other headers can be left out of the CMakeLists.txt file. 
@@ -47,7 +47,7 @@ SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui userdialo
 
 QT4_WRAP_CPP(KanjiTools_HEADERS_MOC ${KanjiTools_HEADERS})
 QT4_WRAP_UI(KanjiTools_FORMS_HEADERS ${KanjiTools_FORMS})
-#QT4_ADD_RESOURCES(KanjiTools_RESOURCES_RCC ${KanjiTools_RESOURCES})
+QT4_ADD_RESOURCES(KanjiTools_RCC_SRCS ${KanjiTools_RESOURCES})
 
 #What happens is that all headers are processed by moc and the names of the resulting source files are listed in the helloworld_HEADERS_MOC variable. 
 #Again, the variable name is by convention rather than forced.
@@ -64,8 +64,8 @@ ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 ADD_EXECUTABLE(KanjiTools ${KanjiTools_SOURCES} 
     ${KanjiTools_HEADERS_MOC}
-    ${KanjiTools_FORMS_HEADERS})
-    #${KanjiTools_RESOURCES_RCC})
+    ${KanjiTools_FORMS_HEADERS}
+    ${KanjiTools_RCC_SRCS})
     
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
