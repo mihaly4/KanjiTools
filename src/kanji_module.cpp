@@ -1,7 +1,7 @@
 #include "kanji_module.h"
 #include "core.h"
 #include <sstream>
-#include <cppconn/resultset.h>
+#include "connector_wraper.h"
 
 #define min(a,b)((a)<(b)?(a):(b))
 #define max(a,b)((a)>(b)?(a):(b))
@@ -39,11 +39,11 @@ void KanjiModule::kanji_loaded(void *obj, void *a)
     sql::ResultSet *res=(sql::ResultSet *)a;
     while (res->next())
     {
-        kanji_t k = kanji_t(res->getString(1).asStdString(),
-                            res->getString(2).asStdString(),
-                            res->getString(3).asStdString(),
-                            res->getString(4).asStdString(),
-                            res->getString(5).asStdString());
+        kanji_t k = kanji_t(res->getString(1),
+                            res->getString(2),
+                            res->getString(3),
+                            res->getString(4),
+                            res->getString(5));
         mod->kanji_list.push_back(k);
     }
     /*if(mod->kanji_list.size()==0)   /// We should't get here under normal contitions

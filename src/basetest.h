@@ -2,6 +2,7 @@
 #define BASETEST_H
 #include "common.h"
 #include <vector>
+#include <stdlib.h>
 
 class KanjiModule;
 class Core;

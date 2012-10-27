@@ -1,16 +1,28 @@
 
 #include "db_connection.h"
 
-#include <cppconn/driver.h>
+/*#include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
-#include <cppconn/statement.h>
+#include <cppconn/statement.h>*/
+
+#include "connector_wraper.h"
 
 #include <iostream>
 #include <fstream>
-#include <thread>
+
 #include <queue>
 #include <time.h>
+
+#ifdef WIN32
+#include <windows.h>
+#else
+#include <thread>
+#endif
+
+
+
+
 
 //void thread_func(DB_Connection * c);
 DB_Connection::DB_Connection()
@@ -18,44 +30,56 @@ DB_Connection::DB_Connection()
     m_bConnected = true;
     if(LoadSettings())
     {
+        DB_Connection * c =this;
+        sql::Statement *stmt;
+        sql::ResultSet *res;
+        try
+        {
+            /* Create a connection */
+            c->driver = get_driver_instance();
+            if(!c->driver)
+            {
+                std::cout<<"unable to get driver instance"<<"\n";
+
+            }
+
+            c->con = c->driver->connect(c->hostname, c->username.c_str(), c->password.c_str());
+            /* Connect to the MySQL test database */
+            c->con->setSchema("test");
+
+            stmt = c->con->createStatement();
+            res = stmt->executeQuery("SELECT 'Hello World!' AS _message");
+            while (res->next())
+            {
+              std::cout << "\t... MySQL replies: ";
+              /* Access column data by alias or column name */
+              //std::cout << res->getString("_message") << std::endl;
+              std::cout << "\t... MySQL says it again: ";
+              /* Access column fata by numeric offset, 1 is the first column */
+              std::cout << res->getString(1) << std::endl;
+              c->m_bConnected = true;
+              std::cout << "Was connection successfull?\n";
+            }
+            delete res;
+            delete stmt;
+            //delete con;
+        }
+        catch(...)
+        {
+            std::cout << "Unable to connect to MySQL server.\nSomething is fucked up! :(((\n";
+        }
         queue = new std::queue<query_t>();
+#ifndef WIN32
         thread = new std::thread(thread_func,this);
+#else
+        thread = CreateThread(NULL,0,thread_func,this,0,0);
+#endif
 
     }
 }
-void DB_Connection::thread_func(DB_Connection * c)
+THREAD_TYPE DB_Connection::thread_func(void * arg)
 {
-    sql::Statement *stmt;
-    sql::ResultSet *res;
-    try
-    {
-        /* Create a connection */
-        c->driver = get_driver_instance();
-        c->con = c->driver->connect("tcp://"+c->hostname, c->username.c_str(), c->password.c_str());
-        /* Connect to the MySQL test database */
-        c->con->setSchema("test");
-
-        stmt = c->con->createStatement();
-        res = stmt->executeQuery("SELECT 'Hello World!' AS _message");
-        while (res->next())
-        {
-          std::cout << "\t... MySQL replies: ";
-          /* Access column data by alias or column name */
-          std::cout << res->getString("_message") << std::endl;
-          std::cout << "\t... MySQL says it again: ";
-          /* Access column fata by numeric offset, 1 is the first column */
-          std::cout << res->getString(1) << std::endl;
-          c->m_bConnected = true;
-          std::cout << "Was connection successfull?\n";
-        }
-        delete res;
-        delete stmt;
-        //delete con;
-    }
-    catch(...)
-    {
-        std::cout << "Unable to connect to MySQL server.\nSomething is fucked up! :(((\n";
-    }
+    DB_Connection * c = (DB_Connection*) arg;
 
     while(true)
     {
@@ -82,7 +106,11 @@ void DB_Connection::thread_func(DB_Connection * c)
         }
 
         //std::cout<<"tick\n";
+#ifdef WIN32
+        Sleep(1000);
+#else
         sleep(1);
+#endif
     }
 }
 
@@ -107,17 +135,17 @@ bool DB_Connection::LoadSettings()
 	    if(kv.find("username")!=std::string::npos)
 	    {
 		username = GetValue(kv);
-        //std::cout <<"username is |"<<username<<"|\n";
+        std::cout <<"username is |"<<username<<"|\n";
 	    }
 	    else if(kv.find("password")!=std::string::npos)
 	    {
 		password = GetValue(kv);
-        //std::cout << "password is |"<<password<<"|\n";
+        std::cout << "password is |"<<password<<"|\n";
 	    }
 	    else if(kv.find("hostname")!=std::string::npos)
 	    {
 		hostname = GetValue(kv);
-        //std::cout << "hostaname is |"<<hostname<<"|\n";
+        std::cout << "hostaname is |"<<hostname<<"|\n";
 	    }
 	}
 	sets.close();

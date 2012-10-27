@@ -3,7 +3,7 @@
 #include "logindialog.h"
 #include "core.h"
 #include <QDebug>
-#include <cppconn/resultset.h>
+#include "connector_wraper.h"
 #include "kanjidialog.h"
 #include "userdialog.h"
 
@@ -503,12 +503,12 @@ void KanjiToolsWindow::authentication_slot(void *a)
         sql::ResultSet *res=(sql::ResultSet *)a;
         while (res->next())
         {
-            u.id = res->getString(1).asStdString();
-            u.login = res->getString(2).asStdString();
-            u.password = res->getString(3).asStdString();
-            u.name = res->getString(4).asStdString();
-            u.surename = res->getString(5).asStdString();
-            u.account_type = res->getString(6).asStdString()[0]-'0';
+            u.id = res->getString(1);
+            u.login = res->getString(2);
+            u.password = res->getString(3);
+            u.name = res->getString(4);
+            u.surename = res->getString(5);
+            u.account_type = res->getString(6)[0]-'0';
         }
         if(res->rowsCount()==0)
         {
@@ -650,10 +650,10 @@ void KanjiToolsWindow::test_results_loaded_slot(void *a)
     while (res->next())
     {
         test_result_t r;
-        r.id = res->getString(1).asStdString();
-        r.test_id = res->getString(2).asStdString();
-        r.test_type = res->getString(3).asStdString();
-        r.person_id = res->getString(4).asStdString();
+        r.id = res->getString(1);
+        r.test_id = res->getString(2);
+        r.test_type = res->getString(3);
+        r.person_id = res->getString(4);
         m_lResults.push_back(r);
        // qDebug()<<QString::fromStdString(r.id)<<QString::fromStdString(r.test_type);
     }

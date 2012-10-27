@@ -1,7 +1,7 @@
 #include "user_account_module.h"
 #include <sstream>
 #include "core.h"
-#include <cppconn/resultset.h>
+#include "connector_wraper.h"
 
 void UserAccountModule::AddUser(user_t u)
 {

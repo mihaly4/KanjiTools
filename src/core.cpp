@@ -5,6 +5,8 @@
 #include <iostream>
 #include "onyoumitest1.h"
 #include "onyoumitest2.h"
+#include "kunyoumitest1.h"
+#include "kunyoumitest2.h"
 
 Core::Core()
 {
@@ -84,6 +86,14 @@ void Core::CreateTest(std::string test,int mat_id, void (*f)(void*obj),void * ob
     else if(test=="on-youmi-2")
     {
         m_pTest = new OnYoumiTest2();
+    }
+    else if(test=="kun-youmi-1")
+    {
+        m_pTest = new KunYoumiTest1();
+    }
+    else if(test=="kun-youmi-2")
+    {
+        m_pTest = new KunYoumiTest2();
     }
     m_pTest->Init(this,mat_id);
     m_pTest->SetKanjiModule(m_pKanjiModule);

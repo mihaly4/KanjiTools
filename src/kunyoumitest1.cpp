@@ -1,19 +1,17 @@
-#include "onyoumitest1.h"
+#include "kunyoumitest1.h"
 #include "kanji_module.h"
-
-
 #include <iostream>
 
-OnYoumiTest1::OnYoumiTest1() :BaseTest()
+KunYoumiTest1::KunYoumiTest1() :BaseTest()
 {
 }
 
-void OnYoumiTest1::PrepareCase(case_t &c)
+void KunYoumiTest1::PrepareCase(case_t &c)
 {
     kanji_t k = m_pKanjiModule->GetKanji(m_iCurrentCase);
     //std::cout<<"<<index = "<<m_iCurrentCase <<" "<<k.on_youmi<< "\n";
     int max_kanji = m_pKanjiModule->KanjiCount()-1;
-    c.question = k.on_youmi;
+    c.question = k.kun_youmi;
     float r=rand()/(float)RAND_MAX;
     int correct = r*3+0.5;
     m_iCorrentAnswer = correct;
@@ -24,7 +22,7 @@ void OnYoumiTest1::PrepareCase(case_t &c)
         {
             float r=rand()/(float)RAND_MAX;
             kanji_t cc = m_pKanjiModule->GetKanji(r*max_kanji+0.5);
-            if(cc.on_youmi == k.on_youmi)
+            if(cc.kun_youmi == k.kun_youmi)
                 continue;
             c.variants[i] = cc.kanji;
             break;

@@ -1,20 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 include(ExternalProject)
-set(mysql_connector_RELEASE 1.1.1)
-ExternalProject_Add(mysql_connector
-  #mysql_connector-${mysql_connector_RELEASE}
-    URL http://mysql.cdpa.nsysu.edu.tw/Downloads/Connector-C++/mysql-connector-c++-${mysql_connector_RELEASE}.tar.gz
-    DOWNLOAD_DIR ${CMAKE_CURRENT_BINARY_DIR}/download/mysql-${mysql_connector_RELEASE}
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mysql-${mysql_connector_RELEASE}
-    BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}
-    UPDATE_COMMAND ""
-    PATCH_COMMAND ""
-    INSTALL_COMMAND ""
-)
+
 
 PROJECT(KanjiTools)
 
-
+SET(QT_USE_QTSQL TRUE)
 FIND_PACKAGE(Qt4 REQUIRED)
 
 
@@ -34,12 +24,17 @@ userdialog.cpp
 user_account_module.cpp
 basetest.cpp
 onyoumitest1.cpp
-onyoumitest2.cpp)
+onyoumitest2.cpp
+kunyoumitest1.cpp
+kunyoumitest2.cpp
+connector_wrapper.cpp)
 SET(KanjiTools_HEADERS logindialog.h kanjitoolswindow.h kanjidialog.h core.h kanji_module.h common.h userdialog.h
 user_account_module.h
 basetest.h
 onyoumitest1.h
-onyoumitest2.h)
+onyoumitest2.h
+kunyoumitest1.h
+kunyoumitest2.h)
 SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui userdialog.ui)
 #SET(KanjiTools_RESOURCES images.qrc)
 
@@ -74,18 +69,24 @@ ADD_EXECUTABLE(KanjiTools ${KanjiTools_SOURCES}
     #${KanjiTools_RESOURCES_RCC})
     
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}  
-${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/mysql-${mysql_connector_RELEASE}
-${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/cppconn/)
+${mysql_include_dir}
+${mysql_include_dir}/cppconn/
+${boost_include_dir})
 
-add_dependencies(KanjiTools mysql_connector)
 
-set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver)
 
-SET(CMAKE_CXX_FLAGS "-std=c++0x")
+set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver ${mysql_lib_dir})
+
+#SET(CMAKE_CXX_FLAGS "-std=gnu++0x -D__GXX_EXPERIMENTAL_CXX0X__ -U_GLIBCXX_THREAD -DBOOST_SYSTEM_NO_DEPRECATED")
+
 
 TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} 
-${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver/libmysqlcppconn-static.a
-mysqlclient)
+${mysql_lib}
+user32 kernel32)
+
+#TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES}
+#${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver/libmysqlcppconn-static.a
+#mysqlclient)
 
 set(CMAKE_BUILD_TYPE Debug)
 

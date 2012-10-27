@@ -1,7 +1,7 @@
 #include "userdialog.h"
 #include "ui_userdialog.h"
 #include "core.h"
-#include <cppconn/resultset.h>
+#include "connector_wraper.h"
 
 UserDialog::UserDialog(QWidget *parent) :
     QDialog(parent),
@@ -53,14 +53,14 @@ void UserDialog::user_loaded_slot(void *a)
     sql::ResultSet *res=(sql::ResultSet *)a;
     while(res->next())
     {
-        user_id = res->getString(1).asStdString();
+        user_id = res->getString(1);
         ui->lineEdit->setText(res->getString(4).c_str());
         ui->lineEdit_2->setText(res->getString(5).c_str());
         ui->lineEdit_3->setText(res->getString(2).c_str());
         ui->lineEdit_4->setText(res->getString(3).c_str());
-        if(res->getString(6).asStdString()=="1")
+        if(res->getString(6)=="1")
             ui->radioButton->setChecked(true);
-        else if(res->getString(6).asStdString()=="2")
+        else if(res->getString(6)=="2")
             ui->radioButton_2->setChecked(true);
         else
             ui->radioButton_3->setChecked(true);

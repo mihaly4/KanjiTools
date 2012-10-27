@@ -1,7 +1,7 @@
 #include "kanjidialog.h"
 #include "ui_kanjidialog.h"
 #include "core.h"
-#include <cppconn/resultset.h>
+#include "connector_wraper.h"
 
 KanjiDialog::KanjiDialog(QWidget *parent) :
     QDialog(parent),
