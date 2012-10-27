@@ -56,7 +56,7 @@ void KanjiModule::kanji_loaded(void *obj, void *a)
                             res->getString(5));
         mod->kanji_list.push_back(k);
     }
-    printf("kanji module loaded %i kanji\n",res->rowsCount());
+    //printf("kanji module loaded %i kanji\n",res->rowsCount());
     /*if(mod->kanji_list.size()==0)   /// We should't get here under normal contitions
     {
         delete res;
