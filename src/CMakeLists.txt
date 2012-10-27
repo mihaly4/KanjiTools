@@ -77,12 +77,12 @@ ${boost_include_dir})
 
 set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver ${mysql_lib_dir})
 
-#SET(CMAKE_CXX_FLAGS "-std=gnu++0x -D__GXX_EXPERIMENTAL_CXX0X__ -U_GLIBCXX_THREAD -DBOOST_SYSTEM_NO_DEPRECATED")
+SET(CMAKE_CXX_FLAGS "-std=gnu++0x")
 
 
 TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} 
 ${mysql_lib}
-user32 kernel32)
+)
 
 #TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES}
 #${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver/libmysqlcppconn-static.a
