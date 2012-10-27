@@ -20,6 +20,7 @@ public:
     void AddQuery(std::string q, void (*f)(void * obj,void * arg) = NULL,void * obj = NULL);
     void AddKanji(std::string kanji,std::string on,std::string kun,std::string meaning,std::string examples);
     void LoadMaterial(int mat_id, void (*f)(void *)=NULL, void *obj=NULL);
+    void LoadKanjiFromResult(std::string mat_id, void (*f)(void *)=NULL, void *obj=NULL);
     kanji_t NextKanji();
     kanji_t PreviousKanji();
     void AddUser(user_t u);

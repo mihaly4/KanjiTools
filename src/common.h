@@ -47,4 +47,9 @@ struct db_settings_t
     std::string host,user,password,dbname;
 };
 
+struct encore_t
+{
+    std::string result_id,test_name,test_type;
+};
+
 #endif

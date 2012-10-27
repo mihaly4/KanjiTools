@@ -29,6 +29,16 @@ void KanjiModule::LoadMaterial(int mat_id, void (*f)(void * obj), void *obj)
     //std::cout << "Loading material\n" <<q <<"\n";
     m_pCore->AddQuery(q,kanji_loaded,this);
 }
+
+void KanjiModule::LoadKanjiFromResult(std::string res_id, void (*f)(void *), void *obj)
+{
+    std::string q = "SELECT * FROM kanjitools.kanji JOIN kanjitools.kanjiinresult ON ( kanjitools.kanji.kanji=kanjitools.kanjiinresult.kanji) WHERE `Result_ID` = "+res_id+";";
+    m_pObj = obj;
+    m_pF = f;
+    //std::cout << "Loading material\n" <<q <<"\n";
+    m_pCore->AddQuery(q,kanji_loaded,this);
+}
+
 void KanjiModule::kanji_loaded(void *obj, void *a)
 {
 
@@ -46,6 +56,7 @@ void KanjiModule::kanji_loaded(void *obj, void *a)
                             res->getString(5));
         mod->kanji_list.push_back(k);
     }
+    printf("kanji module loaded %i kanji\n",res->rowsCount());
     /*if(mod->kanji_list.size()==0)   /// We should't get here under normal contitions
     {
         delete res;

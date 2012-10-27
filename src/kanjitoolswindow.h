@@ -28,6 +28,7 @@ signals:
     void ShowLoginDialogSignal();
     void test_loaded_signal();
     void test_results_loaded_signal(void * a);
+    void encore_loaded_signal(void * a);
     
 private slots:
     void on_pushButton_clicked();
@@ -42,6 +43,7 @@ private slots:
     void authentication_slot(void * a);
     void test_loaded_slot();
     void test_results_loaded_slot(void *a);
+    void encore_loaded_slot(void * a);
 
     void ShowLoginDialog();
 
@@ -103,6 +105,12 @@ private slots:
 
     void on_comboBox_5_activated(int index);
 
+    void on_comboBox_10_currentIndexChanged(int index);
+
+    void on_pushButton_48_clicked();
+
+    void on_pushButton_47_clicked();
+
 private:
     Ui::KanjiToolsWindow *ui;
     Core * m_pCore;
@@ -110,6 +118,7 @@ private:
     QList<int> m_lGroupsIds;
     QList<int> m_lTestsIds;
     QList<test_result_t> m_lResults;
+    QList<encore_t> m_lEncore;
     LoginDialog *           m_pLoginDialog;
 
     void HideUnusedTabs();
@@ -122,6 +131,7 @@ private:
     static void authentication(void * obj,void * arg);
     static void test_loaded(void * obj);
     static void test_results_loaded(void * obj, void * arg);
+    static void encore_loaded(void * obj, void * arg);
 
     void ReloadUsers();
     void ReloadCourses();
@@ -130,6 +140,7 @@ private:
     void ReloadKanji();
     void ReloadTestResults();
     void ReloadSettings();
+    void ReloadEncore();
 
     void NextCase();
 

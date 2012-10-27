@@ -44,6 +44,12 @@ sql::Statement * sql::Connection::createStatement()
 sql::ResultSet * sql::Statement::executeQuery(std::string query)
 {
     qr = new QSqlQuery(QString::fromStdString(query));
+    if(!qr->isValid())
+    {
+        //QMessageBox::critical(0, QObject::tr("Database Error"),
+         //         qr->lastError().text());
+        qDebug() << qr->lastError().text();
+    }
     return new sql::ResultSet(qr);
 
 }

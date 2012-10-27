@@ -47,6 +47,11 @@ void Core::LoadMaterial(int mat_id,void (*f)(void * obj),void *obj)
     m_pKanjiModule->LoadMaterial(mat_id,f,obj);
 }
 
+void Core::LoadKanjiFromResult(std::string mat_id, void (*f)(void *), void *obj)
+{
+    m_pKanjiModule->LoadKanjiFromResult(mat_id,f,obj);
+}
+
 kanji_t Core::NextKanji()
 {
     return m_pKanjiModule->NextKanji();
