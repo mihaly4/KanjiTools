@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -579,7 +579,7 @@
                 <widget class="QLabel" name="label_12">
                  <property name="minimumSize">
                   <size>
-                   <width>0</width>
+                   <width>340</width>
                    <height>100</height>
                   </size>
                  </property>
@@ -604,7 +604,7 @@
                 <widget class="QLabel" name="label_13">
                  <property name="minimumSize">
                   <size>
-                   <width>300</width>
+                   <width>340</width>
                    <height>100</height>
                   </size>
                  </property>
@@ -1018,7 +1018,7 @@
                 <widget class="QLabel" name="label_28">
                  <property name="minimumSize">
                   <size>
-                   <width>0</width>
+                   <width>340</width>
                    <height>100</height>
                   </size>
                  </property>
@@ -1043,7 +1043,7 @@
                 <widget class="QLabel" name="label_29">
                  <property name="minimumSize">
                   <size>
-                   <width>300</width>
+                   <width>340</width>
                    <height>100</height>
                   </size>
                  </property>
