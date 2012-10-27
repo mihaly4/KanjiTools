@@ -108,7 +108,8 @@ case_t Core::NextCase()
 
 void Core::Answer(int variant)
 {
-    m_pTest->Answer(variant);
+    return m_pTest->Answer(variant);
+
 }
 
 int Core::GetTestVarFontSize()

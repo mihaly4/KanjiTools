@@ -175,6 +175,7 @@ void KanjiToolsWindow::materials_loaded_slot(void * a)
     ui->comboBox_4->clear();
     ui->comboBox_9->clear();
     ui->comboBox_5->clear();
+    ui->comboBox_6->clear();
     m_lTestsIds.clear();
     m_lGroupsIds.clear();
     sql::ResultSet *res=(sql::ResultSet *)a;
@@ -585,6 +586,8 @@ void KanjiToolsWindow::NextCase()
         QFont font2 = ui->label_5->font();
         font2.setPointSize(10);
         ui->label_5->setFont(font2);
+        ReloadTestResults();
+        ReloadMaterials();
     }
 }
 
