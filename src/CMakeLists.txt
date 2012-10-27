@@ -77,7 +77,9 @@ ${boost_include_dir})
 
 set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_CURRENT_BINARY_DIR}/mysql-${mysql_connector_RELEASE}/driver ${mysql_lib_dir})
 
+if(UNIX)
 SET(CMAKE_CXX_FLAGS "-std=gnu++0x")
+endif()
 
 
 TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} 
