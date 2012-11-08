@@ -41,7 +41,7 @@ DB_Connection::~DB_Connection()
     exit = true;
 
 #ifdef WIN32
-    WaitForSingleObject(thread);
+    WaitForSingleObject(thread,INFINITE);
 #else
     thread->join();
 #endif
