@@ -37,9 +37,14 @@ class DB_Connection
 {
 public:
     DB_Connection();
+    ~DB_Connection();
     void AddQuery(query_t q);
     void * ExecQuery(std::string q);
     db_settings_t GetDBSettings();
+    void SetDBSettings(db_settings_t & sets);
+    bool Connect();
+    bool IsConnected();
+    bool SaveSettings();
 private:    
     std::string username;
     std::string password;
@@ -54,6 +59,7 @@ private:
     THREAD_OBJ thread;
     std::queue<query_t> * queue;
     bool m_bConnected;
+    bool exit;
 
 };
 #endif

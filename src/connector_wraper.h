@@ -40,6 +40,10 @@ namespace sql
         {
             this->db = db;
         }
+        ~Connection()
+        {
+            //delete db;
+        }
 
         void setSchema(std::string name);
         Statement * createStatement();
@@ -49,6 +53,9 @@ namespace sql
         ::QSqlDatabase *  db;
 	public:
         Driver();
+        ~Driver();
+
+
 		Connection * connect(std::string host,std::string login,std::string pass);
 	};
 };

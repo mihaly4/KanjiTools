@@ -17,6 +17,11 @@ sql::Driver::Driver()
     db = & ololo;
 
 }
+
+sql::Driver::~Driver()
+{
+    db->removeDatabase(QLatin1String(QSqlDatabase::defaultConnection));
+}
 sql::Connection * sql::Driver::connect(std::string host, std::string login, std::string pass)
 {
     db->setHostName(QString::fromStdString(host));

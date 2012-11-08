@@ -28,61 +28,33 @@
 //void thread_func(DB_Connection * c);
 DB_Connection::DB_Connection()
 {
-    m_bConnected = true;
+    exit = false;
+    m_bConnected = false;
     if(LoadSettings())
     {
-        DB_Connection * c =this;
-        sql::Statement *stmt;
-        sql::ResultSet *res;
-        try
-        {
-            /* Create a connection */
-            c->driver = get_driver_instance();
-            if(!c->driver)
-            {
-                std::cout<<"unable to get driver instance"<<"\n";
-
-            }
-
-            c->con = c->driver->connect(c->hostname, c->username.c_str(), c->password.c_str());
-            /* Connect to the MySQL test database */
-            c->con->setSchema("test");
-
-            stmt = c->con->createStatement();
-            res = stmt->executeQuery("SELECT 'Hello World!' AS _message");
-            while (res->next())
-            {
-              std::cout << "\t... MySQL replies: ";
-              /* Access column data by alias or column name */
-              //std::cout << res->getString("_message") << std::endl;
-              std::cout << "\t... MySQL says it again: ";
-              /* Access column fata by numeric offset, 1 is the first column */
-              std::cout << res->getString(1) << std::endl;
-              c->m_bConnected = true;
-              std::cout << "Was connection successfull?\n";
-            }
-            delete res;
-            delete stmt;
-            //delete con;
-        }
-        catch(...)
-        {
-            std::cout << "Unable to connect to MySQL server.\nSomething is fucked up! :(((\n";
-        }
-        queue = new std::queue<query_t>();
-#ifndef WIN32
-        thread = new std::thread(thread_func,this);
-#else
-        thread = CreateThread(NULL,0,thread_func,this,0,0);
-#endif
-
+        Connect();
     }
+}
+
+DB_Connection::~DB_Connection()
+{
+    exit = true;
+
+#ifdef WIN32
+    WaitForSingleObject(thread);
+#else
+    thread->join();
+#endif
+    delete con;
+    delete driver;
+    delete queue;
+
 }
 THREAD_TYPE DB_Connection::thread_func(void * arg)
 {
     DB_Connection * c = (DB_Connection*) arg;
 
-    while(true)
+    while(!c->exit)
     {
         while(!c->queue->empty() && c->m_bConnected)
         {
@@ -123,6 +95,89 @@ db_settings_t DB_Connection::GetDBSettings()
     sets.password = password;
     sets.dbname = "This field is unused";
     return sets;
+}
+
+void DB_Connection::SetDBSettings(db_settings_t &sets)
+{
+    hostname = sets.host;
+    username = sets.user;
+    password = sets.password;
+}
+
+bool DB_Connection::Connect()
+{
+    if(m_bConnected)
+        return true;
+    DB_Connection * c =this;
+    sql::Statement *stmt;
+    sql::ResultSet *res;
+    try
+    {
+        /* Create a connection */
+        c->driver = get_driver_instance();
+        if(!c->driver)
+        {
+            std::cout<<"unable to get driver instance"<<"\n";
+            return false;
+        }
+
+        c->con = c->driver->connect(c->hostname, c->username.c_str(), c->password.c_str());
+        /* Connect to the MySQL test database */
+        c->con->setSchema("test");
+
+        stmt = c->con->createStatement();
+        res = stmt->executeQuery("SELECT 'Hello World!' AS _message");
+        while (res->next())
+        {
+          //std::cout << "\t... MySQL replies: ";
+          /* Access column data by alias or column name */
+          //std::cout << res->getString("_message") << std::endl;
+          //std::cout << "\t... MySQL says it again: ";
+          /* Access column fata by numeric offset, 1 is the first column */
+          //std::cout << res->getString(1) << std::endl;
+          c->m_bConnected = true;
+          //std::cout << "Was connection successfull?\n";
+        }
+        delete res;
+        delete stmt;
+        //delete con;
+    }
+    catch(...)
+    {
+        std::cout << "Unable to connect to MySQL server.\nSomething is fucked up! :(((\n";
+        return false;
+    }
+    queue = new std::queue<query_t>();
+#ifndef WIN32
+    thread = new std::thread(thread_func,this);
+#else
+    thread = CreateThread(NULL,0,thread_func,this,0,0);
+#endif
+    return true;
+}
+
+bool DB_Connection::IsConnected()
+{
+    return m_bConnected;
+}
+
+bool DB_Connection::SaveSettings()
+{
+    std::ofstream sets;
+    sets.open("dbsettings.cfg");
+    if(sets.is_open())
+    {
+        sets <<"hostname=\""<<hostname<<"\"\n";
+        sets <<"username=\""<<username<<"\"\n";
+        sets <<"password=\""<<password<<"\"\n";
+        sets.close();
+        return true;
+    }
+    else
+    {
+        std::cout <<"unable to create dbsettings.cfg!\n";
+        return false;
+    }
 }
 
 
