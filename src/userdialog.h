@@ -1,7 +1,7 @@
 #ifndef USERDIALOG_H
 #define USERDIALOG_H
 
-#include <QDialog>
+#include <QtGui/QDialog>
 #include "common.h"
 
 class Core;

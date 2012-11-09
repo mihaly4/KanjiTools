@@ -1,6 +1,6 @@
-#include <QApplication>
+#include <QtGui/QApplication>
 #include "kanjitoolswindow.h"
-#include <QTextCodec>
+#include <QtCore/QTextCodec>
 
 int main(int argc, char *argv[])
 {

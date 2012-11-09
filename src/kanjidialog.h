@@ -1,7 +1,7 @@
 #ifndef KANJIDIALOG_H
 #define KANJIDIALOG_H
 
-#include <QDialog>
+#include <QtGui/QDialog>
 
 class Core;
 

@@ -2,6 +2,7 @@
 #include <QtTest>
 #include "../common.h"
 #include "../db_connection.h"
+#include "../connector_wraper.h"
 #include <iostream>
 
 class Qt_unit_test_testTest : public QObject
@@ -14,11 +15,14 @@ public:
     Qt_unit_test_testTest();
     
 private Q_SLOTS:
-    void testCase0();
-    void testCase1();
-    void testCase2();
-    void testCase3();
-    void testCase4();
+    void test_db_connection0();
+    void test_db_connection1();
+    void test_db_connection2();
+    void test_db_connection3();
+    void test_db_connection4();
+    void test_db_connection5();
+
+    //void test_userdialog0();
 };
 
 Qt_unit_test_testTest::Qt_unit_test_testTest()
@@ -26,7 +30,7 @@ Qt_unit_test_testTest::Qt_unit_test_testTest()
 
 }
 
-void Qt_unit_test_testTest::testCase0()
+void Qt_unit_test_testTest::test_db_connection0()
 {
     //removing settings file
     QFile::remove("dbsettings.cfg");
@@ -38,28 +42,31 @@ void Qt_unit_test_testTest::testCase0()
     if(!m_pConnection->IsConnected())
     {
         db_settings_t sets;
-        std::cout<< "Enter host IP:";
+        /*std::cout<< "Enter host IP:";
         std::cin >> sets.host;
         std::cout<< "Enter root password:";
-        std::cin >> sets.password;
+        std::cin >> sets.password;*/
         sets.user = "root";
+
+        sets.host = "188.112.150.117" ;
+        sets.password = "4202mv" ;
         m_pConnection->SetDBSettings(sets);
     }
 }
 
-void Qt_unit_test_testTest::testCase1()
+void Qt_unit_test_testTest::test_db_connection1()
 {
     // try connecting with settings
     QVERIFY2(m_pConnection->Connect(), "Connection to database failed.");
 }
 
-void Qt_unit_test_testTest::testCase2()
+void Qt_unit_test_testTest::test_db_connection2()
 {
     // test again
     QVERIFY2(m_pConnection->IsConnected(), "Connection to database failed.");
 }
 
-void Qt_unit_test_testTest::testCase3()
+void Qt_unit_test_testTest::test_db_connection3()
 {
     // try save settings
     QVERIFY2(m_pConnection->SaveSettings(), "Connection to database failed.");
@@ -67,13 +74,24 @@ void Qt_unit_test_testTest::testCase3()
     delete m_pConnection;
 }
 
-void Qt_unit_test_testTest::testCase4()
+void Qt_unit_test_testTest::test_db_connection4()
 {
     // create connection now with settings from file
     m_pConnection = new DB_Connection();
     //should connect cuz settings file found
     QVERIFY2(m_pConnection->IsConnected(), "Have settings but somehow now connected? Check your settings!");
 }
+
+void Qt_unit_test_testTest::test_db_connection5()
+{
+    m_pConnection->Connect();
+    QVERIFY(m_pConnection->IsConnected());
+}
+
+//void Qt_unit_test_testTest::test_userdialog0(){
+
+//}
+
 
 QTEST_APPLESS_MAIN(Qt_unit_test_testTest)
 

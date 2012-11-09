@@ -16,6 +16,8 @@ TEMPLATE = app
 
 
 SOURCES += tst_qt_unit_test_testtest.cpp ../db_connection.cpp ../connector_wrapper.cpp
+
+
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 linux-*:QMAKE_CXXFLAGS += -std=gnu++0x

@@ -1,7 +1,7 @@
 #ifndef KANJITOOLSWINDOW_H
 #define KANJITOOLSWINDOW_H
 
-#include <QMainWindow>
+#include <QtGui/QMainWindow>
 #include <QList>
 #include "common.h"
 class Core;
