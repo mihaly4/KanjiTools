@@ -17,6 +17,7 @@ TEMPLATE = app
 #-- tst_qt_unit_test_testtest.cpp ../db_connection.cpp ../connector_wrapper.cpp ../kanji_module.cpp
 #-- file ../main.cpp was excluded from folder
 SOURCES += tst_qt_unit_test_testtest.cpp ../*.cpp
+SOURCES -= ../main.cpp
 
 FORMS += ../*.ui
 
