@@ -19,6 +19,8 @@ public:
     user_t GetUser();
     void SetUser(std::string id);
     void SetCore(Core * core);
+    Ui::UserDialog * getUi();
+//    QWidget * FindWidgetByName(QString name);
 signals:
     void user_loaded_signal(void*a);
     

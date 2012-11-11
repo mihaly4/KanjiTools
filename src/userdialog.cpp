@@ -67,3 +67,11 @@ void UserDialog::user_loaded_slot(void *a)
     }
     delete res;
 }
+
+Ui::UserDialog * UserDialog::getUi(){
+    return ui;
+}
+
+/*QWidget * UserDialog::FindWidgetByName(QString name){
+    return //ui;// this->find("ui");
+}*/

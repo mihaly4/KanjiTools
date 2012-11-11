@@ -3,7 +3,21 @@
 #include "../common.h"
 #include "../db_connection.h"
 #include "../connector_wraper.h"
+
+#include "../userdialog.h"
+#include "../kanji_module.h"
+#include "../logindialog.h"
+#include "../kanjitoolswindow.h"
+#include "../kanjidialog.h"
+#include "../core.h"
+#include "../user_account_module.h"
+#include "../basetest.h"
+#include "../onyoumitest1.h"
+#include "../onyoumitest2.h"
+#include "../kunyoumitest1.h"
+#include "../kunyoumitest2.h"
 #include <iostream>
+
 
 class Qt_unit_test_testTest : public QObject
 {
@@ -22,7 +36,13 @@ private Q_SLOTS:
     void test_db_connection4();
     void test_db_connection5();
 
-    //void test_userdialog0();
+    void test_userdialog0();
+
+    void test_user_account_module0();
+
+    void test_kanji_module0();
+
+    void test_WholeApplication0();
 };
 
 Qt_unit_test_testTest::Qt_unit_test_testTest()
@@ -88,9 +108,41 @@ void Qt_unit_test_testTest::test_db_connection5()
     QVERIFY(m_pConnection->IsConnected());
 }
 
-//void Qt_unit_test_testTest::test_userdialog0(){
 
-//}
+
+void Qt_unit_test_testTest::test_userdialog0(){
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    UserDialog ud;
+    user_t u;
+    Ui::UserDialog * uiUD ;
+    uiUD = ud.getUi();
+    //uiUD = (Ui::UserDialog *)(ud.FindWidgetByName("ui"));
+    //uiUD->lineEdit->setText("test");
+    //QTest::keyClicks(uiUD->lineEdit,"master");
+
+}
+
+void Qt_unit_test_testTest::test_user_account_module0(){
+
+
+}
+
+void Qt_unit_test_testTest::test_kanji_module0(){
+
+}
+
+void Qt_unit_test_testTest::test_WholeApplication0(){
+/*    int argc;
+    char *argv[0];
+    QApplication a(argc, argv);
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+
+    KanjiToolsWindow k;
+    k.show();
+    k.close();
+    QTest::keyClicks(k.m_pLoginDialog->lineEdit="master");
+    QTest::keyClicks(k.m_pLoginDialog->lineEdit_2="master");*/
+}
 
 
 QTEST_APPLESS_MAIN(Qt_unit_test_testTest)
