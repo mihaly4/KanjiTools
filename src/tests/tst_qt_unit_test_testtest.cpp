@@ -16,6 +16,9 @@
 #include "../onyoumitest2.h"
 #include "../kunyoumitest1.h"
 #include "../kunyoumitest2.h"
+#include <QLineEdit>
+#include <QDialogButtonBox>
+#include <QPushButton>
 #include <iostream>
 
 
@@ -110,16 +113,21 @@ void Qt_unit_test_testTest::test_db_connection5()
 
 
 
-void Qt_unit_test_testTest::test_userdialog0(){
+void Qt_unit_test_testTest::test_userdialog0()
+{
+    int argc =1;
+    char * argv[1];
+    argv[0]= QDir::currentPath().toAscii().data();
+    QApplication a(argc, argv,1);
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
     UserDialog ud;
-    user_t u;
-    Ui::UserDialog * uiUD ;
-    uiUD = ud.getUi();
-    //uiUD = (Ui::UserDialog *)(ud.FindWidgetByName("ui"));
-    //uiUD->lineEdit->setText("test");
-    //QTest::keyClicks(uiUD->lineEdit,"master");
-
+    ud.show();
+    QLineEdit * le = ud.findChild<QLineEdit*>("lineEdit");
+    QDialogButtonBox * bb = ud.findChild<QDialogButtonBox*>("buttonBox");
+    QTest::keyClicks(le,"master");
+    QPushButton* ab  = bb->button(QDialogButtonBox::Ok);
+    QTest::mouseClick(ab,Qt::LeftButton);
+    //a.exec();
 }
 
 void Qt_unit_test_testTest::test_user_account_module0(){
