@@ -12,7 +12,7 @@ FIND_PACKAGE(Qt4 REQUIRED)
 #The names, helloworld_SOURCES and helloworld_HEADERS, is by convention. 
 #You can name them either way you like.
 
-SET(KanjiTools_SOURCES main.cpp
+SET(KanjiTools_SOURCES main.cxx
 db_connection.cpp
 logindialog.cpp
 kanjitoolswindow.cpp
