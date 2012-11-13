@@ -24,6 +24,10 @@
 #include <QPushButton>
 #include <iostream>
 
+#ifdef __linux__
+#include <unistd.h>
+#endif
+
 
 class Qt_unit_test_testTest : public QObject
 {
@@ -327,17 +331,31 @@ void Qt_unit_test_testTest::test_kanji_module0(){
 
 }
 
+
+
 void Qt_unit_test_testTest::test_WholeApplication0(){
     int argc =1;
     char * argv[1];
     argv[0]= QDir::currentPath().toAscii().data();
     QApplication a(argc, argv,1);
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    LoginDialog::ResetCurrentDialog();
+
     KanjiToolsWindow ktw;
     ktw.show();
 
-    LoginDialog *ld = ktw.findChild<LoginDialog*>("m_pLoginDialog");
-    Sleep(1000);
+    LoginDialog *ld = LoginDialog::GetCurrentDialog();
+    while(!ld)
+    {
+    #ifdef __linux__
+        sleep(1);
+    #else
+        Sleep(1000);
+    #endif
+        ld = LoginDialog::GetCurrentDialog();
+    }
+    if(ld)qDebug()<<"Dialog found";
+    else qDebug()<<"Dialog not found";
     QLineEdit * le = ld->findChild<QLineEdit*>("lineEdit");
     QTest::keyClicks(le,"master");
 
@@ -348,7 +366,7 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     QPushButton * qbbOk  = bb->button(QDialogButtonBox::Ok);
     QTest::mouseClick(qbbOk,Qt::LeftButton);
 
-    a.exit();
+    //a.exit();
 
 }
 

@@ -17,6 +17,7 @@ class KanjiToolsWindow : public QMainWindow
 public:
     explicit KanjiToolsWindow(QWidget *parent = 0);
     ~KanjiToolsWindow();
+    static void authentication(void * obj,void * arg);
 
 signals:
     void users_loaded_signal(void * a);
@@ -128,7 +129,7 @@ private:
     static void cadets_loaded(void * obj, void * arg);
     static void materials_loaded(void * obj, void * arg);
     static void kanji_loaded(void * obj, void * arg);
-    static void authentication(void * obj,void * arg);
+
     static void test_loaded(void * obj);
     static void test_results_loaded(void * obj, void * arg);
     static void encore_loaded(void * obj, void * arg);

@@ -27,10 +27,11 @@ KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     connect(this,SIGNAL(encore_loaded_signal(void*)),this,SLOT(encore_loaded_slot(void*)));
     m_pLoginDialog = new LoginDialog(this);
     m_pLoginDialog->setModal(true);
+    m_pLoginDialog->SetCore(m_pCore);
     ui->tabWidget->hide();
     //m_pLoginDialog->setAttribute(Qt::WA_QuitOnClose);
 
-    emit ShowLoginDialog();
+    emit ShowLoginDialogSignal();
 }
 
 KanjiToolsWindow::~KanjiToolsWindow()
@@ -547,7 +548,8 @@ void KanjiToolsWindow::authentication_slot(void *a)
 void KanjiToolsWindow::ShowLoginDialog()
 {
     //LoginDialog ldg;
-    m_pLoginDialog->exec();
+    m_pLoginDialog->show();
+    /*m_pLoginDialog->exec();
     if(m_pLoginDialog->result() == QDialog::Rejected)
     {
         close();
@@ -555,7 +557,7 @@ void KanjiToolsWindow::ShowLoginDialog()
         return;
     }
     m_pCore->Authenticate(m_pLoginDialog->GetLoginName().toStdString(),
-                          m_pLoginDialog->GetPassword().toStdString(),authentication,this);
+                          m_pLoginDialog->GetPassword().toStdString(),authentication,this);*/
 }
 
 void KanjiToolsWindow::on_pushButton_27_clicked()
