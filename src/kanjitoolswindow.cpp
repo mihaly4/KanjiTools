@@ -28,6 +28,8 @@ KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     m_pLoginDialog = new LoginDialog(this);
     m_pLoginDialog->setModal(true);
     m_pLoginDialog->SetCore(m_pCore);
+    m_pUserDialog = new UserDialog(this);
+    m_pUserDialog->SetCore(m_pCore);
     ui->tabWidget->hide();
     //m_pLoginDialog->setAttribute(Qt::WA_QuitOnClose);
 
@@ -473,32 +475,16 @@ void KanjiToolsWindow::on_pushButton_45_clicked()
 
 void KanjiToolsWindow::on_pushButton_2_clicked()
 {
-    UserDialog ud;
-    ud.show();
-    ud.exec();
-    if(ud.result() == QDialog::Accepted)
-    {
-        m_pCore->AddUser(ud.GetUser());
-        ReloadUsers();
-    }
-
+    m_pUserDialog->SetUser("-1");
+    m_pUserDialog->show();
 }
 
 void KanjiToolsWindow::on_pushButton_4_clicked()
 {
     if(ui->listWidget->selectedItems().count()==0)
         return;
-    UserDialog ud;
-    ud.show();
-    ud.SetCore(m_pCore);
-    ud.SetUser(ui->listWidget->selectedItems()[0]->data(1).toString().toStdString());
-    ud.exec();
-    if(ud.result() == QDialog::Accepted)
-    {
-        m_pCore->UpdateUser(ud.GetUser());
-        ReloadUsers();
-    }
-
+    m_pUserDialog->SetUser(ui->listWidget->selectedItems()[0]->data(1).toString().toStdString());
+    m_pUserDialog->show();
 }
 
 void KanjiToolsWindow::authentication(void *obj, void *arg)

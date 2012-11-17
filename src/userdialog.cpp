@@ -2,11 +2,13 @@
 #include "ui_userdialog.h"
 #include "core.h"
 #include "connector_wraper.h"
+#include "kanjitoolswindow.h"
 
 UserDialog::UserDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::UserDialog)
 {
+    user_id = "-1";
     ui->setupUi(this);
     connect(this,SIGNAL(user_loaded_signal(void*)),this,SLOT(user_loaded_slot(void*)));
 }
@@ -35,6 +37,12 @@ user_t UserDialog::GetUser()
 
 void UserDialog::SetUser(std::string id)
 {
+    ui->lineEdit->clear();
+    ui->lineEdit_2->clear();
+    ui->lineEdit_3->clear();
+    ui->lineEdit_4->clear();
+    ui->radioButton_2->setChecked(true);
+    user_id = id;
     m_pCore->AddQuery("SELECT * FROM kanjitools.person WHERE `Person_ID` = "+id+";",user_loaded,this);
 }
 
@@ -75,3 +83,16 @@ void UserDialog::user_loaded_slot(void *a)
 /*QWidget * UserDialog::FindWidgetByName(QString name){
     return //ui;// this->find("ui");
 }*/
+
+void UserDialog::on_buttonBox_accepted()
+{
+    if(user_id!="-1")
+    {
+        m_pCore->UpdateUser(GetUser());
+    }
+    else
+    {
+        m_pCore->AddUser(GetUser());
+    }
+    ((KanjiToolsWindow*)this->parent())->ReloadUsers();
+}

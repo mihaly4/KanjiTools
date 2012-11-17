@@ -31,6 +31,7 @@ private:
     std::string user_id;
 private slots:
     void user_loaded_slot(void*a);
+    void on_buttonBox_accepted();
 };
 
 #endif // USERDIALOG_H

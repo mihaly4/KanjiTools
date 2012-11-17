@@ -6,6 +6,7 @@
 #include "common.h"
 class Core;
 class LoginDialog;
+class UserDialog;
 namespace Ui {
 class KanjiToolsWindow;
 }
@@ -18,6 +19,7 @@ public:
     explicit KanjiToolsWindow(QWidget *parent = 0);
     ~KanjiToolsWindow();
     static void authentication(void * obj,void * arg);
+    void ReloadUsers();
 
 signals:
     void users_loaded_signal(void * a);
@@ -121,6 +123,7 @@ private:
     QList<test_result_t> m_lResults;
     QList<encore_t> m_lEncore;
     LoginDialog *           m_pLoginDialog;
+    UserDialog *            m_pUserDialog;
 
     void HideUnusedTabs();
 
@@ -134,7 +137,7 @@ private:
     static void test_results_loaded(void * obj, void * arg);
     static void encore_loaded(void * obj, void * arg);
 
-    void ReloadUsers();
+
     void ReloadCourses();
     void ReloadCadets(QString course ="");
     void ReloadMaterials();
