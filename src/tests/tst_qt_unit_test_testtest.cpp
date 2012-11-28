@@ -22,10 +22,20 @@
 #include <QLineEdit>
 #include <QDialogButtonBox>
 #include <QPushButton>
+#include <QListWidget>
 #include <iostream>
+#include <QListWidgetItem>
+#include <QListWidget>
+#include <QList>
 
 #ifdef __linux__
 #include <unistd.h>
+#endif
+
+#ifdef __linux__
+    #define myWait sleep(1)
+#else
+    #define myWait Sleep(1000)
 #endif
 
 
@@ -47,7 +57,6 @@ private Q_SLOTS:
     void test_db_connection5();
 
     void test_userdialog0();
-    void test_userdialog1();
 
     void test_logindialog0();
     void test_logindialog1();
@@ -149,9 +158,9 @@ void Qt_unit_test_testTest::test_userdialog0()
     QRadioButton * rb = ud.findChild<QRadioButton*>("radioButton_2");
     QTest::mouseClick(rb,Qt::LeftButton);
 
-    QDialogButtonBox * bb = ud.findChild<QDialogButtonBox*>("buttonBox");
-    QPushButton * ab  = bb->button(QDialogButtonBox::Ok);
-    QTest::mouseClick(ab,Qt::LeftButton);
+//    QDialogButtonBox * bb = ud.findChild<QDialogButtonBox*>("buttonBox");
+//    QPushButton * ab  = bb->button(QDialogButtonBox::Ok);
+//    QTest::mouseClick(ab,Qt::LeftButton);
 
     user_t u = ud.GetUser() ;
 
@@ -162,44 +171,6 @@ void Qt_unit_test_testTest::test_userdialog0()
     QVERIFY2(u.account_type==2, "Account type does not match.");
     //a.exec();
 }
-
-void Qt_unit_test_testTest::test_userdialog1(){
-    int argc =1;
-    char * argv[1];
-    argv[0]= QDir::currentPath().toAscii().data();
-    QApplication a(argc, argv,1);
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-    UserDialog ud;
-    ud.show();
-    QLineEdit * le = ud.findChild<QLineEdit*>("lineEdit");
-    QTest::keyClicks(le,"testname1");
-
-    le = ud.findChild<QLineEdit*>("lineEdit_2");
-    QTest::keyClicks(le,"testsurname1");
-
-    le = ud.findChild<QLineEdit*>("lineEdit_3");
-    QTest::keyClicks(le,"testlogin1");
-
-    le = ud.findChild<QLineEdit*>("lineEdit_4");
-    QTest::keyClicks(le,"testpass1");
-
-    QRadioButton * rb = ud.findChild<QRadioButton*>("radioButton_2");
-    QTest::mouseClick(rb,Qt::LeftButton);
-
-    /*
-    QDialogButtonBox * bb = ud.findChild<QDialogButtonBox*>("buttonBox");
-    QPushButton * ab  = bb->button(QDialogButtonBox::Cancel);
-    QTest::mouseClick(ab,Qt::LeftButton);*/
-
-    user_t u = ud.GetUser() ;
-    QVERIFY2(u.name=="testname1", "User name does not match.") ;
-    QVERIFY2(u.surename=="testsurname1", "User surename does not match.");
-    QVERIFY2(u.login=="testlogin1", "User login does not match.");
-    QVERIFY2(u.password=="testpass1", "User password does not match.");
-    QVERIFY2(u.account_type==2, "Account type does not match.");
-    // This testcase doesn't check whether user has to be added or not
-}
-
 
 
 void Qt_unit_test_testTest::test_logindialog0(){
@@ -331,7 +302,42 @@ void Qt_unit_test_testTest::test_kanji_module0(){
 
 }
 
+void userDialogFillIn(UserDialog * ud, user_t u, QString btn){
+    QLineEdit * le = ud->findChild<QLineEdit*>("lineEdit");
+    QTest::keyClicks(le,QString::fromStdString(u.name));
+    le = ud->findChild<QLineEdit*>("lineEdit_2");
+    QTest::keyClicks(le,QString::fromStdString(u.surename));
+    le = ud->findChild<QLineEdit*>("lineEdit_3");
+    QTest::keyClicks(le,QString::fromStdString(u.login));
+    le = ud->findChild<QLineEdit*>("lineEdit_4");
+    QTest::keyClicks(le,QString::fromStdString(u.password));
+    QString s;
+    if(u.account_type==ACCOUNT_TYPE_ADMIN)
+        s="radioButton_1";
+    else if(u.account_type==ACCOUNT_TYPE_TEACHER)
+        s="radioButton_2";
+    else if(u.account_type==ACCOUNT_TYPE_STUDENT)
+        s="radioButton_3";
+    else
+        s="";
+    QRadioButton * rb = ud->findChild<QRadioButton*>(s);
+    if(rb)
+        QTest::mouseClick(rb,Qt::LeftButton);
+    else
+        std::cout << "Account type can't be chosen\n";
 
+    if(btn=="Ok")
+    {
+        QDialogButtonBox * bb = ud->findChild<QDialogButtonBox*>("buttonBox");
+        QPushButton * ab  = bb->button(QDialogButtonBox::Ok);
+        QTest::mouseClick(ab,Qt::LeftButton);
+    }else if(btn=="Cancel"){
+        QDialogButtonBox * bb = ud->findChild<QDialogButtonBox*>("buttonBox");
+        QPushButton * ab  = bb->button(QDialogButtonBox::Cancel);
+        QTest::mouseClick(ab,Qt::LeftButton);
+    }else
+        std::cout << "No button pressed after fill in UserDialog form";
+}
 
 void Qt_unit_test_testTest::test_WholeApplication0(){
     int argc =1;
@@ -344,14 +350,11 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     KanjiToolsWindow ktw;
     ktw.show();
 
+    //LOGIN
     LoginDialog *ld = LoginDialog::GetCurrentDialog();
     while(!ld)
     {
-    #ifdef __linux__
-        sleep(1);
-    #else
-        Sleep(1000);
-    #endif
+        myWait;
         ld = LoginDialog::GetCurrentDialog();
     }
     if(ld)qDebug()<<"Dialog found";
@@ -366,7 +369,71 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     QPushButton * qbbOk  = bb->button(QDialogButtonBox::Ok);
     QTest::mouseClick(qbbOk,Qt::LeftButton);
 
-    //a.exit();
+    myWait;
+    Core * core = ktw.getCore();
+    user_t u = core->GetUser();
+    std::cout << endl << endl << u.login ;
+    QVERIFY2(u.name=="Admin","User's name isn't Admin");
+    QVERIFY2(u.surename=="Adminovich","User's surname isn't Adminovich");
+    QVERIFY2(u.account_type==ACCOUNT_TYPE_ADMIN, "User's account type isn't ACCOUNT_TYPE_ADMIN");
+
+    //RECREATING TABLES
+    QWidget * tw = ktw.findChild<QWidget*>("tab");
+    QTest::mouseClick(tw,Qt::LeftButton);
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton");
+    QTest::mouseClick(qpb,Qt::LeftButton);
+
+
+    // ADDING NEW USER
+    tw = ktw.findChild<QWidget*>("tab_3");
+    QTest::mouseClick(tw,Qt::LeftButton);
+    qpb = tw->findChild<QPushButton*>("pushButton_2");
+    QTest::mouseClick(qpb,Qt::LeftButton);
+
+    UserDialog * ud = ktw.getUserDialog();
+    while(!ud)
+    {
+        std::cout << "Search for ud\n" ;
+        myWait;
+        ud = ktw.getUserDialog();
+    }
+
+    u.name="testname1";
+    u.surename="testsurname1";
+    u.login="testlogin1";
+    u.password="testpass1";
+    u.account_type=ACCOUNT_TYPE_TEACHER;
+    userDialogFillIn(ud, u, "Ok");
+
+    for(int i=0; i<4; i++)
+        myWait;// waits 1s
+
+    QListWidget * lw = ktw.findChild<QListWidget*>("listWidget");
+    bool temp=false;
+
+    if(!lw)
+        std::cout << " lw was not found!!! \n";
+    else
+        std::cout << " lw was found \n";
+    QList<QListWidgetItem *>  lst;
+    lw->selectAll();
+    lst = lw->selectedItems();
+    foreach(QListWidgetItem *item, lst)
+    {
+        if(item->text().contains("Serg"))
+            std::cout << "\n HURRAY. Serg was found \n\n" ;
+        else
+            std::cout << "\n" << (item->text().toStdString()) << "\n\n";
+    }
+
+    std::cout << "\n lw->count=" <<lw->count() << "\n lst.count=" << lst.count() <<"\n";
+    lw->selectAll();
+    std::cout << "lw->selectedItems().count() = " << lw->selectedItems().count() <<"\n\n";
+/*    if(lw->item(lw->count()-1)->text().contains("testname1"))
+        std::cout << "\n\n HURRAY! testname1 was found! \n\n";
+    else
+        std::cout << "\n\nLast item is : " << lw->item(lw->count()-1)->text().toStdString();
+*/  QVERIFY2(temp,"item was not found");
 
 }
 

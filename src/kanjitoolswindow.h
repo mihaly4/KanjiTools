@@ -19,6 +19,8 @@ public:
     explicit KanjiToolsWindow(QWidget *parent = 0);
     ~KanjiToolsWindow();
     static void authentication(void * obj,void * arg);
+    Core * getCore();
+    UserDialog * getUserDialog();
     void ReloadUsers();
 
 signals:

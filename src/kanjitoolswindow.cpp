@@ -42,6 +42,16 @@ KanjiToolsWindow::~KanjiToolsWindow()
     delete m_pCore;
 }
 
+Core * KanjiToolsWindow::getCore()
+{
+    return m_pCore;
+}
+
+UserDialog * KanjiToolsWindow::getUserDialog()
+{
+    return m_pUserDialog;
+}
+
 void KanjiToolsWindow::HideUnusedTabs()
 {
     qDebug() <<"account type is "<<m_pCore->GetUser().account_type;
