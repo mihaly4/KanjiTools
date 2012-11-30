@@ -141,7 +141,7 @@ void KanjiToolsWindow::users_loaded_slot(void * a)
     sql::ResultSet *res=(sql::ResultSet *)a;
     while (res->next())
     {
-        //std::cout << "\t... MySQL replies: ";
+        qDebug() << "\t... MySQL replies: ";
         // Access column data by alias or column name
         //std::cout << res->getString("_message") << std::endl;
         QListWidgetItem * it = new QListWidgetItem();

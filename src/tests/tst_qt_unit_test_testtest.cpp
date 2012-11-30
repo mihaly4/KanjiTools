@@ -405,8 +405,19 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     u.account_type=ACCOUNT_TYPE_TEACHER;
     userDialogFillIn(ud, u, "Ok");
 
+    for(int i=0; i<10; i++)
+        myWait;// waits untl all queries are processed
+
+    std::cout<<"realod users\n";
+    ktw.ReloadUsers();    /// <------  reload users after changes
     for(int i=0; i<4; i++)
-        myWait;// waits 1s
+        myWait;// waits until users reloaded
+
+    QCoreApplication::processEvents(); /// <------- check this out! If u have problems with updatting window try this first!
+    std::cout<<"waiting events\n";
+    for(int i=0; i<2; i++)
+        myWait;// waits until all signals are passed to slots
+
 
     QListWidget * lw = ktw.findChild<QListWidget*>("listWidget");
     bool temp=false;
