@@ -93,8 +93,6 @@ void Qt_unit_test_testTest::test_db_connection0()
         std::cout<< "Enter root password:";
         std::cin >> sets.password;
         sets.user = "root";
-        sets.password = "4202mv";
-        sets.host = "188.112.150.117";
 
         m_pConnection->SetDBSettings(sets);
     }
