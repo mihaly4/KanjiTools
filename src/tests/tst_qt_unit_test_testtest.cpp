@@ -93,6 +93,8 @@ void Qt_unit_test_testTest::test_db_connection0()
         std::cout<< "Enter root password:";
         std::cin >> sets.password;
         sets.user = "root";
+        sets.password = "4202mv";
+        sets.host = "188.112.150.117";
 
         m_pConnection->SetDBSettings(sets);
     }
@@ -302,6 +304,22 @@ void Qt_unit_test_testTest::test_kanji_module0(){
 
 }
 
+void waitForEventsHappen(){
+    for(int i=0; i<10; i++)
+        myWait;// waits untl all queries are processed
+
+    //std::cout<<"reload users\n";
+    //ktw.ReloadUsers();    /// <------  reload users after changes
+    for(int i=0; i<5; i++)
+        myWait;// waits until users reloaded
+
+    QCoreApplication::processEvents(); /// <------- check this out! If u have problems with updatting window try this first!
+    std::cout<<"waiting events\n";
+    for(int i=0; i<2; i++)
+        myWait;// waits until all signals are passed to slots
+
+}
+
 void userDialogFillIn(UserDialog * ud, user_t u, QString btn){
     QLineEdit * le = ud->findChild<QLineEdit*>("lineEdit");
     QTest::keyClicks(le,QString::fromStdString(u.name));
@@ -405,47 +423,56 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     u.account_type=ACCOUNT_TYPE_TEACHER;
     userDialogFillIn(ud, u, "Ok");
 
-    for(int i=0; i<10; i++)
-        myWait;// waits untl all queries are processed
+    u.name="testname2";
+    u.surename="testsurname2";
+    u.login="testlogin2";
+    u.password="testpass2";
+    userDialogFillIn(ud, u, "Cancel");
 
-    std::cout<<"realod users\n";
-    ktw.ReloadUsers();    /// <------  reload users after changes
-    for(int i=0; i<4; i++)
-        myWait;// waits until users reloaded
-
-    QCoreApplication::processEvents(); /// <------- check this out! If u have problems with updatting window try this first!
-    std::cout<<"waiting events\n";
-    for(int i=0; i<2; i++)
-        myWait;// waits until all signals are passed to slots
+    waitForEventsHappen();
 
 
     QListWidget * lw = ktw.findChild<QListWidget*>("listWidget");
-    bool temp=false;
 
-    if(!lw)
+/*    if(!lw)
         std::cout << " lw was not found!!! \n";
     else
         std::cout << " lw was found \n";
-    QList<QListWidgetItem *>  lst;
     lw->selectAll();
-    lst = lw->selectedItems();
-    foreach(QListWidgetItem *item, lst)
-    {
-        if(item->text().contains("Serg"))
-            std::cout << "\n HURRAY. Serg was found \n\n" ;
-        else
-            std::cout << "\n" << (item->text().toStdString()) << "\n\n";
+*/
+    bool found1=false;
+    bool found2=false;
+    int found1index;
+    for(int i=0; i<lw->count(); i++){
+        if(lw->item(i)->text().contains("testname1")){
+            found1=true;
+            found1index=i;
+        }
+        if(lw->item(i)->text().contains("testname2"))
+            found2=true;
     }
+    QVERIFY2(found1,"Item containind 'testname1' was not found");
+    QVERIFY2(!found2,"Item containind 'testname2' was found, but it shouldn't");
 
-    std::cout << "\n lw->count=" <<lw->count() << "\n lst.count=" << lst.count() <<"\n";
-    lw->selectAll();
-    std::cout << "lw->selectedItems().count() = " << lw->selectedItems().count() <<"\n\n";
-/*    if(lw->item(lw->count()-1)->text().contains("testname1"))
-        std::cout << "\n\n HURRAY! testname1 was found! \n\n";
-    else
-        std::cout << "\n\nLast item is : " << lw->item(lw->count()-1)->text().toStdString();
-*/  QVERIFY2(temp,"item was not found");
+    //Removing "testname1" from users
+    lw->setCurrentRow(found1index);
+    qpb = tw->findChild<QPushButton*>("pushButton_3");
+    QTest::mouseClick(qpb,Qt::LeftButton);      // Remove user btn
 
+    waitForEventsHappen();
+
+    found1=false;
+    found2=false;
+    for(int i=0; i<lw->count(); i++){
+        if(lw->item(i)->text().contains("testname1")){
+            found1=true;
+            found1index=i;
+        }
+        if(lw->item(i)->text().contains("testname2"))
+            found2=true;
+    }
+    QVERIFY2(!found1,"Item containind 'testname1' was found, but it shouldn't");
+    QVERIFY2(!found2,"Item containind 'testname2' was found, but it shouldn't");
 }
 
 
