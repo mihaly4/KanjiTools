@@ -68,7 +68,8 @@ private Q_SLOTS:
 
     void test_kanji_module0();//--
 
-    void test_WholeApplication0();//--
+    void test_WholeApplication0();
+    void test_WholeApplication1();//--
 };
 
 Qt_unit_test_testTest::Qt_unit_test_testTest()
@@ -93,6 +94,7 @@ void Qt_unit_test_testTest::test_db_connection0()
         std::cout<< "Enter root password:";
         std::cin >> sets.password;
         sets.user = "root";
+
 
         m_pConnection->SetDBSettings(sets);
     }
@@ -303,17 +305,13 @@ void Qt_unit_test_testTest::test_kanji_module0(){
 }
 
 void waitForEventsHappen(){
-    for(int i=0; i<10; i++)
+    for(int i=0; i<15; i++)
         myWait;// waits untl all queries are processed
 
-    //std::cout<<"reload users\n";
-    //ktw.ReloadUsers();    /// <------  reload users after changes
-    for(int i=0; i<5; i++)
-        myWait;// waits until users reloaded
 
     QCoreApplication::processEvents(); /// <------- check this out! If u have problems with updatting window try this first!
     std::cout<<"waiting events\n";
-    for(int i=0; i<2; i++)
+    for(int i=0; i<3; i++)
         myWait;// waits until all signals are passed to slots
 
 }
@@ -451,16 +449,60 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     }
     QVERIFY2(found1,"Item containind 'testname1' was not found");
     QVERIFY2(!found2,"Item containind 'testname2' was found, but it shouldn't");
+}
+
+void Qt_unit_test_testTest::test_WholeApplication1(){
+    int argc =1;
+    char * argv[1];
+    argv[0]= QDir::currentPath().toAscii().data();
+    QApplication a(argc, argv,1);
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    LoginDialog::ResetCurrentDialog();
+
+    KanjiToolsWindow ktw;
+    ktw.show();
+
+    //LOGIN
+    LoginDialog *ld = LoginDialog::GetCurrentDialog();
+    while(!ld)
+    {
+        myWait;
+        ld = LoginDialog::GetCurrentDialog();
+    }
+    if(ld)qDebug()<<"Dialog found";
+    else qDebug()<<"Dialog not found";
+    QLineEdit * le = ld->findChild<QLineEdit*>("lineEdit");
+    QTest::keyClicks(le,"master");
+
+    le = ld->findChild<QLineEdit*>("lineEdit_2");
+    QTest::keyClicks(le,"master");
+
+    QDialogButtonBox * bb = ld->findChild<QDialogButtonBox*>("buttonBox");
+    QPushButton * qbbOk  = bb->button(QDialogButtonBox::Ok);
+    QTest::mouseClick(qbbOk,Qt::LeftButton);
+
+
 
     //Removing "testname1" from users
+    QListWidget * lw = ktw.findChild<QListWidget*>("listWidget");
+    QWidget * tw = ktw.findChild<QWidget*>("tab_3");
+
+    int found1index=-1;
+    for(int i=0; i<lw->count(); i++){
+        if(lw->item(i)->text().contains("testname1")){
+            found1index=i;
+        }
+    }
+
     lw->setCurrentRow(found1index);
-    qpb = tw->findChild<QPushButton*>("pushButton_3");
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton_3");
     QTest::mouseClick(qpb,Qt::LeftButton);      // Remove user btn
 
+    std::cout << "\nWaiting at 5\n";
     waitForEventsHappen();
 
-    found1=false;
-    found2=false;
+    bool found1=false;
+    bool found2=false;
     for(int i=0; i<lw->count(); i++){
         if(lw->item(i)->text().contains("testname1")){
             found1=true;
@@ -471,7 +513,20 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     }
     QVERIFY2(!found1,"Item containind 'testname1' was found, but it shouldn't");
     QVERIFY2(!found2,"Item containind 'testname2' was found, but it shouldn't");
+    std::cout << "\nWaiting at 6\n";
 }
+
+/*void Qt_unit_test_testTest::test_WholeApplication1(){
+    int argc =1;
+    char * argv[1];
+    argv[0]= QDir::currentPath().toAscii().data();
+    QApplication a(argc, argv,1);
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    LoginDialog::ResetCurrentDialog();
+
+    KanjiToolsWindow ktw;
+    //ktw.show();
+}*/
 
 
 QTEST_APPLESS_MAIN(Qt_unit_test_testTest)
