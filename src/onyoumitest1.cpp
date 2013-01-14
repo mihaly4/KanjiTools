@@ -4,9 +4,7 @@
 
 #include <iostream>
 
-OnYoumiTest1::OnYoumiTest1() :BaseTest()
-{
-}
+
 
 void OnYoumiTest1::PrepareCase(case_t &c)
 {

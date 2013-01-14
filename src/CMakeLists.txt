@@ -7,6 +7,8 @@ SET(QT_USE_QTSQL TRUE)
 FIND_PACKAGE(Qt4 REQUIRED)
 
 
+
+
 #Then all sources involved in the build process are assigned to two variables. 
 #The SET command assigns the variable listed first with the values that follow. 
 #The names, helloworld_SOURCES and helloworld_HEADERS, is by convention. 

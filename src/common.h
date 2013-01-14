@@ -45,6 +45,13 @@ struct test_result_t
 struct db_settings_t
 {
     std::string host,user,password,dbname;
+    db_settings_t(std::string host,std::string user,std::string password,std::string dbname)
+    {
+        this->host = host;
+        this->user = user;
+        this->password = password;
+        this->dbname = dbname;
+    }
 };
 
 struct encore_t

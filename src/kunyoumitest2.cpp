@@ -28,6 +28,3 @@ void KunYoumiTest2::PrepareCase(case_t &c)
     }
 }
 
-KunYoumiTest2::KunYoumiTest2():BaseTest()
-{
-}

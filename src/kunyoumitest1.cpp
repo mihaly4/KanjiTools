@@ -2,9 +2,7 @@
 #include "kanji_module.h"
 #include <iostream>
 
-KunYoumiTest1::KunYoumiTest1() :BaseTest()
-{
-}
+
 
 void KunYoumiTest1::PrepareCase(case_t &c)
 {

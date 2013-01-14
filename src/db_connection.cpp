@@ -89,12 +89,13 @@ THREAD_TYPE DB_Connection::thread_func(void * arg)
 
 db_settings_t DB_Connection::GetDBSettings()
 {
-    db_settings_t sets;
+    return db_settings_t(hostname,username,password,"This field is unused");
+    /*db_settings_t sets;
     sets.host = hostname;
     sets.user = username;
     sets.password = password;
     sets.dbname = "This field is unused";
-    return sets;
+    return sets;*/
 }
 
 void DB_Connection::SetDBSettings(db_settings_t &sets)

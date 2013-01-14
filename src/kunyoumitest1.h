@@ -7,8 +7,6 @@
 class KunYoumiTest1 : public BaseTest
 {
 public:
-    KunYoumiTest1();
-    ~KunYoumiTest1(){}
     void PrepareCase(case_t &c);
     std::string GetType(){return "kun-youmi-1";}
     int GetTestVarFontSize(){return 72;}
