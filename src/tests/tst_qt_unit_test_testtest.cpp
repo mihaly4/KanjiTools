@@ -27,6 +27,7 @@
 #include <QListWidgetItem>
 #include <QListWidget>
 #include <QList>
+#include <QComboBox>
 
 #ifdef __linux__
 #include <unistd.h>
@@ -68,7 +69,9 @@ private Q_SLOTS:
 
     void test_kanji_module0();//--
 
-    void test_WholeApplication0();//--
+    void test_WholeApplication0();
+//    void test_WholeApplication1();//--
+//    void test_test();
 };
 
 Qt_unit_test_testTest::Qt_unit_test_testTest()
@@ -306,14 +309,10 @@ void waitForEventsHappen(){
     for(int i=0; i<10; i++)
         myWait;// waits untl all queries are processed
 
-    //std::cout<<"reload users\n";
-    //ktw.ReloadUsers();    /// <------  reload users after changes
-    for(int i=0; i<5; i++)
-        myWait;// waits until users reloaded
 
     QCoreApplication::processEvents(); /// <------- check this out! If u have problems with updatting window try this first!
     std::cout<<"waiting events\n";
-    for(int i=0; i<2; i++)
+    for(int i=0; i<3; i++)
         myWait;// waits until all signals are passed to slots
 
 }
@@ -354,6 +353,19 @@ void userDialogFillIn(UserDialog * ud, user_t u, QString btn){
     }else
         std::cout << "No button pressed after fill in UserDialog form";
 }
+void testLogin(KanjiToolsWindow *ktw);
+void testRecreatingTables(KanjiToolsWindow *ktw);
+void testAddingNewUser(KanjiToolsWindow *ktw);
+void testRemovingUser(KanjiToolsWindow *ktw);
+void testAddKanji(KanjiToolsWindow *ktw);//--
+void testAddNewCourse(KanjiToolsWindow *ktw);
+void testDeleteCourse(KanjiToolsWindow *ktw);
+void testAddNewGroup(KanjiToolsWindow *ktw);
+void testDeleteGroup(KanjiToolsWindow *ktw);
+void testAddNewTest(KanjiToolsWindow *ktw);
+void testDeleteTest(KanjiToolsWindow *ktw);
+
+
 
 void Qt_unit_test_testTest::test_WholeApplication0(){
     int argc =1;
@@ -365,7 +377,20 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
 
     KanjiToolsWindow ktw;
     ktw.show();
+    testLogin(&ktw);
+    testRecreatingTables(&ktw);
+    testAddingNewUser(&ktw);
+    testRemovingUser(&ktw);
+    testAddKanji(&ktw);
+    testAddNewCourse(&ktw);
+    testDeleteCourse(&ktw);
+    testAddNewGroup(&ktw);
+    testDeleteGroup(&ktw);
+    testAddNewTest(&ktw);
+    testDeleteTest(&ktw);
+}
 
+void testLogin(KanjiToolsWindow *ktw){
     //LOGIN
     LoginDialog *ld = LoginDialog::GetCurrentDialog();
     while(!ld)
@@ -373,8 +398,10 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
         myWait;
         ld = LoginDialog::GetCurrentDialog();
     }
-    if(ld)qDebug()<<"Dialog found";
-    else qDebug()<<"Dialog not found";
+    if(ld)
+        qDebug()<<"Dialog found";
+    else
+        qDebug()<<"Dialog not found";
     QLineEdit * le = ld->findChild<QLineEdit*>("lineEdit");
     QTest::keyClicks(le,"master");
 
@@ -386,34 +413,37 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     QTest::mouseClick(qbbOk,Qt::LeftButton);
 
     myWait;
-    Core * core = ktw.getCore();
+    Core * core = ktw->getCore();
     user_t u = core->GetUser();
     std::cout << endl << endl << u.login ;
     QVERIFY2(u.name=="Admin","User's name isn't Admin");
     QVERIFY2(u.surename=="Adminovich","User's surname isn't Adminovich");
     QVERIFY2(u.account_type==ACCOUNT_TYPE_ADMIN, "User's account type isn't ACCOUNT_TYPE_ADMIN");
+}
 
+void testRecreatingTables(KanjiToolsWindow *ktw){
     //RECREATING TABLES
-    QWidget * tw = ktw.findChild<QWidget*>("tab");
+    QWidget * tw = ktw->findChild<QWidget*>("tab");
     QTest::mouseClick(tw,Qt::LeftButton);
     QPushButton *qpb = tw->findChild<QPushButton*>("pushButton");
     QTest::mouseClick(qpb,Qt::LeftButton);
+}
 
-
+void testAddingNewUser(KanjiToolsWindow *ktw){
     // ADDING NEW USER
-    tw = ktw.findChild<QWidget*>("tab_3");
+    QWidget * tw = ktw->findChild<QWidget*>("tab_3");
     QTest::mouseClick(tw,Qt::LeftButton);
-    qpb = tw->findChild<QPushButton*>("pushButton_2");
+    QPushButton * qpb = tw->findChild<QPushButton*>("pushButton_2");
     QTest::mouseClick(qpb,Qt::LeftButton);
 
-    UserDialog * ud = ktw.getUserDialog();
+    UserDialog * ud = ktw->getUserDialog();
     while(!ud)
     {
         std::cout << "Search for ud\n" ;
         myWait;
-        ud = ktw.getUserDialog();
+        ud = ktw->getUserDialog();
     }
-
+    user_t u;
     u.name="testname1";
     u.surename="testsurname1";
     u.login="testlogin1";
@@ -430,7 +460,7 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     waitForEventsHappen();
 
 
-    QListWidget * lw = ktw.findChild<QListWidget*>("listWidget");
+    QListWidget * lw = ktw->findChild<QListWidget*>("listWidget");
 
 /*    if(!lw)
         std::cout << " lw was not found!!! \n";
@@ -451,16 +481,28 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     }
     QVERIFY2(found1,"Item containind 'testname1' was not found");
     QVERIFY2(!found2,"Item containind 'testname2' was found, but it shouldn't");
+}
 
+void testRemovingUser(KanjiToolsWindow *ktw){
     //Removing "testname1" from users
+    QListWidget * lw = ktw->findChild<QListWidget*>("listWidget");
+    QWidget * tw = ktw->findChild<QWidget*>("tab_3");
+
+    int found1index=-1;
+    for(int i=0; i<lw->count(); i++){
+        if(lw->item(i)->text().contains("testname1")){
+            found1index=i;
+        }
+    }
+
     lw->setCurrentRow(found1index);
-    qpb = tw->findChild<QPushButton*>("pushButton_3");
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton_3");
     QTest::mouseClick(qpb,Qt::LeftButton);      // Remove user btn
 
     waitForEventsHappen();
 
-    found1=false;
-    found2=false;
+    bool found1=false;
+    bool found2=false;
     for(int i=0; i<lw->count(); i++){
         if(lw->item(i)->text().contains("testname1")){
             found1=true;
@@ -472,6 +514,131 @@ void Qt_unit_test_testTest::test_WholeApplication0(){
     QVERIFY2(!found1,"Item containind 'testname1' was found, but it shouldn't");
     QVERIFY2(!found2,"Item containind 'testname2' was found, but it shouldn't");
 }
+
+void testAddKanji(KanjiToolsWindow *ktw){
+    QListWidget * lw = ktw->findChild<QListWidget*>("listWidget");
+    QWidget * tw = ktw->findChild<QWidget*>("tab_2");
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton_16");
+//    QTest::mouseClick(qpb,Qt::LeftButton);
+//  to be added: work with KanjiDialog
+}
+
+void testAddNewCourse(KanjiToolsWindow *ktw){
+    QListWidget * lw = ktw->findChild<QListWidget*>("listWidget");
+    QWidget * tw = ktw->findChild<QWidget*>("tab_2");
+    QComboBox * qcb = tw->findChild<QComboBox*>("comboBox");
+    qcb->clearEditText();
+    QTest::keyClicks(qcb,"testCourse");
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton_5");
+    QTest::mouseClick(qpb,Qt::LeftButton);
+
+    waitForEventsHappen();
+    //waitForEventsHappen();
+
+    bool found=false;
+    for(int i=0; i<qcb->count(); i++)
+        if(!qcb->itemText(i).toStdString().compare("testCourse"))
+            found=true;
+    QVERIFY2(found,"Just added new course was not found");
+}
+
+void testDeleteCourse(KanjiToolsWindow *ktw){
+    QListWidget * lw = ktw->findChild<QListWidget*>("listWidget");
+    QWidget * tw = ktw->findChild<QWidget*>("tab_2");
+    QComboBox * qcb = tw->findChild<QComboBox*>("comboBox");
+    qcb->clearEditText();
+    QTest::keyClicks(qcb,"testCourse");
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton_6");
+    QTest::mouseClick(qpb,Qt::LeftButton);
+
+    waitForEventsHappen();
+
+    bool found=false;
+    for(int i=0; i<qcb->count(); i++)
+        if(!qcb->itemText(i).toStdString().compare("testCourse")){
+//            std::cout << i << "+: " << qcb->itemText(i).toStdString() << "\n" ;
+            found=true;
+        }
+//        else
+//            std::cout << i << "-: " << qcb->itemText(i).toStdString() << "\n" ;
+    QVERIFY2(!found,"Item 'testCourse' was found, but it shouldn't");
+}
+
+void testAddNewGroup(KanjiToolsWindow *ktw){
+    QListWidget * lw = ktw->findChild<QListWidget*>("listWidget");
+    QWidget * tw = ktw->findChild<QWidget*>("tab_2");
+    QComboBox * qcb = tw->findChild<QComboBox*>("comboBox_2");
+    qcb->clearEditText();
+    QTest::keyClicks(qcb,"testGroup");
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton_7");
+    QTest::mouseClick(qpb,Qt::LeftButton);
+
+    waitForEventsHappen();
+
+    bool found=false;
+    for(int i=0; i<qcb->count(); i++)
+        if(!qcb->itemText(i).toStdString().compare("testGroup"))
+            found=true;
+    QVERIFY2(found,"Just added new group was not found");
+}
+
+void testDeleteGroup(KanjiToolsWindow *ktw){
+    QListWidget * lw = ktw->findChild<QListWidget*>("listWidget");
+    QWidget * tw = ktw->findChild<QWidget*>("tab_2");
+    QComboBox * qcb = tw->findChild<QComboBox*>("comboBox_2");
+    qcb->clearEditText();
+    QTest::keyClicks(qcb,"testGroup");
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton_8");
+    QTest::mouseClick(qpb,Qt::LeftButton);
+
+    waitForEventsHappen();
+
+    bool found=false;
+    for(int i=0; i<qcb->count(); i++)
+        if(!qcb->itemText(i).toStdString().compare("testGroup"))
+            found=true;
+    QVERIFY2(!found,"Item 'testGroup' was found, but it shouldn't");
+}
+
+void testAddNewTest(KanjiToolsWindow *ktw){
+    QListWidget * lw = ktw->findChild<QListWidget*>("listWidget");
+    QWidget * tw = ktw->findChild<QWidget*>("tab_2");
+    QComboBox * qcb = tw->findChild<QComboBox*>("comboBox_4");
+    qcb->clearEditText();
+    QTest::keyClicks(qcb,"testTest");
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton_12");
+    QTest::mouseClick(qpb,Qt::LeftButton);
+
+    waitForEventsHappen();
+
+    bool found=false;
+    for(int i=0; i<qcb->count(); i++)
+        if(!qcb->itemText(i).toStdString().compare("testTest"))
+            found=true;
+    QVERIFY2(found,"Just added new Test was not found");
+}
+void testDeleteTest(KanjiToolsWindow *ktw){
+    QListWidget * lw = ktw->findChild<QListWidget*>("listWidget");
+    QWidget * tw = ktw->findChild<QWidget*>("tab_2");
+    QComboBox * qcb = tw->findChild<QComboBox*>("comboBox_4");
+    qcb->clearEditText();
+    QTest::keyClicks(qcb,"testTest");
+    QPushButton *qpb = tw->findChild<QPushButton*>("pushButton_13");
+    QTest::mouseClick(qpb,Qt::LeftButton);
+
+    waitForEventsHappen();
+
+    bool found=false;
+    for(int i=0; i<qcb->count(); i++)
+        if(!qcb->itemText(i).toStdString().compare("testtest"))
+            found=true;
+    QVERIFY2(!found,"Item 'testTest' was found, but it shouldn't");
+}
+
+
+/*void Qt_unit_test_testTest::test_test(){
+    std::cout << "\nFinishing test case\n";
+}*/
 
 
 QTEST_APPLESS_MAIN(Qt_unit_test_testTest)
