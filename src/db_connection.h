@@ -57,7 +57,7 @@ private:
     sql::Connection *con;
     static THREAD_TYPE thread_func(void * arg);
     THREAD_OBJ thread;
-    std::queue<query_t> * queue;
+   // std::queue<query_t> * queue;
     bool m_bConnected;
     bool exit;
 

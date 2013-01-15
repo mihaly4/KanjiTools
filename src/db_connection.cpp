@@ -20,6 +20,8 @@
 #include <thread>
 #include <unistd.h>
 #endif
+#include <QDebug>
+#include "ada_list.h"
 
 
 
@@ -47,7 +49,8 @@ DB_Connection::~DB_Connection()
 #endif
     delete con;
     delete driver;
-    delete queue;
+    adathreadfinal();
+    //delete queue;
 
 }
 THREAD_TYPE DB_Connection::thread_func(void * arg)
@@ -56,10 +59,15 @@ THREAD_TYPE DB_Connection::thread_func(void * arg)
 
     while(!c->exit)
     {
-        while(!c->queue->empty() && c->m_bConnected)
+        while(!/*c->queue->empty()*/empty() && c->m_bConnected)
         {
-            query_t q = c->queue->front();
-            c->queue->pop();
+            NodeData_t ada_node = pop_front();
+            query_t q;// = c->queue->front();
+            q.statement = std::string(ada_node.data);
+            q.f = (void (*)(void *,void*))(void*)ada_node.method;
+            q.obj = (void*)ada_node.obj;
+            //c->queue->pop();
+            qDebug() << "Poped query from ADA list. Everything is now fucked :(";
 
             try
             {
@@ -148,7 +156,8 @@ bool DB_Connection::Connect()
         std::cout << "Unable to connect to MySQL server.\nSomething is fucked up! :(((\n";
         return false;
     }
-    queue = new std::queue<query_t>();
+    adathreadinit();
+    //queue = new std::queue<query_t>();
 #ifndef WIN32
     thread = new std::thread(thread_func,this);
 #else
@@ -227,7 +236,16 @@ bool DB_Connection::LoadSettings()
 
 void DB_Connection::AddQuery(query_t q)
 {
-    queue->push(q);
+    //queue->push(q);
+    NodeData_t ada_node;
+    if(q.statement.length()>1023)
+        throw;
+    strcpy(ada_node.data,q.statement.c_str());
+    ada_node.method = (unsigned long)(void*)q.f;
+    ada_node.obj = (unsigned long)q.obj;
+    push_back(ada_node.data,q.statement.length()+1,ada_node.method,ada_node.obj);
+    qDebug() << "Added query to ADA list :(";
+    qDebug() << empty();
 }
 
 void * DB_Connection::ExecQuery(std::string q)
