@@ -37,7 +37,7 @@ void Core::AddQuery(std::string q, void (*f)(void * obj,void * arg),void * obj)
     m_pCon->AddQuery(qe);
 }
 
-void Core::AddKanji(std::string kanji,std::string on,std::string kun,std::string meaning,std::string examples)
+/*void Core::AddKanji(std::string kanji,std::string on,std::string kun,std::string meaning,std::string examples)
 {
     m_pKanjiModule->AddKanji(kanji,on,kun,meaning,examples);
 }
@@ -60,7 +60,7 @@ kanji_t Core::NextKanji()
 kanji_t Core::PreviousKanji()
 {
     return m_pKanjiModule->PreviousKanji();
-}
+}*/
 
 void Core::AddUser(user_t u)
 {
@@ -82,7 +82,7 @@ void Core::SetUser(user_t u)
     m_User = u;
 }
 
-void Core::CreateTest(std::string test,int mat_id, void (*f)(void*obj),void * obj)
+/*void Core::CreateTest(std::string test,int mat_id, void (*f)(void*obj),void * obj)
 {
     if(test=="on-youmi-1")
     {
@@ -124,9 +124,14 @@ int Core::GetTestVarFontSize()
 int Core::GetTestQueFontSize()
 {
     return m_pTest->GetTestQueFontSize();
-}
+}*/
 
 db_settings_t Core::GetDBSettings()
 {
     return m_pCon->GetDBSettings();
+}
+
+KanjiModule* Core::GetKanjiModule()
+{
+    return m_pKanjiModule;
 }

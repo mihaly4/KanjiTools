@@ -4,6 +4,7 @@
 #include <QtGui/QDialog>
 
 class Core;
+class KanjiModule;
 
 namespace Ui {
 class KanjiDialog;
@@ -17,7 +18,7 @@ public:
     explicit KanjiDialog(QWidget *parent = 0);
     ~KanjiDialog();
     void SetKanji(QString kanji);
-    void SetCore(Core * core);
+    void SetCore(Core * core, KanjiModule *km);
 signals:
     void LoadKanji(void * res);
     
@@ -30,6 +31,7 @@ private:
     Ui::KanjiDialog *ui;
     QString kanji;
     Core * m_pCore;
+    KanjiModule * m_pKanjiModule;
 
     static void kanji_loaded(void * obj, void * res);
 };

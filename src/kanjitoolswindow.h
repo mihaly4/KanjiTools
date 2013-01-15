@@ -7,6 +7,9 @@
 class Core;
 class LoginDialog;
 class UserDialog;
+class KanjiModule;
+class KanjiTestHandler;
+class KanjiEncoreHandler;
 namespace Ui {
 class KanjiToolsWindow;
 }
@@ -22,6 +25,11 @@ public:
     Core * getCore();
     UserDialog * getUserDialog();
     void ReloadUsers();
+    Ui::KanjiToolsWindow * GetUI(){return ui;}
+
+    void ReloadMaterials();
+
+    int GetSelectedTestId();
 
 signals:
     void users_loaded_signal(void * a);
@@ -31,9 +39,8 @@ signals:
     void kanji_loaded_signal(void * a);
     void authentication_signal(void * a);
     void ShowLoginDialogSignal();
-    void test_loaded_signal();
-    void test_results_loaded_signal(void * a);
-    void encore_loaded_signal(void * a);
+
+
     
 private slots:
     void on_pushButton_clicked();
@@ -46,9 +53,8 @@ private slots:
     void materials_loaded_slot(void * a);
     void kanji_loaded_slot(void * a);
     void authentication_slot(void * a);
-    void test_loaded_slot();
-    void test_results_loaded_slot(void *a);
-    void encore_loaded_slot(void * a);
+
+
 
     void ShowLoginDialog();
 
@@ -98,23 +104,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
-    void on_pushButton_27_clicked();
 
-    void on_pushButton_23_clicked();
 
-    void on_pushButton_24_clicked();
-
-    void on_pushButton_25_clicked();
-
-    void on_pushButton_26_clicked();
-
-    void on_comboBox_5_activated(int index);
-
-    void on_comboBox_10_currentIndexChanged(int index);
-
-    void on_pushButton_48_clicked();
-
-    void on_pushButton_47_clicked();
 
 private:
     Ui::KanjiToolsWindow *ui;
@@ -122,10 +113,11 @@ private:
     QList<int> m_lCadetsIds;
     QList<int> m_lGroupsIds;
     QList<int> m_lTestsIds;
-    QList<test_result_t> m_lResults;
-    QList<encore_t> m_lEncore;
     LoginDialog *           m_pLoginDialog;
     UserDialog *            m_pUserDialog;
+    KanjiModule *           m_pKanjiModule;
+    KanjiTestHandler *      m_pKanjiTestHandler;
+    KanjiEncoreHandler *    m_pKanjiEncoreHandler;
 
     void HideUnusedTabs();
 
@@ -135,20 +127,20 @@ private:
     static void materials_loaded(void * obj, void * arg);
     static void kanji_loaded(void * obj, void * arg);
 
-    static void test_loaded(void * obj);
-    static void test_results_loaded(void * obj, void * arg);
-    static void encore_loaded(void * obj, void * arg);
+
+
+
 
 
     void ReloadCourses();
     void ReloadCadets(QString course ="");
-    void ReloadMaterials();
-    void ReloadKanji();
-    void ReloadTestResults();
-    void ReloadSettings();
-    void ReloadEncore();
 
-    void NextCase();
+    void ReloadKanji();
+
+    void ReloadSettings();
+
+
+
 
 
 

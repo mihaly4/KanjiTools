@@ -2,6 +2,7 @@
 #include "ui_kanjidialog.h"
 #include "core.h"
 #include "connector_wraper.h"
+#include "kanji_module.h"
 
 KanjiDialog::KanjiDialog(QWidget *parent) :
     QDialog(parent),
@@ -10,6 +11,7 @@ KanjiDialog::KanjiDialog(QWidget *parent) :
     ui->setupUi(this);
     kanji="";
     m_pCore = NULL;
+    m_pKanjiModule = NULL;
     connect(this,SIGNAL(LoadKanji(void*)),this,SLOT(LoadKanjiSlot(void*)));
 }
 
@@ -32,7 +34,7 @@ void KanjiDialog::on_buttonBox_accepted()
     }
     else
     {
-        m_pCore->AddKanji(ui->lineEdit->text().toStdString(),
+        m_pKanjiModule->AddKanji(ui->lineEdit->text().toStdString(),
                           ui->lineEdit_2->text().toStdString(),
                           ui->lineEdit_3->text().toStdString(),
                           ui->plainTextEdit->toPlainText().toStdString(),
@@ -40,9 +42,10 @@ void KanjiDialog::on_buttonBox_accepted()
     }
 }
 
-void KanjiDialog::SetCore(Core * core)
+void KanjiDialog::SetCore(Core * core,KanjiModule * km)
 {
     m_pCore = core;
+    m_pKanjiModule = km;
 }
 
 void KanjiDialog::kanji_loaded(void * obj, void * res)

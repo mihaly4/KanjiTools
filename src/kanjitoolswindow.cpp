@@ -6,6 +6,9 @@
 #include "connector_wraper.h"
 #include "kanjidialog.h"
 #include "userdialog.h"
+#include "kanji_module.h"
+#include "kanjitesthandler.h"
+#include "kanjiencorehandler.h"
 
 KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,6 +17,7 @@ KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_pCore = new Core();
+    m_pKanjiModule = m_pCore->GetKanjiModule();
 
     connect(this,SIGNAL(users_loaded_signal(void*)),this,SLOT(users_loaded_slot(void*)));
     connect(this,SIGNAL(courses_loaded_signal(void*)),this,SLOT(courses_loaded_slot(void*)));
@@ -22,9 +26,8 @@ KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     connect(this,SIGNAL(kanji_loaded_signal(void*)),this,SLOT(kanji_loaded_slot(void*)));
     connect(this,SIGNAL(authentication_signal(void*)),this,SLOT(authentication_slot(void*)));
     connect(this,SIGNAL(ShowLoginDialogSignal()),this,SLOT(ShowLoginDialog()));
-    connect(this,SIGNAL(test_loaded_signal()),this,SLOT(test_loaded_slot()));
-    connect(this,SIGNAL(test_results_loaded_signal(void*)),this,SLOT(test_results_loaded_slot(void*)));
-    connect(this,SIGNAL(encore_loaded_signal(void*)),this,SLOT(encore_loaded_slot(void*)));
+
+
     m_pLoginDialog = new LoginDialog(this);
     m_pLoginDialog->setModal(true);
     m_pLoginDialog->SetCore(m_pCore);
@@ -32,6 +35,13 @@ KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     m_pUserDialog->SetCore(m_pCore);
     ui->tabWidget->hide();
     //m_pLoginDialog->setAttribute(Qt::WA_QuitOnClose);
+
+    //initialize test handler
+    m_pKanjiTestHandler = new KanjiTestHandler(this);
+    m_pKanjiTestHandler->Init(m_pCore);
+
+    m_pKanjiEncoreHandler = new KanjiEncoreHandler(this);
+    m_pKanjiEncoreHandler->Init(m_pCore);
 
     emit ShowLoginDialogSignal();
 }
@@ -247,12 +257,12 @@ void KanjiToolsWindow::on_tabWidget_currentChanged(QWidget *arg1)
     }
     if(arg1 == ui->tab_4)//all-test
     {
-        ReloadTestResults();
+        m_pKanjiTestHandler->ReloadTestResults();
         ReloadMaterials();
     }
     if(arg1 == ui->tab_5)
     {
-        ReloadEncore();
+        m_pKanjiEncoreHandler->ReloadEncore();
     }
 }
 
@@ -385,7 +395,7 @@ void KanjiToolsWindow::on_pushButton_15_clicked()
 void KanjiToolsWindow::on_pushButton_16_clicked()
 {
     KanjiDialog kd;
-    kd.SetCore(m_pCore);
+    kd.SetCore(m_pCore,m_pKanjiModule);
     kd.show();
     kd.exec();
     ReloadKanji();
@@ -396,7 +406,7 @@ void KanjiToolsWindow::on_pushButton_18_clicked()
     if(ui->listWidget_2->selectedItems().count()==0)
         return;
     KanjiDialog kd;
-    kd.SetCore(m_pCore);
+    kd.SetCore(m_pCore,m_pKanjiModule);
     kd.SetKanji(ui->listWidget_2->selectedItems()[0]->text());
     kd.show();
     kd.exec();
@@ -455,7 +465,7 @@ void KanjiToolsWindow::on_comboBox_9_activated(const QString &arg1)
 {
     if(ui->comboBox_9->currentIndex()<0)
         return;
-    m_pCore->LoadMaterial(m_lGroupsIds[ui->comboBox_9->currentIndex()]);
+    m_pKanjiModule->LoadMaterial(m_lGroupsIds[ui->comboBox_9->currentIndex()]);
     ui->label_9->setText("");
     ui->label_10->setText("");
     ui->label_11->setText("");
@@ -465,7 +475,7 @@ void KanjiToolsWindow::on_comboBox_9_activated(const QString &arg1)
 
 void KanjiToolsWindow::on_pushButton_46_clicked()
 {
-    kanji_t k = m_pCore->NextKanji();
+    kanji_t k = m_pKanjiModule->NextKanji();
     ui->label_9->setText(k.kanji.c_str());
     ui->label_10->setText(k.on_youmi.c_str());
     ui->label_11->setText(k.kun_youmi.c_str());
@@ -475,7 +485,7 @@ void KanjiToolsWindow::on_pushButton_46_clicked()
 
 void KanjiToolsWindow::on_pushButton_45_clicked()
 {
-    kanji_t k = m_pCore->PreviousKanji();
+    kanji_t k = m_pKanjiModule->PreviousKanji();
     ui->label_9->setText(k.kanji.c_str());
     ui->label_10->setText(k.on_youmi.c_str());
     ui->label_11->setText(k.kun_youmi.c_str());
@@ -556,105 +566,12 @@ void KanjiToolsWindow::ShowLoginDialog()
                           m_pLoginDialog->GetPassword().toStdString(),authentication,this);*/
 }
 
-void KanjiToolsWindow::on_pushButton_27_clicked()
+
+int KanjiToolsWindow::GetSelectedTestId()
 {
-    if(ui->comboBox_5->currentIndex()<0 || ui->comboBox_6->currentIndex()<0)
-        return;
-    m_pCore->CreateTest(ui->comboBox_6->currentText().toStdString(),
-                        m_lTestsIds[ui->comboBox_5->currentIndex()],test_loaded,this);
-    QFont font = ui->pushButton_23->font();
-    font.setPointSize(m_pCore->GetTestVarFontSize());
-    ui->pushButton_23->setFont(font);
-    ui->pushButton_24->setFont(font);
-    ui->pushButton_25->setFont(font);
-    ui->pushButton_26->setFont(font);
-
-    QFont font2 = ui->label_5->font();
-    font2.setPointSize(m_pCore->GetTestQueFontSize());
-    ui->label_5->setFont(font2);
-
+    return m_lTestsIds[ui->comboBox_5->currentIndex()];
 }
 
-void KanjiToolsWindow::test_loaded(void *obj)
-{
-    emit ((KanjiToolsWindow*)obj)->test_loaded_signal();
-}
-
-void KanjiToolsWindow::test_loaded_slot()
-{
-    NextCase();
-}
-
-
-void KanjiToolsWindow::NextCase()
-{
-    case_t c = m_pCore->NextCase();
-    ui->pushButton_23->setText(QString::fromStdString(c.variants[0]));
-    ui->pushButton_24->setText(QString::fromStdString(c.variants[1]));
-    ui->pushButton_25->setText(QString::fromStdString(c.variants[2]));
-    ui->pushButton_26->setText(QString::fromStdString(c.variants[3]));
-    ui->label_5->setText(QString::fromStdString(c.question));
-
-    if(ui->pushButton_23->text().length()==0)
-    {
-        QFont font2 = ui->label_5->font();
-        font2.setPointSize(10);
-        ui->label_5->setFont(font2);
-        ui->label_5->setText("Saving results...\nPlease wait a while.");
-        ReloadTestResults();
-        ReloadMaterials();
-    }
-}
-
-void KanjiToolsWindow::on_pushButton_23_clicked()
-{
-    m_pCore->Answer(0);
-    NextCase();
-}
-
-void KanjiToolsWindow::on_pushButton_24_clicked()
-{
-    m_pCore->Answer(1);
-    NextCase();
-}
-
-void KanjiToolsWindow::on_pushButton_25_clicked()
-{
-    m_pCore->Answer(2);
-    NextCase();
-}
-
-void KanjiToolsWindow::on_pushButton_26_clicked()
-{
-    m_pCore->Answer(3);
-    NextCase();
-}
-
-void KanjiToolsWindow::on_comboBox_5_activated(int index)
-{
-    ui->comboBox_6->clear();
-    QString types[]={"on-youmi-1","on-youmi-2","kun-youmi-1","kun-youmi-2","meaning-1","meaning-2"};
-    for(int i=0;i<6;i++)
-    {
-        bool f = false;
-        for(int j=0;j<m_lResults.count();j++)
-        {
-            if(m_lResults[j].test_id == QString::number(m_lTestsIds[ui->comboBox_5->currentIndex()]).toStdString() && m_lResults[j].test_type == types[i].toStdString())
-            {
-                f = true;
-                break;
-            }
-        }
-        if(!f)
-            ui->comboBox_6->addItem(types[i]);
-    }
-}
-
-void KanjiToolsWindow::ReloadTestResults()
-{
-    m_pCore->AddQuery("SELECT * FROM kanjitools.testresults LEFT JOIN kanjitools.material ON (kanjitools.testresults.Material_ID=kanjitools.material.Material_ID) WHERE `Person_ID` = "+m_pCore->GetUser().id+";",
-                      test_results_loaded,this);
-}
 
 void KanjiToolsWindow::ReloadSettings()
 {
@@ -665,87 +582,6 @@ void KanjiToolsWindow::ReloadSettings()
     ui->lineEdit_4->setText(QString::fromStdString(sets.dbname));
 }
 
-void KanjiToolsWindow::ReloadEncore()
-{
-    m_pCore->AddQuery("SELECT `kanjitools`.`testresults`.`Result_ID`,`Test_type`,COUNT(`kanji`), `title` FROM kanjitools.kanjiinresult LEFT JOIN (kanjitools.testresults CROSS JOIN kanjitools.material)  ON (kanjitools.testresults.Material_ID=kanjitools.material.Material_ID AND kanjitools.testresults.Result_ID=kanjitools.kanjiinresult.Result_ID) WHERE `Person_ID` = "+m_pCore->GetUser().id+" GROUP BY `Result_ID`;",
-                      encore_loaded,this);
-}
 
-void KanjiToolsWindow::test_results_loaded(void *obj, void *arg)
-{
-    emit ((KanjiToolsWindow*)obj)->test_results_loaded_signal(arg);
-}
 
-void KanjiToolsWindow::encore_loaded(void *obj, void *arg)
-{
-    emit ((KanjiToolsWindow*)obj)->encore_loaded_signal(arg);
-}
 
-void KanjiToolsWindow::test_results_loaded_slot(void *a)
-{
-    m_lResults.clear();
-    sql::ResultSet *res=(sql::ResultSet *)a;
-    int fail_index=0;
-    while (res->next())
-    {
-        test_result_t r;
-        r.id = res->getString(1);
-        r.test_id = res->getString(2);
-        r.test_type = res->getString(3);
-        r.person_id = res->getString(4);
-        m_lResults.push_back(r);
-    }
-    delete res;
-}
-
-void KanjiToolsWindow::encore_loaded_slot(void * a)
-{
-    ui->comboBox_10->clear();
-    m_lEncore.clear();
-    sql::ResultSet *res=(sql::ResultSet *)a;
-    int fail_index=0;
-    while (res->next())
-    {
-        encore_t r;
-        r.result_id = res->getString(1);
-        r.test_type = res->getString(2);
-        //r.test_type = res->getString(3);
-        //r.person_id = res->getString(4);
-        m_lEncore.push_back(r);
-        ui->comboBox_10->addItem(QString::fromStdString(res->getString(4)+": "+res->getString(2)+": "+res->getString(3)));
-       // qDebug()<<QString::fromStdString(r.id)<<QString::fromStdString(r.test_type);
-    }
-    delete res;
-}
-
-void KanjiToolsWindow::on_comboBox_10_currentIndexChanged(int index)
-{
-    if(ui->comboBox_10->currentIndex()<0)
-        return;
-    m_pCore->LoadKanjiFromResult(m_lEncore[ui->comboBox_10->currentIndex()].result_id);
-    ui->label_21->setText("");
-    ui->label_24->setText("");
-    ui->label_25->setText("");
-    ui->label_28->setText("");
-    ui->label_29->setText("");
-}
-
-void KanjiToolsWindow::on_pushButton_48_clicked()
-{
-    kanji_t k = m_pCore->NextKanji();
-    ui->label_21->setText(k.kanji.c_str());
-    ui->label_24->setText(k.on_youmi.c_str());
-    ui->label_25->setText(k.kun_youmi.c_str());
-    ui->label_28->setText(k.meaning.c_str());
-    ui->label_29->setText(k.examples.c_str());
-}
-
-void KanjiToolsWindow::on_pushButton_47_clicked()
-{
-    kanji_t k = m_pCore->PreviousKanji();
-    ui->label_21->setText(k.kanji.c_str());
-    ui->label_24->setText(k.on_youmi.c_str());
-    ui->label_25->setText(k.kun_youmi.c_str());
-    ui->label_28->setText(k.meaning.c_str());
-    ui->label_29->setText(k.examples.c_str());
-}

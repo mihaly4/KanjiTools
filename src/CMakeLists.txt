@@ -28,14 +28,18 @@ onyoumitest1.cpp
 onyoumitest2.cpp
 kunyoumitest1.cpp
 kunyoumitest2.cpp
-connector_wrapper.cpp)
+connector_wrapper.cpp
+kanjitesthandler.cpp
+kanjiencorehandler.cpp)
 SET(KanjiTools_HEADERS logindialog.h kanjitoolswindow.h kanjidialog.h core.h kanji_module.h common.h userdialog.h
 user_account_module.h
 basetest.h
 onyoumitest1.h
 onyoumitest2.h
 kunyoumitest1.h
-kunyoumitest2.h)
+kunyoumitest2.h
+kanjitesthandler.h
+kanjiencorehandler.h)
 SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui userdialog.ui)
 SET(KanjiTools_RESOURCES resources.qrc)
 

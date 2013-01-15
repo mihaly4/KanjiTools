@@ -20,7 +20,7 @@ private:
 public:
   KanjiModule(Core * core);
   void AddKanji(std::string kanji,std::string on,std::string kun,std::string meaning,std::string examples);
-  void LoadMaterial(int mat_id, void (*f)(void * obj),void * obj);
+  void LoadMaterial(int mat_id, void (*f)(void * obj)=NULL,void * obj=NULL);
   void LoadKanjiFromResult(std::string res_id, void (*f)(void * obj), void * obj);
   kanji_t NextKanji();
   kanji_t PreviousKanji();
