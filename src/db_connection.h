@@ -17,6 +17,7 @@ namespace std
 {
     class thread;
 }
+class ADA_SAFE_LIST;
 
 #ifdef WIN32
 #define THREAD_TYPE DWORD WINAPI
@@ -58,6 +59,8 @@ private:
     static THREAD_TYPE thread_func(void * arg);
     THREAD_OBJ thread;
    // std::queue<query_t> * queue;
+    ADA_SAFE_LIST * queue;
+
     bool m_bConnected;
     bool exit;
 
