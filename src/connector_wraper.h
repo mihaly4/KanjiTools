@@ -40,10 +40,7 @@ namespace sql
         {
             this->db = db;
         }
-        ~Connection()
-        {
-            //delete db;
-        }
+        ~Connection();
 
         void setSchema(std::string name);
         Statement * createStatement();

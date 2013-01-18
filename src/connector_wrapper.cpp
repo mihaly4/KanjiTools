@@ -20,6 +20,8 @@ sql::Driver::Driver()
 
 sql::Driver::~Driver()
 {
+    db->close();
+    delete db;
     db->removeDatabase(QLatin1String(QSqlDatabase::defaultConnection));
 }
 sql::Connection * sql::Driver::connect(std::string host, std::string login, std::string pass)
@@ -82,5 +84,13 @@ int sql::ResultSet::rowsCount()
 std::string sql::SQLException::what()
 {
     return "this should be fixed...";
+}
+
+sql::Connection::~Connection()
+{
+    //db->close();
+    //QSqlDatabase::removeDatabase(db->connectionName());
+   // QSqlDatabase::removeDatabase("QMYSQL");
+    //delete db;
 }
 

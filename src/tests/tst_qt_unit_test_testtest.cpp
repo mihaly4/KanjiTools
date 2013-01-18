@@ -59,7 +59,7 @@ private Q_SLOTS:
 
     void test_userdialog0();
 
-    void test_logindialog0();
+   void test_logindialog0();
     void test_logindialog1();
 
 //   void test_user_account_module0(); //--

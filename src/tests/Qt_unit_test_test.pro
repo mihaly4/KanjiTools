@@ -25,4 +25,6 @@ HEADERS += ../*.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
+LIBS += ../bin/libadathread.dll
 linux-*:QMAKE_CXXFLAGS += -std=gnu++0x
+DEFINES += UNIT_TEST

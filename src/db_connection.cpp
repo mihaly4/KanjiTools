@@ -32,6 +32,11 @@ DB_Connection::DB_Connection()
 {
     exit = false;
     m_bConnected = false;
+#ifndef UNIT_TEST
+    queue = ADA_SAFE_LIST::GetInstance();
+#else
+    queue = new std::queue<query_t>();
+#endif
     if(LoadSettings())
     {
         Connect();
@@ -60,7 +65,12 @@ THREAD_TYPE DB_Connection::thread_func(void * arg)
     {
         while(!c->queue->empty() && c->m_bConnected)
         {
+#ifndef UNIT_TEST
             query_t q = c->queue->pop_front();
+#else
+            query_t q = c->queue->front();
+            c->queue->pop();
+#endif
             try
             {
                 sql::Statement *stmt= c->con->createStatement();
@@ -85,6 +95,7 @@ THREAD_TYPE DB_Connection::thread_func(void * arg)
         sleep(1);
 #endif
     }
+    std::cout << "connection thread exited\n";
 }
 
 db_settings_t DB_Connection::GetDBSettings()
@@ -130,9 +141,9 @@ bool DB_Connection::Connect()
         res = stmt->executeQuery("SELECT 'Hello World!' AS _message");
         while (res->next())
         {
-          //std::cout << "\t... MySQL replies: ";
+          std::cout << "\t... MySQL replies: ";
           /* Access column data by alias or column name */
-          //std::cout << res->getString("_message") << std::endl;
+          std::cout << res->getString(1) << std::endl;
           //std::cout << "\t... MySQL says it again: ";
           /* Access column fata by numeric offset, 1 is the first column */
           //std::cout << res->getString(1) << std::endl;
@@ -149,7 +160,7 @@ bool DB_Connection::Connect()
         return false;
     }
 
-    queue = ADA_SAFE_LIST::GetInstance();
+
 #ifndef WIN32
     thread = new std::thread(thread_func,this);
 #else
