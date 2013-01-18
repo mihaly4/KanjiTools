@@ -54,7 +54,7 @@ DB_Connection::~DB_Connection()
 #endif
     delete con;
     delete driver;
-    delete queue;
+   //Do not delete ada queue // delete queue;
 
 }
 THREAD_TYPE DB_Connection::thread_func(void * arg)
