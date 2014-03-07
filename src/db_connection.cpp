@@ -20,8 +20,9 @@
 #include <thread>
 #include <unistd.h>
 #endif
+
 #include <QDebug>
-#include "ada_safe_list.h"
+
 
 
 
@@ -32,11 +33,7 @@ DB_Connection::DB_Connection()
 {
     exit = false;
     m_bConnected = false;
-#ifndef UNIT_TEST
-    queue = ADA_SAFE_LIST::GetInstance();
-#else
     queue = new std::queue<query_t>();
-#endif
     if(LoadSettings())
     {
         Connect();
@@ -54,7 +51,7 @@ DB_Connection::~DB_Connection()
 #endif
     delete con;
     delete driver;
-   //Do not delete ada queue // delete queue;
+    delete queue;
 
 }
 THREAD_TYPE DB_Connection::thread_func(void * arg)
@@ -65,12 +62,8 @@ THREAD_TYPE DB_Connection::thread_func(void * arg)
     {
         while(!c->queue->empty() && c->m_bConnected)
         {
-#ifndef UNIT_TEST
-            query_t q = c->queue->pop_front();
-#else
             query_t q = c->queue->front();
             c->queue->pop();
-#endif
             try
             {
                 sql::Statement *stmt= c->con->createStatement();
@@ -160,7 +153,7 @@ bool DB_Connection::Connect()
         return false;
     }
 
-
+    //queue = new std::queue<query_t>();
 #ifndef WIN32
     thread = new std::thread(thread_func,this);
 #else

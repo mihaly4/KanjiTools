@@ -30,8 +30,7 @@ kunyoumitest1.cpp
 kunyoumitest2.cpp
 connector_wrapper.cpp
 kanjitesthandler.cpp
-kanjiencorehandler.cpp
-ada_safe_list.cpp)
+kanjiencorehandler.cpp)
 SET(KanjiTools_HEADERS logindialog.h kanjitoolswindow.h kanjidialog.h core.h kanji_module.h common.h userdialog.h
 user_account_module.h
 basetest.h
@@ -40,8 +39,7 @@ onyoumitest2.h
 kunyoumitest1.h
 kunyoumitest2.h
 kanjitesthandler.h
-kanjiencorehandler.h
-ada_safe_list.h)
+kanjiencorehandler.h)
 SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui userdialog.ui)
 SET(KanjiTools_RESOURCES resources.qrc)
 
@@ -82,7 +80,7 @@ SET(CMAKE_CXX_FLAGS "-std=gnu++0x")
 ENDIF()
 
 
-TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} "${CMAKE_CURRENT_BINARY_DIR}/../bin/libadathread.dll")
+TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES})
 
 SET(CMAKE_BUILD_TYPE Debug)
 

@@ -60,12 +60,7 @@ private:
 
     static THREAD_TYPE thread_func(void * arg);
     THREAD_OBJ thread;
-#ifndef UNIT_TEST
-    ADA_SAFE_LIST * queue;
-#else
     std::queue<query_t> * queue;
-#endif
-
     bool m_bConnected;
     bool exit;
 

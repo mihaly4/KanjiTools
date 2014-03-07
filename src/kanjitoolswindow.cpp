@@ -401,6 +401,19 @@ void KanjiToolsWindow::on_pushButton_16_clicked()
     ReloadKanji();
 }
 
+void KanjiToolsWindow::on_pushButton_17_clicked()
+{
+    //delete selected kanji
+    if(ui->listWidget_2->selectedItems().count()==0)
+        return;
+    for(int i=0;i<ui->listWidget_2->selectedItems().count();i++)
+    {
+        m_pCore->AddQuery("DELETE FROM kanjitools.kanji WHERE `kanji` = \""+
+                          ui->listWidget_2->selectedItems()[i]->text().toStdString()+"\";");
+    }
+    ReloadKanji();
+}
+
 void KanjiToolsWindow::on_pushButton_18_clicked()
 {
     if(ui->listWidget_2->selectedItems().count()==0)
