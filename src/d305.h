@@ -1,0 +1,134 @@
+#include "d3xx.h"
+ 
+class d305 : public d3xx
+{
+
+  public: 
+    std::string GetGroupName()
+    {
+	return "241 to 300";
+    } 
+    d305() 
+    { 
+      std::string * e140 = new std::string[20] { "開", "カイ", "x", "ひら（く）", "あ（ける）", "ouvrir", "x", "x", "to open", "x", "x", "開発（かいはつ）", "公開（こうかい）", "開拓（かいたく）", "développement", "ouverture, présentation au public", "défrichement, mise en culture", "development", "presenting, opening to the public", "land reclamation, cultivation" };
+    ksdb[0] = e140;
+    std::string * e141 = new std::string[20] { "階", "カイ", "x", "x", "x", "étage", "niveau", "marche", "story", "grade", "step", "階段（かいだん）", "階級（かいきゅう）", "一階（いっかい）", "escaliers", "classe, qualité", "rez-de-chaussée", "stairs", "grade, class", "ground floor" };
+    ksdb[1] = e141;
+    std::string * e142 = new std::string[20] { "角", "カク", "x", "つの", "かど", "corne", "angle", "coin", "horn", "angle", "corner", "鋭角（えいかく）", "三角形（さんかくけい）", "街角（まちかど）", "angle aigu", "triangle", "coin d'une rue", "acute angle", "triangle", "street corner" };
+    ksdb[2] = e142;
+    std::string * e143 = new std::string[20] { "活", "カツ", "x", "x", "x", "activité", "vie", "x", "activity", "life", "x", "活動（かつどう）", "生活（せいかつ）", "活発な（かっぱつな）", "activité", "vie, existence", "vigoureux, actif", "activity", "life", "vigorous, active" };
+    ksdb[3] = e143;
+    std::string * e144 = new std::string[20] { "寒", "カン", "x", "さむ（い）", "x", "froid", "x", "x", "cold", "x", "x", "寒い（さむい）", "寒害（かんがい）", "x", "froid (air, temps)", "dommage causé par le froid", "x", "cold (e.g. weather)", "damage from cold weather", "x" };
+    ksdb[4] = e144;
+    std::string * e145 = new std::string[20] { "感", "カン", "x", "x", "x", "sentiment", "émotion", "x", "feeling", "x", "x", "感情（かんじょう）", "感謝（かんしゃ）", "感覚（かんかく）", "sentiment, émotion", "gratitude", "(les 5 ) sens + sens de l'humour, etc.", "feeling, emotion", "gratitude", "sense" };
+    ksdb[5] = e145;
+    std::string * e146 = new std::string[20] { "館", "カン", "x", "x", "x", "grand bâtiment", "hall", "x", "large building", "hall", "x", "美術館（びじゅつかん）", "旅館（りょかん）", "図書館（としょかん）", "musée", "auberge japonaise (ryokan)", "bibliothèque", "museum", "Japanese inn (ryokan)", "library" };
+    ksdb[6] = e146;
+    std::string * e147 = new std::string[20] { "岸", "ガン", "x", "きし", "x", "rivage", "côte", "rive", "shore", "bank", "x", "海岸（かいがん）", "左岸（さがん）", "川岸（かわぎし）", "côte", "rive gauche", "rive, bord d'une rivière", "coast", "left bank (of a river)", "riverbank" };
+    ksdb[7] = e147;
+    std::string * e148 = new std::string[20] { "岩", "ガン", "x", "いわ", "x", "rocher", "roche", "x", "rock", "x", "x", "溶岩（ようがん）", "火成岩（かせいがん）", "砂岩（さがん）", "lave", "roche volcanique", "grès, roche gréseuse", "lava", "volcanic rock", "sandstone" };
+    ksdb[8] = e148;
+    std::string * e149 = new std::string[20] { "起", "キ", "x", "お（きる）", "お（こる）", "survenir", "se lever", "causer", "to arise", "to get up", "to cause", "再起動（さいきどう）", "早起き（はやおき）", "思い起こす（おもいおこす）", "redémarrage (ordinateur par ex.)", "un lève-tôt", "rappeler (qqch. à qqn)", "restart (e.g. a computer)", "early rising", "to recall" };
+    ksdb[9] = e149;
+    std::string * e1410 = new std::string[20] { "期", "キ", "ゴ", "x", "x", "période", "espoir", "attente", "period", "expectation", "x", "学期（がっき）", "延期（えんき）", "期待（きたい）", "trimestre ou semestre scolaire", "report à une date ultérieure", "attente (espérance)", "school term", "postponement, adjournment", "feeling of expectation" };
+    ksdb[10] = e1410;
+    std::string * e1411 = new std::string[20] { "客", "キャク", "カク", "x", "x", "hôte", "visiteur", "x", "guest", "visitor", "x", "お客様（おきゃくさま）", "乗客（じょうきゃく）", "x", "(honorable) visiteur", "passager", "x", "(honoured) guest", "passenger", "x" };
+    ksdb[11] = e1411;
+    std::string * e1412 = new std::string[20] { "究", "キュウ", "x", "きわ（める）", "x", "extrême", "enquêter", "x", "extreme", "investigate", "x", "研究（けんきゅう）", "研究所（けんきゅうじょ）", "x", "recherche, étude", "laboratoire, institut de recherche", "x", "research, study, investigation", "laboratory, research institute", "x" };
+    ksdb[12] = e1412;
+    std::string * e1413 = new std::string[20] { "急", "キュウ", "x", "いそ（ぐ）", "x", "urgent", "soudain", "escarpé", "urgent", "sudden", "steep", "特急（とっきゅう）", "救急車（きゅうきゅうしゃ）", "急ぐ（いそぐ）", "train rapide ", "ambulance", "se dépêcher, se hâter", "limited express train", "ambulance", "to hurry, to rush" };
+    ksdb[13] = e1413;
+    std::string * e1414 = new std::string[20] { "級", "キュウ", "x", "x", "x", "rang ", "qualité", "classe", "rank", "quality", "class", "学級（がっきゅう）", "高級品（こうきゅうひん）", "階級（かいきゅう）", "classe (système éducatif)", "produit de première qualité", "classe (sociale par ex.)", "grade (school)", "top quality product", "(social) class" };
+    ksdb[14] = e1414;
+    std::string * e1415 = new std::string[20] { "宮", "キュウ", "グウ", "みや", "x", "palais", "sanctuaire", "x", "palace", "shrine", "x", "宮殿（きゅうでん）", "神宮（じんぐう）", "迷宮（めいきゅう）", "palais", "sanctuaire shintō", "labyrinthe, dédale", "palace", "shintō shrine", "maze, labyrinth" };
+    ksdb[15] = e1415;
+    std::string * e1416 = new std::string[20] { "球", "キュウ", "x", "たま", "x", "sphère", "balle", "boule", "sphere", "ball", "x", "地球（ちきゅう）", "半球（はんきゅう）", "電球（でんきゅう）", "la Terre, le globe terrestre", "hémisphère", "ampoule électrique", "the earth", "hemisphere", "light bulb" };
+    ksdb[16] = e1416;
+    std::string * e1417 = new std::string[20] { "去", "キョ", "コ", "さ（る）", "x", "quitter", "passé", "x", "to leave", "past", "x", "去年（きょねん）", "過去（かこ）", "去る（さる）", "l'année dernière", "le passé", "partir, quitter", "last year", "the past, bygone days", "to leave, to go away" };
+    ksdb[17] = e1417;
+    std::string * e1418 = new std::string[20] { "橋", "キョウ", "x", "はし", "x", "pont", "x", "x", "bridge", "x", "x", "日本橋（にほんばし）", "桟橋（さんばし）", "歩道橋（ほどうきょう）", "Nihonbashi (quartier de Tōkyō)", "quai, jetée", "passerelle pour piétons", "Nihonbashi (district in Tōkyō)", "wharf, jetty", "pedestrian bridge" };
+    ksdb[18] = e1418;
+    std::string * e1419 = new std::string[20] { "業", "ギョウ", "ゴウ", "わざ", "x", "action", "travail", "x", "deed", "work", "karma", "営業中（えいぎょうちゅう）", "企業（きぎょう）", "産業（さんぎょう）", "ouvert (restaurant, café, etc.)", "entreprise (à tous les sens du terme)", "industrie", "open (restaurant, shop, etc.)", "enterprise, undertaking", "industry" };
+    ksdb[19] = e1419;
+    std::string * e1420 = new std::string[20] { "曲", "キョク", "x", "ま（がる）", "ま（げる）", "tordre", "mélodie", "x", "bend", "melody", "x", "作曲家（さっきょくか）", "曲線（きょくせん）", "左に曲がる（ひだりにまがる）", "compositeur", "courbe", "tourner à gauche", "composer", "curve", "to turn to the left" };
+    ksdb[20] = e1420;
+    std::string * e1421 = new std::string[20] { "局", "キョク", "x", "x", "x", "bureau", "section", "fin", "office", "section", "end", "郵便局（ゆうびんきょく）", "テレビ局（てれびきょく）", "結局（けっきょく）", "bureau de poste", "chaîne de télévision", "finalement", "post office", "television station", "after all, eventually, finally" };
+    ksdb[21] = e1421;
+    std::string * e1422 = new std::string[20] { "銀", "ギン", "x", "しろがね", "x", "argent", "(métal)", "x", "silver", "x", "x", "銀行（ぎんこう）", "水銀（すいぎん）", "銀河（ぎんが）", "banque", "mercure (métal)", "Voie lactée", "bank", "mercury (metal)", "Milky Way" };
+    ksdb[22] = e1422;
+    std::string * e1423 = new std::string[20] { "苦", "ク", "x", "くる（しい）", "にが（い）", "pénible", "dur", "amer", "painful", "bitter", "x", "苦しみ（くるしみ）", "苦痛（くつう）", "苦さ（にがさ）", "peine, angoisse, détresse", "souffrance", "amertume", "pain, anguish, distress", "pain, agony", "bitterness" };
+    ksdb[23] = e1423;
+    std::string * e1424 = new std::string[20] { "具", "グ", "x", "x", "x", "outil", "moyen", "x", "tool", "means", "x", "道具（どうぐ）", "家具（かぐ）", "具体的（ぐたいてき）", "outil, équipement, moyen", "meuble (mobilier)", "concret, tangible", "tool, utensils, means", "furniture", "concrete, tangible" };
+    ksdb[24] = e1424;
+    std::string * e1425 = new std::string[20] { "君", "クン", "x", "きみ", "x", "tu", "M. (Monsieur)", "seigneur", "you", "Mr", "lord", "君（きみ）", "田中君（たなかくん）", "x", "tu", "M. Tanaka", "x", "you (familiar)", "Mr Tanaka", "x" };
+    ksdb[25] = e1425;
+    std::string * e1426 = new std::string[20] { "兄", "ケイ", "キョウ", "あに", "x", "grand frère", "frère aîné", "x", "elder brother", "x", "x", "お兄さん（おにいさん）", "兄弟（きょうだい）", "x", "grand frère, frère aîné", "des frères", "x", "elder brother", "brothers", "x" };
+    ksdb[26] = e1426;
+    std::string * e1427 = new std::string[20] { "係", "ケイ", "x", "かかり", "x", "relation", "responsabilité", "devoir", "duty", "person in charge", "relation", "関係（かんけい）", "係員（かかりいん）", "x", "relation", "personne responsable (d'une tâche)", "x", "relationship", "person, employee in charge", "x" };
+    ksdb[27] = e1427;
+    std::string * e1428 = new std::string[20] { "軽", "ケイ", "x", "かる（い）", "x", "léger", "mineur", "x", "light", "minor", "x", "軽い（かるい）", "軽傷（けいしょう）", "x", "léger, mineur, sans gravité", "blessure légère", "x", "light, minor, non-serious", "minor injury", "x" };
+    ksdb[28] = e1428;
+    std::string * e1429 = new std::string[20] { "血", "ケツ", "x", "ち", "x", "sang", "x", "x", "blood", "x", "x", "血液（けつえき）", "血圧（けつあつ）", "血管（けっかん）", "sang", "tension artérielle", "vaisseau sanguin", "blood", "blood pressure", "blood vessel" };
+    ksdb[29] = e1429;
+    std::string * e1430 = new std::string[20] { "決", "ケツ", "x", "き（まる）", "き（める）", "être décidé", "décider", "x", "decide", "settle", "x", "決定（けってい）", "決して（けっして）", "裁決（さいけつ）", "décision, détermination", "en aucun cas", "jugement, verdict", "decision, determination", "never, by no means", "judgement, verdict, ruling" };
+    ksdb[30] = e1430;
+    std::string * e1431 = new std::string[20] { "研", "ケン", "x", "と（ぐ）", "x", "aiguiser", "raffiner", "x", "to sharpen", "to polish", "x", "研究（けんきゅう）", "研究所（けんきゅうじょ）", "研修員（けんしゅういん）", "recherche", "laboratoire de recherche", "stagiaire, en formation", "research", "laboratory, research institute", "trainee" };
+    ksdb[31] = e1431;
+    std::string * e1432 = new std::string[20] { "県", "ケン", "x", "x", "x", "département", "Préfecture", "x", "prefecture", "x", "x", "群馬県（ぐんまけん）", "県立（けんりつ）", "県知事（けんちじ）", "préfecture de Gunma", "départemental, préfectoral", "préfet (gouverneur)", "Gunma Prefecture", "prefectoral", "prefectoral governor" };
+    ksdb[32] = e1432;
+    std::string * e1433 = new std::string[20] { "言", "ゲン", "ゴン", "こと", "い（う）", "parole", "dire", "parler", "word", "say", "speak", "言葉（ことば）", "言論（げんろん）", "発言（はつげん）", "mot", "discussion", "déclaration", "word", "discussion", "declaration, statement" };
+    ksdb[33] = e1433;
+    std::string * e1434 = new std::string[20] { "庫", "コ", "x", "x", "x", "entrepôt", "x", "x", "storehouse", "x", "x", "冷蔵庫（れいぞうこ）", "車庫（しゃこ）", "倉庫（そうこ）", "réfrigérateur", "garage, dépôt", "entrepôt", "refrigerator", "garage, depot", "warehouse" };
+    ksdb[34] = e1434;
+    std::string * e1435 = new std::string[20] { "湖", "コ", "x", "みずうみ", "x", "lac", "x", "x", "lake", "x", "x", "白鳥の湖（はくちょうのみずうみ）", "山中湖（やまなかこ）", "火口湖（かこうこ）", "          Le Lac des Cygnes (le ballet)", "le lac Yamanaka (au pied du Fuji)", "lac de cratère", "          Swan Lake (the ballet)", "Lake Yamanaka (near Mount Fuji)", "crater lake" };
+    ksdb[35] = e1435;
+    std::string * e1436 = new std::string[20] { "公", "コウ", "x", "おおやけ", "x", "officiel", "public", "x", "official", "public", "x", "公園（こうえん）", "公害（こうがい）", "公証人（こうしょうにん）", "jardin public", "nuisance, pollution", "notaire", "public park", "public nuisance, pollution", "notary public" };
+    ksdb[36] = e1436;
+    std::string * e1437 = new std::string[20] { "向", "コウ", "x", "む（かう）", "x", "faire face", "aller vers", "opposé", "to face", "to go towards", "beyond", "向こう側（むこうがわ）", "向上心（こうじょうしん）", "傾向（けいこう）", "en face, la partie adverse", "ambition, aspiration", "tendance", "other side, other party", "ambition, aspiration", "trend" };
+    ksdb[37] = e1437;
+    std::string * e1438 = new std::string[20] { "幸", "コウ", "x", "さいわ（い）", "しあわ（せ）", "bonheur", "bonne fortune", "x", "happiness", "luck", "x", "幸いに（さいわいに）", "幸せ（しあわせ）", "海の幸（うみのさち）", "heureusement, par bonheur", "le bonheur, la chance", "fruits de mer", "fortunately", "happiness, good fortune, blessing", "seafood" };
+    ksdb[38] = e1438;
+    std::string * e1439 = new std::string[20] { "港", "コウ", "x", "みなと", "x", "port", "x", "x", "harbor", "port", "x", "港町（みなとまち）", "空港（くうこう）", "香港（ほんこん）", "ville portuaire", "aéroport", "Hong Kong", "port city", "airport", "Hong Kong" };
+    ksdb[39] = e1439;
+    std::string * e1440 = new std::string[20] { "号", "ゴウ", "x", "x", "x", "numéro", "signal", "x", "number", "sign", "x", "番号（ばんごう）", "信号（しんごう）", "暗号（あんごう）", "numéro", "feu de signalisation", "code secret (par ex. carte bancaire)", "number", "signal (e.g. red light)", "code, password" };
+    ksdb[40] = e1440;
+    std::string * e1441 = new std::string[20] { "根", "コン", "x", "ね", "x", "racine", "base", "x", "root", "base", "x", "根っこ（ねっこ）", "根本的（こんぽんてき）", "根気（こんき）", "racine (d'une plante)", "fondamental", "patience, persévérance", "root, stub, stump", "fundamental, basic", "patience, perseverance" };
+    ksdb[41] = e1441;
+    std::string * e1442 = new std::string[20] { "祭", "サイ", "x", "まつ（る）", "まつ（り）", "fête", "festival", "rendre un culte à", "festival", "worship", "x", "夏祭り（なつまつり）", "祭日（さいじつ）", "祭る（まつる）", "fête de l'été", "fête nationale", "déifier", "summer festival", "national holiday", "to deify, to enshrine" };
+    ksdb[42] = e1442;
+    std::string * e1443 = new std::string[20] { "細", "サイ", "x", "ほそ（い）", "こま（かい）", "mince", "fin", "étroit", "slender", "fine", "x", "細かい（こまかい）", "細菌（さいきん）", "細長い（ほそながい）", "détaillé, fin", "bactérie, microbe", "long et mince", "detailed, fine, minute", "bacteria, germ", "long and narrow, slender" };
+    ksdb[43] = e1443;
+    std::string * e1444 = new std::string[20] { "仕", "シ", "ジ", "つか（える）", "x", "servir", "travailler", "faire", "serve", "work", "do", "仕事（しごと）", "仕方がない（しかたがない）", "x", "travail", "On n'y peut rien, il n'y a rien à faire", "x", "work", "It can't be helped, it's no use", "x" };
+    ksdb[44] = e1444;
+    std::string * e1445 = new std::string[20] { "死", "シ", "x", "し（ぬ）", "x", "mort", "mourir", "x", "death", "to die", "x", "安楽死（あんらくし）", "過労死（かろうし）", "死刑（しけい）", "euthanasie", "mort par excès de travail", "peine de mort", "euthanasia", "death from overwork", "death penalty" };
+    ksdb[45] = e1445;
+    std::string * e1446 = new std::string[20] { "使", "シ", "x", "つか（う）", "x", "utiliser", "serviteur", "x", "to use", "servant", "x", "使用する（しようする）", "使いやすい（つかいやすい）", "大使館（たいしかん）", "utiliser, employer", "d'un emploi facile", "ambassade", "to use, to employ", "easy to use", "embassy" };
+    ksdb[46] = e1446;
+    std::string * e1447 = new std::string[20] { "始", "シ", "x", "はじ（める）", "はじ（まる）", "début", "mise en route", "x", "to begin", "to start", "x", "始まる（はじまる）", "始める（はじめる）", "開始（かいし）", "commencer (intransitif)", "commencer (transitif)", "début, commencement", "to begin (intransitive)", "to begin (transitive)", "start, commencement, beginning" };
+    ksdb[47] = e1447;
+    std::string * e1448 = new std::string[20] { "指", "シ", "x", "ゆび", "さ（す）", "doigt", "pointer du doigt", "indiquer", "finger", "to point at", "x", "指示（しじ）", "指圧（しあつ）", "指定席（していせき）", "consignes, instructions", "shiatsu (massage par pression)", "place réservée (train, etc.)", "directions, instructions", "finger pressure massage, shiatsu", "reserved seat (e.g. train)" };
+    ksdb[48] = e1448;
+    std::string * e1449 = new std::string[20] { "歯", "シ", "x", "は", "x", "dent", "x", "x", "tooth", "x", "x", "歯医者（はいしゃ）", "歯車（はぐるま）", "歯磨き（はみがき）", "dentiste", "roue d'engrenage, pignon", "dentifrice", "dentist", "gear-wheel", "toothpaste, dentifrice" };
+    ksdb[49] = e1449;
+    std::string * e1450 = new std::string[20] { "詩", "シ", "x", "x", "x", "poésie", "x", "x", "poetry", "x", "x", "詩人（しじん）", "詩的（してき）", "x", "poète", "poétique", "x", "poet", "poetic", "x" };
+    ksdb[50] = e1450;
+    std::string * e1451 = new std::string[20] { "次", "ジ", "シ", "つぎ", "つ（ぐ）", "suivant", "prochain", "x", "next", "follow", "x", "次々に（つぎつぎに）", "次第に（しだいに）", "三次元（さんじげん）", "l'un après l'autre,  en succession", "progressivement", "en trois dimensions, 3-D", "one after the other, successively", "gradually", "3-D, three dimensional" };
+    ksdb[51] = e1451;
+    std::string * e1452 = new std::string[20] { "事", "ジ", "ズ", "こと", "x", "chose", "événement", "fait", "thing", "matter", "act", "仕事（しごと）", "大事（だいじ）", "事件（じけん）", "travail", "important, précieux", "affaire, incident, scandale", "work", "important, valuable", "event, affair, incident" };
+    ksdb[52] = e1452;
+    std::string * e1453 = new std::string[20] { "持", "ジ", "x", "も（つ）", "x", "tenir", "avoir", "x", "to hold", "to have", "to maintain", "持ち帰り（もちかえり）", "気持ち（きもち）", "金持ち（かねもち）", "à emporter ", "sentiment, émotion", "riche", "takeout", "feeling, sensation, mood", "rich" };
+    ksdb[53] = e1453;
+    std::string * e1454 = new std::string[20] { "式", "シキ", "x", "x", "x", "cérémonie", "étiquette", "formule (math)", "ceremony", "formula", "equation", "結婚式（けっこんしき）", "式場（しきじょう）", "株式（かぶしき）", "cérémonie de mariage", "lieu de la cérémonie", "actions (bourse)", "marriage ceremony, wedding", "place of ceremony", "stock (stock-exchange)" };
+    ksdb[54] = e1454;
+    std::string * e1455 = new std::string[20] { "実", "ジツ", "x", "み", "みの（る）", "vérité", "porter des fruits", "réalité", "truth", "to bear fruits", "reality", "実行する（じっこうする）", "実用的（じつようてき）", "果実（かじつ）", "réaliser, exécuter", "utilisable, pratique", "fruit, amande, baie", "to put in effect, to carry out", "practical, useful", "fruit, nut, berry" };
+    ksdb[55] = e1455;
+    std::string * e1456 = new std::string[20] { "写", "シャ", "x", "うつ（す）", "x", "copier", "transcrire", "x", "to copy", "to transcribe", "x", "写真（しゃしん）", "写生（しゃせい）", "x", "photographie", "dessiner d'après nature, esquisser", "x", "photograph", "sketching, drawing from nature", "x" };
+    ksdb[56] = e1456;
+    std::string * e1457 = new std::string[20] { "者", "シャ", "x", "もの", "x", "personne", "x", "x", "person", "x", "x", "医者（いしゃ）", "患者（かんじゃ）", "若者（わかもの）", "docteur, médecin", "patient", "jeune homme, jeune fille", "doctor", "patient", "young people" };
+    ksdb[57] = e1457;
+    std::string * e1458 = new std::string[20] { "主", "シュ", "x", "ぬし", "おも", "maître", "propriétaire", "principal", "master", "owner", "main", "ご主人（ごしゅじん）", "家主（やぬし）", "ー主義（しゅぎ）", "mon mari, votre mari (poli)", "propriétaire (immobilier)", "-isme (suffixe)", "my husband, your husband (polite)", "landlord", "-ism (suffix)" };
+    ksdb[58] = e1458;
+    std::string * e1459 = new std::string[20] { "守", "シュ", "ス", "まも（る）", "x", "protéger", "garder de", "préserver de", "to protect", "to keep", "x", "子守り（こもり）", "留守番電話（るすばんでんわ）", "保守主義（ほしゅしゅぎ）", "baby-sitter", "répondeur (téléphone)", "conservatisme", "babysitter", "answering machine", "conservatism" };
+    ksdb[59] = e1459;
+  }
+};

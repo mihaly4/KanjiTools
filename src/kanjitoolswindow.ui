@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
+    <width>550</width>
     <height>640</height>
    </rect>
   </property>
@@ -14,11 +14,11 @@
    <string>Knanji tools</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
+   <layout class="QHBoxLayout" name="horizontalLayout_15">
+    <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -427,9 +427,9 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>10</y>
-          <width>421</width>
-          <height>522</height>
+          <y>11</y>
+          <width>511</width>
+          <height>551</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -455,8 +455,8 @@
               <widget class="QLabel" name="label_9">
                <property name="font">
                 <font>
-                 <family>Meiryo</family>
-                 <pointsize>72</pointsize>
+                 <family>Sans Serif</family>
+                 <pointsize>100</pointsize>
                 </font>
                </property>
                <property name="frameShape">
@@ -509,6 +509,11 @@
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>16</pointsize>
+                    </font>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::Panel</enum>
                    </property>
@@ -530,6 +535,11 @@
                      <width>200</width>
                      <height>16777215</height>
                     </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>16</pointsize>
+                    </font>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::Panel</enum>
@@ -577,6 +587,11 @@
                      <height>100</height>
                     </size>
                    </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::Panel</enum>
                    </property>
@@ -584,7 +599,7 @@
                     <string>TextLabel</string>
                    </property>
                    <property name="textFormat">
-                    <enum>Qt::RichText</enum>
+                    <enum>Qt::AutoText</enum>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -602,6 +617,11 @@
                      <height>100</height>
                     </size>
                    </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::Panel</enum>
                    </property>
@@ -609,7 +629,7 @@
                     <string>TextLabel</string>
                    </property>
                    <property name="textFormat">
-                    <enum>Qt::RichText</enum>
+                    <enum>Qt::AutoText</enum>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1122,7 +1142,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>480</width>
+     <width>550</width>
      <height>19</height>
     </rect>
    </property>

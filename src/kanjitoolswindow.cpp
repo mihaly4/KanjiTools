@@ -9,6 +9,12 @@
 #include "kanji_module.h"
 #include "kanjitesthandler.h"
 #include "kanjiencorehandler.h"
+#include <sstream>
+#include "d301.h"
+#include "d302.h"
+#include "d303.h"
+#include "d304.h"
+#include "d305.h"
 
 KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -104,34 +110,39 @@ void KanjiToolsWindow::on_pushButton_clicked()
     m_pCore->AddQuery("INSERT INTO kanjitools.course (`Name`) VALUES(\"4201mv\");");
     m_pCore->AddQuery("INSERT INTO kanjitools.cadet_in_course (`Person_ID`,`course_name`) VALUES(2,\"4201mv\");");
     m_pCore->AddQuery("INSERT INTO kanjitools.cadet_in_course (`Person_ID`,`course_name`) VALUES(3,\"4201mv\");");
-    m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"kanji group no 1\",1);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"kanji group no 2\",1);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"test no 1\",2);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"test no 2\",2);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.kanji ( `kanji`,`on_youmi`,`kun_youmi`,`translations`,`examples`) VALUES(\"教\",\"su\",\"gaku\",\"learning\",\"教師 - kyoushi - teacher\");");
-    m_pCore->AddQuery("INSERT INTO kanjitools.kanji ( `kanji`,`on_youmi`,`kun_youmi`,`translations`,`examples`) VALUES(\"女\",\"JO\",\"NYO, NYŌ\",\"[onna]	женщина; ~no женский\",\"女性	[josei]	\
-                      1.	женщина\
-                      2.	женский пол\
-                      女の人	[onnanohito]	женщина\
-                      女の子	[onnanoko]	девочка\");");
-    m_pCore->AddQuery("INSERT INTO kanjitools.kanji ( `kanji`,`on_youmi`,`kun_youmi`,`translations`,`examples`) VALUES(\"男\",\"DAN\",\"NAN\",\"男	[otoko]	\
-                      1.	 мужчина; парень; ~no мужской\
-                      2.	  перен. мужская честь\",\"男性	[dansei]	\
-                                                   1.	мужчина\
-                                                   2.	мужской пол\
-                                                   男の人	[otokonohito]	мужчина\
-                                                   男の子	[otokonoko]	мальчик\");");
-    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"教\",1);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"女\",1);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"男\",1);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"教\",3);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"女\",3);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\"男\",3);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.testresults (`Material_ID`,`Test_Type`,`Person_ID`) VALUES(4,\"on-youmi-1\",2);");
 
+    d3xx * data[5];
+    data[0] = new d301();
+    data[1] = new d302();
+    data[2] = new d303();
+    data[3] = new d304();
+    data[4] = new d305();
+    
+    for(int g =0; g < 5; g++)
+    {
+	d3xx * p1 = data[g];
+	m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\""+p1->GetGroupName()+"\",1);");
+	m_pCore->AddQuery("INSERT INTO kanjitools.material (`title`,`mat_type`) VALUES(\"Test: "+p1->GetGroupName()+"\",2);");
+	for(int i=0;i<60;i++)
+	{
+	    std::string * kanji_info = p1->ksdb[i];
+	    
+	    m_pCore->AddQuery("INSERT INTO kanjitools.kanji ( `kanji`,`on_youmi`,`kun_youmi`,`translations`,`examples`) \
+	    VALUES(\
+	    \""+p1->GetKanji(i)+"\",\
+	    \""+p1->GetOn(i)+"\",\
+	    \""+p1->GetKun(i)+"\",\
+	    \""+p1->GetMeaning(i)+"\",\
+	    \""+p1->GetExamples(i)+"\");");
+	    std::ostringstream s;
+	    s << g*2+1;
+	    std::ostringstream s2;
+	    s2 << g*2+2;
 
-
-
+	    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\""+p1->GetKanji(i)+"\","+s.str()+");");
+	    m_pCore->AddQuery("INSERT INTO kanjitools.kanjiinmaterial (`kanji`,`Material_ID`) VALUES(\""+p1->GetKanji(i)+"\","+s2.str()+");");
+	}
+    }
 }
 void KanjiToolsWindow::users_loaded(void * obj, void * arg)
 {

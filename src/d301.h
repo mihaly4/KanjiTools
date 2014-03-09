@@ -1,0 +1,134 @@
+#include "d3xx.h"
+class d301 : public d3xx
+{
+  public:
+    
+   
+    std::string GetGroupName()
+    {
+	return "1 to 60";
+    }
+  d301() 
+  {
+    std::string * arrayOfString1 = new std::string[20] { "一", "イチ", "x", "ひと", "ひと（つ）", "un", "x", "x", "one", "x", "x", "一月（いちがつ）", "一番（いちばん）", "一冊（いっさつ）", "janvier", "le premier", "un (livre)", "January", "first, best", "one (book)" };
+    ksdb[0] = arrayOfString1;
+    std::string * arrayOfString2 = new std::string[20] { "右", "ウ", "ユウ", "みぎ", "x", "droite", "x", "x", "right", "x", "x", "右派（うは）", "右手（みぎて）", "左右する（さゆうする）", "la droite (politique)", "la main droite", "influencer, contrôler, dominer", "the right wing", "the right hand", "to influence, to control, to dominate" };
+    ksdb[1] = arrayOfString2;
+    std::string * arrayOfString3 = new std::string[20] { "雨", "ウ", "x", "あめ", "あま", "pluie", "x", "x", "rain", "x", "x", "梅雨（ばいう）", "大雨（おおあめ）", "雨雲（あまぐも）", "saison des pluies", "forte pluie", "nuage de pluie", "rainy season", "heavy rain", "rain cloud" };
+    ksdb[2] = arrayOfString3;
+    std::string * arrayOfString4 = new std::string[20] { "円", "エン", "x", "まる（い）", "x", "rond", "yen", "x", "round", "yen", "(currency)", "円形（えんけい）", "百円（ひゃくえん）", "円盤（えんばん）", "cercle", "100 yens", "(en forme de) disque", "circle", "100 yen", "disc (shape)" };
+    ksdb[3] = arrayOfString4;
+    std::string * arrayOfString5 = new std::string[20] { "王", "オウ", "x", "x", "x", "roi", "souverain", "x", "king", "ruler", "x", "王様（おうさま）", "女王（じょおう）", "王子（おうじ）", "roi", "reine", "prince", "king", "queen", "prince" };
+    ksdb[4] = arrayOfString5;
+    std::string * arrayOfString6 = new std::string[20] { "音", "オン", "イン", "おと", "ね", "son", "bruit", "x", "sound", "(a) noise", "x", "音楽（おんがく）", "発音（はつおん）", "母音（ぼいん）", "musique", "prononciation", "voyelle", "music", "pronunciation", "vowel" };
+    ksdb[5] = arrayOfString6;
+    std::string * arrayOfString7 = new std::string[20] { "下", "カ", "ゲ", "した", "しも", "base", "sous", "inférieur", "base", "under", "lower", "地下鉄（ちかてつ）", "下手（へた）", "氷点下（ひょうてんか）", "métro", "malhabile", "en dessous de zéro", "subway", "bad (at doing something)", "below freezing" };
+    ksdb[6] = arrayOfString7;
+    std::string * arrayOfString8 = new std::string[20] { "火", "カ", "x", "ひ", "x", "feu", "x", "x", "fire", "x", "x", "火曜日（かようび）", "火山（かざん）", "火事（かじ）", "mardi", "volcan", "incendie", "Tuesday", "volcano", "fire" };
+    ksdb[7] = arrayOfString8;
+    std::string * arrayOfString9 = new std::string[20] { "花", "カ", "x", "はな", "x", "fleur", "x", "x", "flower", "x", "x", "花火（はなび）", "花瓶（かびん）", "花粉（かふん）", "feu d'artifice", "vase", "pollen", "fireworks", "vase", "pollen" };
+    ksdb[8] = arrayOfString9;
+    std::string * arrayOfString10 = new std::string[20] { "学", "ガク", "x", "まな（ぶ）", "x", "études", "x", "x", "learning", "x", "x", "学校（がっこう）", "医学（いがく）", "科学（かがく）", "école", "médecine", "science", "school", "medicine", "science" };
+    ksdb[9] = arrayOfString10;
+    std::string * arrayOfString11 = new std::string[20] { "気", "キ", "ケ", "x", "x", "esprit", "x", "x", "spirit", "x", "x", "天気（てんき）", "気分（きぶん）", "電気（でんき）", "le temps (qu'il fait)", "humeur", "électricité", "weather", "mood", "electricity" };
+    ksdb[10] = arrayOfString11;
+    std::string * arrayOfString12 = new std::string[20] { "九", "キュウ", "ク", "ここの（つ）", "x", "neuf", "x", "x", "nine", "x", "x", "九月（くがつ）", "九十（きゅうじゅう）", "九州（きゅうしゅう）", "septembre", "quatre-vingt-dix", "île de Kyūshū", "September", "ninety", "Kyūshū Island" };
+    ksdb[11] = arrayOfString12;
+    std::string * arrayOfString13 = new std::string[20] { "休", "キュウ", "x", "やす（む）", "x", "repos", "x", "x", "rest", "x", "x", "夏休み（なつやすみ）", "休日（きゅうじつ）", "休業（きゅうぎょう）", "vacances d'été", "jour de repos", "fermé (magasin, restaurant)", "summer vacation, summer holiday", "holiday, day off", "Closed (e.g. store, restaurant)" };
+    ksdb[12] = arrayOfString13;
+    std::string * arrayOfString14 = new std::string[20] { "金", "キン", "コン", "かね", "x", "or", "argent", "métal", "gold", "money", "metal", "金曜日 （きんようび）", "金持ち （かねもち）", "金額 （きんがく）", "vendredi", "(un) riche", "somme, montant", "Friday", "rich person", "amount of money" };
+    ksdb[13] = arrayOfString14;
+    std::string * arrayOfString15 = new std::string[20] { "空", "クウ", "x", "そら", "から", "ciel", "vide", "x", "sky", "empty", "x", "空気（くうき）", "お腹が空いた（おなかがすいた）", "空間（くうかん）", "air", "avoir faim", "espace, place", "air", "to be hungry", "space, room" };
+    ksdb[14] = arrayOfString15;
+    std::string * arrayOfString16 = new std::string[20] { "月", "ゲツ", "ガツ", "つき", "x", "lune", "mois", "x", "moon", "month", "x", "一月（いちがつ）", "今月（こんげつ）", "来月　（らいげつ）", "janvier", "ce mois-ci", "le mois prochain", "January", "this month", "next month" };
+    ksdb[15] = arrayOfString16;
+    std::string * arrayOfString17 = new std::string[20] { "犬", "ケン", "x", "いぬ", "x", "chien", "x", "x", "dog", "x", "x", "子犬（こいぬ）", "狂犬病（きょうけんびょう）", "メス犬（めすいぬ）", "chiot", "rage (maladie)", "chienne", "puppy", "rabies", "female dog" };
+    ksdb[16] = arrayOfString17;
+    std::string * arrayOfString18 = new std::string[20] { "見", "ケン", "x", "み(る）", "x", "voir", "regarder", "x", "to see", "to look", "x", "発見（はっけん）", "意見　（いけん）", "見通し （みとおし）", "découverte", "opinion", "prévision, vue dégagée", "discovery", "opinion", "outlook, forecast, unobstructed view" };
+    ksdb[17] = arrayOfString18;
+    std::string * arrayOfString19 = new std::string[20] { "五", "ゴ", "x", "いつ（つ）", "x", "cinq", "x", "x", "five", "x", "x", "五月（ごがつ）", "五角形（ごかっけい）", "五十音（ごじゅうおん）", "mai", "pentagone", "syllabaire japonais", "May", "pentagon", "Japanese syllabary" };
+    ksdb[18] = arrayOfString19;
+    std::string * arrayOfString20 = new std::string[20] { "口", "コウ", "ク", "くち", "x", "bouche", "ouverture", "x", "mouth", "opening", "x", "出口（でぐち）", "人口（じんこう）", "一口（ひとくち）", "sortie", "population", "une bouchée", "exit", "population", "one bite" };
+    ksdb[19] = arrayOfString20;
+    std::string * arrayOfString21 = new std::string[20] { "校", "コウ", "x", "x", "x", "école", "vérification", "x", "school", "proof", "check", "学校　（がっこう）", "高校生　（こうこうせい）", "転校　（てんこう）", "école", "lycéen(ne)", "changement d'école", "school", "senior high school student", "change of schools, transfer" };
+    ksdb[20] = arrayOfString21;
+    std::string * arrayOfString22 = new std::string[20] { "左", "サ", "x", "ひだり", "x", "gauche", "x", "x", "left", "x", "x", "左派（さは）", "左に曲がる（ひだりにまがる）", "左回り（ひだりまわり）", "la gauche (en politique)", "tourner à gauche", "sens inverse des aiguilles d'une montre", "leftist faction", "to turn to the left", "counter clockwise rotation" };
+    ksdb[21] = arrayOfString22;
+    std::string * arrayOfString23 = new std::string[20] { "三", "サン", "x", "み", "み（つ）", "trois", "x", "x", "three", "x", "x", "三月　（さんがつ）", "三角　（さんかく）", "三回（さんかい）", "mars", "triangle, triangulaire", "trois fois", "March", "triangle, triangular", "three times" };
+    ksdb[22] = arrayOfString23;
+    std::string * arrayOfString24 = new std::string[20] { "山", "サン", "x", "やま", "x", "montagne", "x", "x", "mountain", "x", "x", "火山　（かざん）", "氷山　（ひょうざん）", "富士山（ふじさん）", "volcan", "iceberg", "Mont Fuji", "volcano", "iceberg", "Mount Fuji" };
+    ksdb[23] = arrayOfString24;
+    std::string * arrayOfString25 = new std::string[20] { "子", "シ", "ス", "こ", "x", "enfant", "x", "x", "child", "x", "x", "子供　（こども）", "女子　（じょし）", "電子　（でんし）", "enfant", "fille", "électron", "child", "girl", "electron" };
+    ksdb[24] = arrayOfString25;
+    std::string * arrayOfString26 = new std::string[20] { "四", "シ", "x", "よん", "よ", "quatre", "x", "x", "four", "x", "x", "四月　（しがつ）", "四日　（よっか）", "四十（よんじゅう）", "avril", "le quatre (du mois)", "quarante", "April", "the fourth day of the month", "forty" };
+    ksdb[25] = arrayOfString26;
+    std::string * arrayOfString27 = new std::string[20] { "糸", "シ", "x", "いと", "x", "fil", "x", "x", "thread", "yarn", "string", "糸口（いとぐち）", "絹糸（きぬいと、けんし）", "x", "indice, début", "fil de soie", "x", "thread end, clue, beginning", "silk thread", "x" };
+    ksdb[26] = arrayOfString27;
+    std::string * arrayOfString28 = new std::string[20] { "字", "ジ", "x", "x", "x", "lettre", "symbole", "x", "letter", "symbol", "x", "数字（すうじ）", "名字（みょうじ）", "文字（もじ）", "chiffre", "nom de famille", "caractère", "digit, number, figure", "surname, family name", "letter, character" };
+    ksdb[27] = arrayOfString28;
+    std::string * arrayOfString29 = new std::string[20] { "耳", "ジ", "x", "みみ", "x", "oreille", "x", "x", "ear", "x", "x", "耳飾り（みみかざり）", "耳が遠い（みみがとおい）", "内耳（ないじ）", "boucle(s) d'oreille", "être dur d'oreille", "oreille interne", "earring", "to have poor hearing", "inner ear" };
+    ksdb[28] = arrayOfString29;
+    std::string * arrayOfString30 = new std::string[20] { "七", "シチ", "x", "なな", "なな（つ）", "sept", "x", "x", "seven", "x", "x", "七月（しちがつ）", "七日（なのか、なぬか）", "七十（ななじゅう）", "juillet", "le sept (du mois)", "soixante-dix", "July", "the seventh day of the month", "seventy" };
+    ksdb[29] = arrayOfString30;
+    std::string * arrayOfString31 = new std::string[20] { "車", "シャ", "x", "くるま", "x", "véhicule", "voiture", "roue", "vehicle", "car", "wheel", "電車（でんしゃ）", "車両 （しゃりょう）", "車代（くるまだい）", "train", "voiture (train), wagon", "prix de la course (taxi)", "train", "vehicles, cars (of train)", "a (taxi) fare" };
+    ksdb[30] = arrayOfString31;
+    std::string * arrayOfString32 = new std::string[20] { "手", "シュ", "x", "て", "x", "main", "x", "x", "hand", "x", "x", "大手（おおて）", "相手（あいて）", "手続き（てつづき）", "grande (entreprise)", "partenaire", "procédure", "major company", "partner", "procedure" };
+    ksdb[31] = arrayOfString32;
+    std::string * arrayOfString33 = new std::string[20] { "十", "ジュウ", "x", "とお", "x", "dix", "x", "x", "ten", "x", "x", "十月（じゅうがつ）", "十日（とおか）", "十分（じゅうぶん）（じゅっぷん）", "octobre", "le 10 du mois, dix jours", "              assez, dix minutes (selon le contexte)", "October", "the tenth day of the month, ten days", "              enough, ten minutes (according to context)" };
+    ksdb[32] = arrayOfString33;
+    std::string * arrayOfString34 = new std::string[20] { "出", "シュツ", "スイ", "で（る）", "だ（す）", "sortir (trans.)", "sortir", "(intransitif)", "to go out", "to put out", "x", "出発（しゅっぱつ）", "思い出（おもいで）", "出席（しゅっせき）", "départ", "souvenir", "présence", "departure", "memory", "presence, attendance" };
+    ksdb[33] = arrayOfString34;
+    std::string * arrayOfString35 = new std::string[20] { "女", "ジョ", "ニョウ", "おんな", "め", "femme", "x", "x", "woman", "x", "x", "女性（じょせい）", "女の子（おんなのこ）", "少女（しょうじょ）", "femme", "fille", "petite fille, fillette", "woman", "girl", "little girl" };
+    ksdb[34] = arrayOfString35;
+    std::string * arrayOfString36 = new std::string[20] { "小", "ショウ", "x", "こ", "ちい（さい）", "petit", "x", "x", "small", "x", "x", "小型（こがた）", "最小（さいしょう）", "微小（びしょう）", "de petite taille", "le plus petit", "microscopique", "small size", "the smallest", "microscopic" };
+    ksdb[35] = arrayOfString36;
+    std::string * arrayOfString37 = new std::string[20] { "上", "ジョウ", "x", "うえ", "のぼ（る）", "haut", "sommet", "monter", "up", "top", "to go up", "上る（のぼる）", "以上（いじょう）", "その上（そのうえ）", "monter", "ci-dessus", "en plus de cela", "to climb", "above, over", "moreover, in addition" };
+    ksdb[36] = arrayOfString37;
+    std::string * arrayOfString38 = new std::string[20] { "森", "シン", "x", "もり", "x", "forêt", "x", "x", "forest", "woods", "x", "森林（しんりん）", "青森県（あおもりけん）", "森田さん（もりたさん）", "forêt", "Préfecture d'Aomori", "Monsieur Morita", "forest", "Aomori Prefecture", "Mister Morita" };
+    ksdb[37] = arrayOfString38;
+    std::string * arrayOfString39 = new std::string[20] { "人", "ジン", "ニン", "ひと", "x", "être humain", "personne", "x", "human being", "person", "x", "人間（にんげん）", "フランス人（ふらんすじん）", "一人（ひとり）", "être humain", "un Français, une Française", "une personne", "a human being", "a Frenchman, a Frenchwoman", "one person" };
+    ksdb[38] = arrayOfString39;
+    std::string * arrayOfString40 = new std::string[20] { "水", "スイ", "x", "みず", "x", "eau", "x", "x", "water", "x", "x", "水曜日（すいようび）", "水道（すいどう）", "水準（すいじゅん）", "mercredi", "canalisations d'eau", "standard, de niveau", "Wednesday", "water supply, water pipes", "standard, level" };
+    ksdb[39] = arrayOfString40;
+    std::string * arrayOfString41 = new std::string[20] { "正", "セイ", "ショウ", "ただ（しい）", "x", "correct", "exact", "juste", "correct", "exact", "true", "正解（せいかい）", "正月（しょうがつ）", "正誤表（せいごひょう）", "réponse correcte", "Nouvel An", "errata", "correct interpretation (answer, solution)", "New Year", "errata, correction, revision" };
+    ksdb[40] = arrayOfString41;
+    std::string * arrayOfString42 = new std::string[20] { "生", "セイ", "ショウ", "なま", "い（きる）", "vie", "naissance", "croissance", "life", "birth", "growth", "学生（がくせい）", "生活（せいかつ）", "発生（はっせい）", "un(e) étudiant(e)", "la vie", "occurrence", "a student", "life", "occurrence, outbreak" };
+    ksdb[41] = arrayOfString42;
+    std::string * arrayOfString43 = new std::string[20] { "青", "セイ", "ショウ", "あお（い）", "x", "bleu", "vert (figuré)", "jeune", "blue", "green (fig.)", "young", "青年（せいねん）", "青空（あおぞら）", "青信号（あおしんごう）", "un jeune", "ciel bleu, à ciel ouvert", "feu vert (de circulation)", "a youth", "blue sky, open air", "green light" };
+    ksdb[42] = arrayOfString43;
+    std::string * arrayOfString44 = new std::string[20] { "夕", "セキ", "x", "ゆう", "x", "soir", "x", "x", "evening", "x", "x", "夕食（ゆうしょく）", "夕刊（ゆうかん）", "夕立（ゆうだち）", "dîner", "édition du soir (journal)", "averse de fin de journée", "dinner", "evening paper", "(sudden) evening shower (rain)" };
+    ksdb[43] = arrayOfString44;
+    std::string * arrayOfString45 = new std::string[20] { "石", "セキ", "シャク", "いし", "x", "pierre", "x", "x", "stone", "x", "x", "石油（せきゆ）", "化石（かせき）", "石鹸（せっけん）", "pétrole", "fossile", "savon", "oil (petroleum)", "fossil", "soap" };
+    ksdb[44] = arrayOfString45;
+    std::string * arrayOfString46 = new std::string[20] { "赤", "セキ", "シャク", "あか（い）", "x", "rouge", "x", "x", "red", "x", "x", "赤道（せきどう）", "赤ん坊（あかんぼう）", "赤外（せきがい）", "équateur", "bébé", "infrarouge", "equator", "baby", "infrared" };
+    ksdb[45] = arrayOfString46;
+    std::string * arrayOfString47 = new std::string[20] { "千", "セン", "x", "ち", "x", "mille", "x", "x", "thousand", "x", "x", "五千円（ごせんえん）", "数千（すうせん）", "千葉（ちば）", "5000 yens", "plusieurs milliers", "Chiba (nom d'une ville)", "5000 yens", "several thousands", "Chiba (town and prefecture)" };
+    ksdb[46] = arrayOfString47;
+    std::string * arrayOfString48 = new std::string[20] { "川", "セン", "x", "かわ", "x", "rivière", "fleuve", "x", "river", "x", "x", "川上（かわかみ）", "江戸川（えどがわ）", "川崎（かわさき）", "amont", "Edogawa (nom d'une rivière)", "Kawasaki (nom d'une ville)", "upper stream", "Edogawa (name of a river)", "Kawasaki (name of a town)" };
+    ksdb[47] = arrayOfString48;
+    std::string * arrayOfString49 = new std::string[20] { "先", "セン", "x", "さき", "x", "précédent", "en avant", "extrémité", "previous", "ahead", "tip", "先生（せんせい）", "先月（せんげつ）", "行き先（ゆきさき）", "professeur", "le mois dernier", "la destination", "teacher", "last month", "destination" };
+    ksdb[48] = arrayOfString49;
+    std::string * arrayOfString50 = new std::string[20] { "早", "ソウ", "x", "はや（い）", "x", "tôt", "rapide", "x", "early", "fast", "x", "早朝（そうちょう）", "早速（さっそく）", "早送り（はやおくり）", "tôt le matin", "tout de suite, immédiatement", "avance rapide (magnétoscope par ex.)", "early morning", "at once, immediately, promptly", "fast forward (e.g. VCR, tape deck, etc.)" };
+    ksdb[49] = arrayOfString50;
+    std::string * arrayOfString51 = new std::string[20] { "足", "ソク", "x", "あし", "た（りる）", "pied", "jambe", "suffisant", "foot", "leg", "sufficient", "不足（ふそく）", "一足（いっそく）", "満足（まんぞく）", "carence, manque", "une paire (chaussures, chaussettes)", "satisfaction", "lack, insufficiency", "a pair (footwear)", "satisfaction" };
+    ksdb[50] = arrayOfString51;
+    std::string * arrayOfString52 = new std::string[20] { "村", "ソン", "x", "むら", "x", "village", "x", "x", "village", "x", "x", "村長（そんちょう）", "農村（のうそん）", "村山（むらやま）", "maire d'un village", "village rural", "Murayama (patronyme)", "village mayor", "agricultural village", "Murayama (family name)" };
+    ksdb[51] = arrayOfString52;
+    std::string * arrayOfString53 = new std::string[20] { "大", "タイ", "ダイ", "おお（きい）", "x", "grand", "x", "x", "big", "x", "x", "大学（だいがく）", "大阪（おおさか）", "最大（さいだい）", "université", "Ōsaka (nom d'une ville)", "le plus grand", "university", "Ōsaka", "the biggest" };
+    ksdb[52] = arrayOfString53;
+    std::string * arrayOfString54 = new std::string[20] { "男", "ダン", "ナン", "おとこ", "x", "homme", "masculin", "x", "man", "male", "x", "男性（だんせい）", "長男（ちょうなん）", "男子（だんし）", "homme", "le fils aîné", "garçon", "man, male", "one's oldest son", "boy" };
+    ksdb[53] = arrayOfString54;
+    std::string * arrayOfString55 = new std::string[20] { "中", "チュウ", "x", "なか", "x", "milieu", "intérieur", "Chine", "middle", "inside", "China", "中心（ちゅうしん）", "中国（ちゅうごく）", "中学（ちゅうがく）", "le centre", "la Chine", "collège", "center", "China", "junior high school" };
+    ksdb[54] = arrayOfString55;
+    std::string * arrayOfString56 = new std::string[20] { "虫", "チュウ", "x", "むし", "x", "insecte", "ver", "x", "insect", "worm", "x", "防虫剤（ぼうちゅうざい）", "虫歯（むしば）", "毛虫（けむし）", "insecticide", "carie dentaire", "chenille (insecte)", "insecticide", "cavity, decayed tooth", "hairy caterpillar" };
+    ksdb[55] = arrayOfString56;
+    std::string * arrayOfString57 = new std::string[20] { "町", "チョウ", "x", "まち", "x", "ville", "quartier", "x", "town", "block", "x", "町民（ちょうみん）", "下町（したまち）", "町会（ちょうかい）", "citadin", "quartiers populaires", "conseil municipal", "townspeople", "popular district of a town", "town council" };
+    ksdb[56] = arrayOfString57;
+    std::string * arrayOfString58 = new std::string[20] { "天", "テン", "x", "あま", "x", "les cieux", "le ciel", "x", "heaven", "sky", "x", "天気（てんき）", "天使（てんし）", "天文（てんもん）", "le temps (météo)", "un ange", "l'astronomie", "weather", "angel", "astronomy" };
+    ksdb[57] = arrayOfString58;
+    std::string * arrayOfString59 = new std::string[20] { "田", "デン", "x", "た", "x", "rizière", "x", "x", "rice field", "x", "x", "田中（たなか）", "油田（ゆでん）", "田舎（いなか）", "Tanaka (patronyme)", "champ de pétrole", "campagne", "Tanaka (family name)", "oil field", "countryside, birth place" };
+    ksdb[58] = arrayOfString59;
+    std::string * arrayOfString60 = new std::string[20] { "土", "ド", "ト", "つち", "x", "sol", "terre", "x", "ground", "soil", "x", "土曜日（どようび）", "土地（とち）", "領土（りょうど）", "samedi", "terrain", "territoire", "Saturday", "land", "territory" };
+    ksdb[59] = arrayOfString60;
+  }
+} ;
