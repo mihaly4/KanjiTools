@@ -187,7 +187,7 @@ void KanjiTestHandler::on_comboBox_5_activated(int index)
                 break;
             }
         }
-        if(!f)
+        //if(!f)
             m_pKTW->GetUI()->comboBox_6->addItem(types[i]);
     }
 }

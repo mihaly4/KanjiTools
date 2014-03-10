@@ -50,6 +50,7 @@ void BaseTest::SaveResults()
 {
     std::stringstream mid;
     mid << m_iTestID;
+    m_pCore->AddQuery("DELETE FROM kanjitools.testresults WHERE `Material_ID`=\""+mid.str()+"\" AND `Test_type`=\""+GetType()+"\" AND `Person_ID`=\""+m_pCore->GetUser().id+"\";",NULL,NULL);
     m_pCore->AddQuery("INSERT INTO kanjitools.testresults (`Material_ID`,`Test_type`,`Person_ID`) VALUES(\""+mid.str()+"\", \""+GetType()+"\",\""+m_pCore->GetUser().id+"\");",NULL,NULL);
     std::string q = "INSERT INTO kanjitools.kanjiinresult (`kanji`,`Result_ID`) VALUES";
     for(int i=0;i<m_vMistakenKanji.size();i++)

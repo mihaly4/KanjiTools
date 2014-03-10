@@ -102,10 +102,12 @@ void KanjiToolsWindow::on_pushButton_clicked()
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`testresults` ( `Result_ID` int NOT NULL AUTO_INCREMENT, `Material_ID` INT NOT NULL, `Test_type` TINYTEXT NOT NULL, `Person_ID` INT NOT NULL, PRIMARY KEY (`Result_ID`) );");
     m_pCore->AddQuery("CREATE  TABLE `kanjitools`.`kanjiinresult` ( `kanji` CHAR NOT NULL , `Result_ID` INT NOT NULL,PRIMARY KEY (`kanji`,`Result_ID`) );");
 
-    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"kyoushi\",\"1234\",\"教師\",\"ehe\",2);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"divinitas\",\"qqqqq\",\"Carina\",\"Tsvetkova\",3);");
+    m_pCore->AddQuery("ALTER TABLE `kanjitools`.`kanjiinresult` ADD INDEX `fk_kanjiinresult_1_idx` (`Result_ID` ASC);");
+    m_pCore->AddQuery("ALTER TABLE `kanjitools`.`kanjiinresult` ADD CONSTRAINT `fk_kanjiinresult_1` FOREIGN KEY (`Result_ID`) REFERENCES `kanjitools`.`testresults` (`Result_ID`) ON DELETE CASCADE ON UPDATE CASCADE;");
+
+    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"divinitas\",\"1234\",\"Carina\",\"Tsvetkova\",3);");
     m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"andeyeff\",\"1234\",\"Sergej\",\"Andreyev\",3);");
-    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"mihaly4\",\"1234\",\"Sergej\",\"Comov\",1);");
+    m_pCore->AddQuery("INSERT INTO kanjitools.person (`Login`,`Password`,`Name`,`Surename`,`account_type`) VALUES(\"mihaly4\",\"1234\",\"Sergej\",\"Comov\",3);");
     m_pCore->AddQuery("INSERT INTO kanjitools.course (`Name`) VALUES(\"4202mv\");");
     m_pCore->AddQuery("INSERT INTO kanjitools.course (`Name`) VALUES(\"4201mv\");");
     m_pCore->AddQuery("INSERT INTO kanjitools.cadet_in_course (`Person_ID`,`course_name`) VALUES(2,\"4201mv\");");
