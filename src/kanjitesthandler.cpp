@@ -116,7 +116,7 @@ void KanjiTestHandler::NextCase()
         ReloadTestResults();
         m_pKTW->ReloadMaterials();
     }
-    m_pKTW->GetUI()->label_35->setText(QString::fromStdString("Correct:"+m_pTest->GetCorrectAnswer()+"  "+m_pTest->GetStatus()));
+    m_pKTW->GetUI()->label_35->setText(QString::fromStdString(/*"Correct:"+m_pTest->GetCorrectAnswer()+"  "+*/m_pTest->GetStatus()));
 }
 
 void KanjiTestHandler::on_pushButton_23_clicked()

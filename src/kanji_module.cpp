@@ -23,7 +23,7 @@ void KanjiModule::LoadMaterial(int mat_id, void (*f)(void * obj), void *obj)
     std::stringstream ss;
       ss << mat_id;
 
-    std::string q = "SELECT * FROM kanjitools.kanji JOIN kanjitools.kanjiinmaterial ON ( kanjitools.kanji.kanji=kanjitools.kanjiinmaterial.kanji) WHERE `Material_ID` = "+ss.str()+";";
+    std::string q = "SELECT * FROM kanjitools.kanji JOIN kanjitools.kanjiinmaterial ON ( kanjitools.kanji.kanji=kanjitools.kanjiinmaterial.kanji) WHERE `Material_ID` = "+ss.str()+"  ORDER BY rand() ;";
     m_pObj = obj;
     m_pF = f;
     //std::cout << "Loading material\n" <<q <<"\n";
