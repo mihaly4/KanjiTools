@@ -16,17 +16,21 @@ BaseTest::BaseTest()
 
 case_t BaseTest::NextCase()
 {
-    case_t case_;
+    if(m_bFinished)
+    {
+	m_tCurrentCase.question = "Test finished. Go away.";
+	return m_tCurrentCase;
+    }
     if(m_iCurrentCase<m_pKanjiModule->KanjiCount())
-        PrepareCase(case_);
+        PrepareCase(m_tCurrentCase);
     else
     {
         for(int i=0;i<4;i++)
-            case_.variants[i] = "";
+            m_tCurrentCase.variants[i] = "";
         std::stringstream tc,ac;
         tc << m_pKanjiModule->KanjiCount();
         ac <<m_pKanjiModule->KanjiCount()-m_vMistakenKanji.size();
-        case_.question = "Test Finished!\nYou have correctly answered "+ac.str()+" of "+tc.str() ;
+        m_tCurrentCase.question = "Test Finished!\nYou have correctly answered "+ac.str()+" of "+tc.str() ;
         if(!m_bFinished)
         {
             m_bFinished = true;
@@ -34,7 +38,7 @@ case_t BaseTest::NextCase()
         }
     }
     m_iCurrentCase = min(m_iCurrentCase+1,m_pKanjiModule->KanjiCount());
-    return case_;
+    return m_tCurrentCase;
 }
 
 void BaseTest::PrepareCase(case_t &c)
@@ -63,6 +67,8 @@ void BaseTest::SaveResults()
 
 void BaseTest::Answer(int variant)
 {
+    if(m_bFinished)
+	return;
     if(m_iCorrentAnswer!=variant && m_iCurrentCase<=m_pKanjiModule->KanjiCount())
     {
         m_vMistakenKanji.push_back(m_pKanjiModule->GetKanji(m_iCurrentCase-1).kanji);
@@ -73,3 +79,22 @@ int BaseTest::GetTestVarFontSize()
 {
     return 14;
 }
+
+std::string	BaseTest::GetCorrectAnswer()
+{
+    return m_tCurrentCase.variants[m_iCorrentAnswer];
+}
+
+std::string BaseTest::GetStatus()
+{
+    std::stringstream ss;
+    ss << "Mistakes:" <<m_vMistakenKanji.size()<<"/"<<m_iCurrentCase <<" of "<<m_pKanjiModule->KanjiCount();
+    return ss.str();
+}
+
+bool BaseTest::IsFinished()
+{
+    return m_bFinished;
+}
+
+

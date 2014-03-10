@@ -28,6 +28,8 @@ onyoumitest1.cpp
 onyoumitest2.cpp
 kunyoumitest1.cpp
 kunyoumitest2.cpp
+meaningtest1.cpp
+meaningtest2.cpp
 connector_wrapper.cpp
 kanjitesthandler.cpp
 kanjiencorehandler.cpp)
@@ -38,6 +40,8 @@ onyoumitest1.h
 onyoumitest2.h
 kunyoumitest1.h
 kunyoumitest2.h
+meaningtest1.h
+meaningtest2.h
 kanjitesthandler.h
 kanjiencorehandler.h)
 SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui userdialog.ui)

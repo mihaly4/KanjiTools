@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -409,7 +409,7 @@
              </size>
             </property>
             <property name="dragDropMode">
-             <enum>QAbstractItemView::NoDragDrop</enum>
+             <enum>QAbstractItemView::DragDrop</enum>
             </property>
             <property name="alternatingRowColors">
              <bool>true</bool>
@@ -727,20 +727,13 @@
         <string>Tests</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
+        <item row="4" column="0">
          <widget class="QComboBox" name="comboBox_5"/>
         </item>
-        <item row="0" column="1" rowspan="2">
-         <widget class="QPushButton" name="pushButton_27">
-          <property name="text">
-           <string>Start</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
+        <item row="5" column="0">
          <widget class="QComboBox" name="comboBox_6"/>
         </item>
-        <item row="2" column="0" colspan="2">
+        <item row="6" column="0" colspan="2">
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
            <layout class="QGridLayout" name="gridLayout">
@@ -877,6 +870,20 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLabel" name="label_35">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QPushButton" name="pushButton_27">
+          <property name="text">
+           <string>Start</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

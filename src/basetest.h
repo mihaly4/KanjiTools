@@ -16,6 +16,7 @@ protected:
     int             m_iTestID;
     int             m_iCorrentAnswer;
     std::vector<std::string> m_vMistakenKanji;
+    case_t 	m_tCurrentCase;
 public:
     BaseTest();
     virtual         ~BaseTest(){};
@@ -28,7 +29,10 @@ public:
     void            Answer(int variant);
     virtual int     GetTestVarFontSize();
     virtual int     GetTestQueFontSize(){return 14;};
-
+    std::string		GetCorrectAnswer();
+    std::string 	GetStatus();
+    bool IsFinished();
+    
 };
 
 #endif // BASETEST_H

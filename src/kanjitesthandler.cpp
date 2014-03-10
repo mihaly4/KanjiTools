@@ -8,6 +8,8 @@
 #include "onyoumitest2.h"
 #include "kunyoumitest1.h"
 #include "kunyoumitest2.h"
+#include "meaningtest1.h"
+#include "meaningtest2.h"
 #include "kanji_module.h"
 #include "connector_wraper.h"
 
@@ -60,6 +62,14 @@ void KanjiTestHandler::on_pushButton_27_clicked()
     {
         m_pTest = new KunYoumiTest2();
     }
+    else if(test=="meaning-1")
+    {
+        m_pTest = new MeaningTest1();
+    }
+    else if(test=="meaning-2")
+    {
+        m_pTest = new MeaningTest2();
+    }
     m_pTest->Init(m_pCore,mat_id);
     m_pTest->SetKanjiModule(m_pKanjiModule);
 
@@ -103,10 +113,10 @@ void KanjiTestHandler::NextCase()
         QFont font2 = m_pKTW->GetUI()->label_5->font();
         font2.setPointSize(10);
         m_pKTW->GetUI()->label_5->setFont(font2);
-        m_pKTW->GetUI()->label_5->setText("Saving results...\nPlease wait a while.");
         ReloadTestResults();
         m_pKTW->ReloadMaterials();
     }
+    m_pKTW->GetUI()->label_35->setText(QString::fromStdString("Correct:"+m_pTest->GetCorrectAnswer()+"  "+m_pTest->GetStatus()));
 }
 
 void KanjiTestHandler::on_pushButton_23_clicked()
