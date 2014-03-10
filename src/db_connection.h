@@ -50,6 +50,7 @@ private:
     std::string username;
     std::string password;
     std::string hostname;
+    int port;
     
     std::string GetValue(std::string KeyValue);    
     bool LoadSettings();

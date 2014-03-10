@@ -15,7 +15,7 @@ sql::Driver::Driver()
 {
     ololo =::QSqlDatabase::addDatabase("QMYSQL");
     db = & ololo;
-
+    
 }
 
 sql::Driver::~Driver()
@@ -24,22 +24,23 @@ sql::Driver::~Driver()
     delete db;
     db->removeDatabase(QLatin1String(QSqlDatabase::defaultConnection));
 }
-sql::Connection * sql::Driver::connect(std::string host, std::string login, std::string pass)
+sql::Connection * sql::Driver::connect(std::string host, std::string login, std::string pass, int port)
 {
     db->setHostName(QString::fromStdString(host));
     db->setUserName(QString::fromStdString(login));
     db->setPassword(QString::fromStdString(pass));
+    db->setPort(port);
     return new sql::Connection(db);
 }
 
 void sql::Connection::setSchema(std::string name)
 {
     db->setDatabaseName(QString::fromStdString(name));
-
+    
     if (!db->open())
     {
-      QMessageBox::critical(0, QObject::tr("Database Error"),
-                db->lastError().text());
+	QMessageBox::critical(0, QObject::tr("Database Error"),
+			      db->lastError().text());
     }
 }
 
@@ -53,12 +54,12 @@ sql::ResultSet * sql::Statement::executeQuery(std::string query)
     qr = new QSqlQuery(QString::fromStdString(query));
     if(!qr->isValid())
     {
-        //QMessageBox::critical(0, QObject::tr("Database Error"),
-         //         qr->lastError().text());
-        qDebug() << qr->lastError().text();
+	//QMessageBox::critical(0, QObject::tr("Database Error"),
+	//         qr->lastError().text());
+	qDebug() << qr->lastError().text();
     }
     return new sql::ResultSet(qr);
-
+    
 }
 
 bool sql::ResultSet::next()
@@ -90,7 +91,7 @@ sql::Connection::~Connection()
 {
     //db->close();
     //QSqlDatabase::removeDatabase(db->connectionName());
-   // QSqlDatabase::removeDatabase("QMYSQL");
+    // QSqlDatabase::removeDatabase("QMYSQL");
     //delete db;
 }
 
