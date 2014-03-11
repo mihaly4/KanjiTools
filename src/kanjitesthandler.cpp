@@ -10,6 +10,7 @@
 #include "kunyoumitest2.h"
 #include "meaningtest1.h"
 #include "meaningtest2.h"
+#include "exampletest1.h"
 #include "kanji_module.h"
 #include "connector_wraper.h"
 
@@ -69,6 +70,10 @@ void KanjiTestHandler::on_pushButton_27_clicked()
     else if(test=="meaning-2")
     {
         m_pTest = new MeaningTest2();
+    }
+    else if(test=="example-1")
+    {
+        m_pTest = new ExampleTest1();
     }
     m_pTest->Init(m_pCore,mat_id);
     m_pTest->SetKanjiModule(m_pKanjiModule);
@@ -175,8 +180,8 @@ void KanjiTestHandler::test_results_loaded_slot(void *a)
 void KanjiTestHandler::on_comboBox_5_activated(int index)
 {
     m_pKTW->GetUI()->comboBox_6->clear();
-    QString types[]={"on-youmi-1","on-youmi-2","kun-youmi-1","kun-youmi-2","meaning-1","meaning-2"};
-    for(int i=0;i<6;i++)
+    QString types[]={"on-youmi-1","on-youmi-2","kun-youmi-1","kun-youmi-2","meaning-1","meaning-2","example-1"};
+    for(int i=0;i<7;i++)
     {
         bool f = false;
         for(int j=0;j<m_lResults.count();j++)

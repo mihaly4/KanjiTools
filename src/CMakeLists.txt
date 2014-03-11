@@ -30,6 +30,7 @@ kunyoumitest1.cpp
 kunyoumitest2.cpp
 meaningtest1.cpp
 meaningtest2.cpp
+exampletest1.cpp
 connector_wrapper.cpp
 kanjitesthandler.cpp
 kanjiencorehandler.cpp)
@@ -42,6 +43,7 @@ kunyoumitest1.h
 kunyoumitest2.h
 meaningtest1.h
 meaningtest2.h
+exampletest1.h
 kanjitesthandler.h
 kanjiencorehandler.h)
 SET(KanjiTools_FORMS logindialog.ui kanjitoolswindow.ui kanjidialog.ui userdialog.ui)
@@ -84,7 +86,7 @@ SET(CMAKE_CXX_FLAGS "-std=gnu++0x")
 ENDIF()
 
 
-TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(KanjiTools ${QT_LIBRARIES} -lboost_regex )
 
 SET(CMAKE_BUILD_TYPE Debug)
 

@@ -21,15 +21,15 @@ case_t BaseTest::NextCase()
 	m_tCurrentCase.question = "Test finished. Go away.";
 	return m_tCurrentCase;
     }
-    if(m_iCurrentCase<m_pKanjiModule->KanjiCount())
+    if(m_iCurrentCase<GetTestCaseCount())
         PrepareCase(m_tCurrentCase);
     else
     {
         for(int i=0;i<4;i++)
             m_tCurrentCase.variants[i] = "";
         std::stringstream tc,ac;
-        tc << m_pKanjiModule->KanjiCount();
-        ac <<m_pKanjiModule->KanjiCount()-m_vMistakenKanji.size();
+        tc << GetTestCaseCount();
+        ac <<GetTestCaseCount()-m_vMistakenKanji.size();
         m_tCurrentCase.question = "Test Finished!\nYou have correctly answered "+ac.str()+" of "+tc.str() ;
         if(!m_bFinished)
         {
@@ -37,7 +37,7 @@ case_t BaseTest::NextCase()
             SaveResults();
         }
     }
-    m_iCurrentCase = min(m_iCurrentCase+1,m_pKanjiModule->KanjiCount());
+    m_iCurrentCase = min(m_iCurrentCase+1,GetTestCaseCount());
     return m_tCurrentCase;
 }
 
@@ -70,9 +70,12 @@ void BaseTest::Answer(int variant)
 {
     if(m_bFinished)
 	return;
-    if(m_iCorrentAnswer!=variant && m_iCurrentCase<=m_pKanjiModule->KanjiCount())
+    if(m_tCurrentCase.correct_variant!=variant && m_iCurrentCase<=GetTestCaseCount())
     {
-        m_vMistakenKanji.push_back(m_pKanjiModule->GetKanji(m_iCurrentCase-1).kanji);
+	for(int i=0;i<m_vMistakenKanji.size();i++)
+	    if(m_vMistakenKanji[i] == m_tCurrentCase.kanji)
+		return;	
+        m_vMistakenKanji.push_back(m_tCurrentCase.kanji);
     }
 }
 
@@ -83,13 +86,13 @@ int BaseTest::GetTestVarFontSize()
 
 std::string	BaseTest::GetCorrectAnswer()
 {
-    return m_tCurrentCase.variants[m_iCorrentAnswer];
+    return m_tCurrentCase.variants[m_tCurrentCase.correct_variant];
 }
 
 std::string BaseTest::GetStatus()
 {
     std::stringstream ss;
-    ss << "Mistakes:" <<m_vMistakenKanji.size()<<"/"<<m_iCurrentCase <<" of "<<m_pKanjiModule->KanjiCount();
+    ss << "Mistakes:" <<m_vMistakenKanji.size()<<"/"<<m_iCurrentCase <<" of "<< GetTestCaseCount();
     return ss.str();
 }
 
@@ -98,4 +101,8 @@ bool BaseTest::IsFinished()
     return m_bFinished;
 }
 
+int BaseTest::GetTestCaseCount()
+{
+    return m_pKanjiModule->KanjiCount();
+}
 

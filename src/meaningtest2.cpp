@@ -11,12 +11,12 @@ void MeaningTest2::PrepareCase(case_t &c)
     int max_kanji = m_pKanjiModule->KanjiCount()-1;
     c.question = k.meaning;
     float r=rand()/(float)RAND_MAX;
-    int correct = r*3+0.5;
-    m_iCorrentAnswer = correct;
-    c.variants[correct] = k.kanji;
+    c.correct_variant = r*3+0.5;
+    c.kanji = k.kanji;
+    c.variants[c.correct_variant] = k.kanji;
     for(int i=0;i<4;i++)
     {
-        while(i!=correct)
+        while(i!=c.correct_variant)
         {
             float r=rand()/(float)RAND_MAX;
             kanji_t cc = m_pKanjiModule->GetKanji(r*max_kanji+0.5);

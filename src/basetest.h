@@ -14,7 +14,6 @@ protected:
     bool            m_bFinished;
     Core *          m_pCore;
     int             m_iTestID;
-    int             m_iCorrentAnswer;
     std::vector<std::string> m_vMistakenKanji;
     case_t 	m_tCurrentCase;
 public:
@@ -32,6 +31,7 @@ public:
     std::string		GetCorrectAnswer();
     std::string 	GetStatus();
     bool IsFinished();
+    virtual int 	GetTestCaseCount();
     
 };
 

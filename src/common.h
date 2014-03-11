@@ -35,6 +35,8 @@ struct case_t
 {
     std::string variants[4];
     std::string question;
+    int correct_variant;
+    std::string kanji;
 };
 
 struct test_result_t
