@@ -10,7 +10,9 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
     KanjiToolsWindow k;
-    k.show();
+    //k.show();
+   // k.hide();
+    //k.setHidden(true);
     
     return a.exec();
 }

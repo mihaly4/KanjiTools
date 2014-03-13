@@ -35,7 +35,6 @@ KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
 
 
     m_pLoginDialog = new LoginDialog(this);
-    m_pLoginDialog->setModal(true);
     m_pLoginDialog->SetCore(m_pCore);
     m_pUserDialog = new UserDialog(this);
     m_pUserDialog->SetCore(m_pCore);
@@ -48,8 +47,8 @@ KanjiToolsWindow::KanjiToolsWindow(QWidget *parent) :
 
     m_pKanjiEncoreHandler = new KanjiEncoreHandler(this);
     m_pKanjiEncoreHandler->Init(m_pCore);
-
     emit ShowLoginDialogSignal();
+    
 }
 
 KanjiToolsWindow::~KanjiToolsWindow()
@@ -574,13 +573,15 @@ void KanjiToolsWindow::authentication_slot(void *a)
     HideUnusedTabs();
     setWindowTitle(QString::fromStdString(u.name+" "+u.surename));
     ui->tabWidget->show();
+    show();
     on_tabWidget_currentChanged(ui->tabWidget->currentWidget());
 }
 
 void KanjiToolsWindow::ShowLoginDialog()
 {
     //LoginDialog ldg;
-    m_pLoginDialog->show();
+    //m_pLoginDialog->show();
+    m_pLoginDialog->exec();
     /*m_pLoginDialog->exec();
     if(m_pLoginDialog->result() == QDialog::Rejected)
     {

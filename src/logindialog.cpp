@@ -40,5 +40,5 @@ void LoginDialog::on_buttonBox_accepted()
 
 void LoginDialog::on_buttonBox_rejected()
 {
-exit(0);
+    exit(0);
 }
